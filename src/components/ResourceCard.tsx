@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FileText, Download, CheckCircle2, ChevronRight, Loader2 } from "lucide-react";
 import { CompanyDocument } from "@/types/resource";
 import { useDownload } from "@/hooks/useDownload";
+import { site } from "@/data/site";
 
 interface ResourceCardProps {
   document: CompanyDocument;
@@ -24,7 +24,7 @@ export function ResourceCard({ document }: ResourceCardProps) {
     "version": document.version,
     "potentialAction": {
       "@type": "DownloadAction",
-      "target": `${typeof window !== "undefined" ? window.location.origin : ""}${document.pdfUrl}`
+      "target": `${site.url}${document.pdfUrl}`
     }
   };
 
