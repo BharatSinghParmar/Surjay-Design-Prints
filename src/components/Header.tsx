@@ -7,12 +7,17 @@ import { Menu, X, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navItems, site } from "@/data/site";
 import { RequestQuoteModal } from "@/components/RequestQuoteModal";
+import { useDownload } from "@/hooks/useDownload";
+import { companyResources } from "@/data/resources";
+import { Loader2, CheckCircle2 } from "lucide-react";
 
 export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const { isDownloading, downloaded, handleDownload } = useDownload();
+  const profileDoc = companyResources[0];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -72,13 +77,22 @@ export function Header() {
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <a
-              href="/Surjay-Design-Company-Profile.pdf"
-              className="inline-flex min-h-11 items-center gap-2 rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white hover:text-navy"
+            <button
+              onClick={() => handleDownload(profileDoc)}
+              disabled={isDownloading}
+              className={`inline-flex min-h-11 items-center gap-2 rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white transition ${
+                downloaded ? "bg-green-600 border-green-600" : "hover:bg-white hover:text-navy"
+              } disabled:cursor-not-allowed disabled:opacity-80`}
             >
-              <Download className="h-4 w-4" />
+              {isDownloading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : downloaded ? (
+                <CheckCircle2 className="h-4 w-4" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
               Profile
-            </a>
+            </button>
             <button
               type="button"
               onClick={() => setQuoteOpen(true)}

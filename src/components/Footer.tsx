@@ -1,9 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Download, Loader2, CheckCircle2 } from "lucide-react";
 import { navItems, site } from "@/data/site";
+import { useDownload } from "@/hooks/useDownload";
+import { companyResources } from "@/data/resources";
 
 export function Footer() {
+  const { isDownloading, downloaded, handleDownload } = useDownload();
+  const profileDoc = companyResources[0];
+
   return (
     <footer className="bg-navy text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
@@ -27,6 +34,24 @@ export function Footer() {
             Textile manufacturing and fabric processing partner for premium dyeing,
             screen printing, hand printing, textile finishing and custom bulk solutions.
           </p>
+          <div className="mt-6">
+            <button
+              onClick={() => handleDownload(profileDoc)}
+              disabled={isDownloading}
+              className={`inline-flex min-h-11 items-center gap-2 rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white transition ${
+                downloaded ? "bg-green-600 border-green-600" : "hover:bg-white hover:text-navy"
+              } disabled:cursor-not-allowed disabled:opacity-80`}
+            >
+              {isDownloading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : downloaded ? (
+                <CheckCircle2 className="h-4 w-4" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+              Download Company Profile
+            </button>
+          </div>
         </div>
 
         <div>

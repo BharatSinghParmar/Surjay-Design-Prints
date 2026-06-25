@@ -5,8 +5,10 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { JsonLd } from "@/components/JsonLd";
 import { Newsletter } from "@/components/Newsletter";
 import { ProductCards } from "@/components/ProductCards";
+import { ResourceCard } from "@/components/ResourceCard";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
+import { companyResources } from "@/data/resources";
 import { imageAssets, videoAssets, processSteps, stats, testimonials, whyChoose } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
@@ -321,6 +323,23 @@ export default function Home() {
           </div>
           <div className="mt-10 text-center">
             <ButtonLink href="/gallery">View Full Gallery</ButtonLink>
+          </div>
+        </div>
+      </section>
+
+      {/* ── RESOURCE CENTER ────────────────────────────────────────────── */}
+      <section className="py-20 md:py-28 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Resource Center"
+            title="Download the Complete Company Profile."
+            body="An in-depth look at our manufacturing processes, capabilities, and business philosophy designed for B2B buyers and investors."
+            align="center"
+          />
+          <div className="mt-12 flex justify-center">
+            <div className="w-full max-w-4xl">
+              <ResourceCard document={companyResources[0]} />
+            </div>
           </div>
         </div>
       </section>

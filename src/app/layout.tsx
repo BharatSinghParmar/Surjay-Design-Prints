@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Antonio } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { FloatingActions } from "@/components/FloatingActions";
@@ -14,7 +14,7 @@ const inter = Inter({
   display: "swap"
 });
 
-const heading = Space_Grotesk({
+const heading = Antonio({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap"

@@ -5,6 +5,8 @@ import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
+import { ResourceCard } from "@/components/ResourceCard";
+import { companyResources } from "@/data/resources";
 import { imageAssets, site } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
@@ -73,6 +75,23 @@ export default function ContactPage() {
             </div>
           </div>
           <ContactForm />
+        </div>
+      </section>
+
+      {/* ── RESOURCE CENTER ────────────────────────────────────────────── */}
+      <section className="bg-mist py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Company Profile"
+            title="Need more information before reaching out?"
+            body="Download our complete corporate profile to review our capabilities, infrastructure, and process standards offline."
+            align="center"
+          />
+          <div className="mt-12 flex justify-center">
+            <div className="w-full max-w-4xl">
+              <ResourceCard document={companyResources[0]} />
+            </div>
+          </div>
         </div>
       </section>
     </>

@@ -4,9 +4,11 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ButtonLink } from "@/components/ButtonLink";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
+import { ResourceCard } from "@/components/ResourceCard";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Newsletter } from "@/components/Newsletter";
+import { companyResources } from "@/data/resources";
 import { values } from "@/data/site";
 import { imageAssets } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
@@ -166,8 +168,19 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── COMPANY MILESTONE TIMELINE ──────────────────────────── */}
+      {/* ── RESOURCE CENTER ────────────────────────────────────────────── */}
       <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mt-12 flex justify-center">
+            <div className="w-full max-w-4xl">
+              <ResourceCard document={companyResources[0]} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── COMPANY MILESTONE TIMELINE ──────────────────────────── */}
+      <section className="bg-mist py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Our Journey"
