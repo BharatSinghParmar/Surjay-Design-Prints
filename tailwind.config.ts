@@ -11,7 +11,9 @@ const config: Config = {
         charcoal: "#232833",
         mist: "#f4f6f8",
         magenta: "#a40f5f",
-        wine: "#65123f"
+        wine: "#65123f",
+        gold: "#c9a84c",
+        copper: "#b87333"
       },
       boxShadow: {
         premium: "0 24px 80px rgba(8, 22, 45, 0.12)"

@@ -34,9 +34,24 @@ export const navItems = [
 ];
 
 export const imageAssets = {
-  hero: "/images/hero-textile-factory.png",
-  dyeing: "/images/dyeing-finishing.png",
-  printing: "/images/screen-printing.png"
+  // Original AI-generated placeholders (kept as fallback)
+  hero: "/images/printing-textile.jpeg",
+  dyeing: "/images/dying-textile-2.jpeg",
+  printing: "/images/printing-textile-2.jpeg",
+  // Real factory photography
+  rawFabric: "/images/raw-fabric.jpeg",
+  dyeingMachine: "/images/dying-textile.jpeg",
+  dyeingMachine2: "/images/dying-textile-2.jpeg",
+  dyedPress: "/images/dyed-cloth-press.jpeg",
+  printingHall: "/images/printing-textile.jpeg",
+  printingFabric: "/images/printing-textile-2.jpeg",
+  ceo: "/images/ceo.jpeg"
+};
+
+export const videoAssets = {
+  printingMachine: "/videos/printing-machine.mp4",
+  dyeingProcess: "/videos/dying-process.mp4",
+  printingTextile: "/videos/printing-textile.mp4"
 };
 
 export const stats = [
@@ -148,28 +163,28 @@ export const processSteps = [
 export const productCategories = [
   {
     title: "Printed Fabrics",
-    image: imageAssets.printing,
+    image: "/images/printing-textile-2.jpeg",
     description:
       "Screen printed and hand printed fabrics developed for wholesalers, garment manufacturers and textile traders.",
     applications: ["Apparel", "Ethnic wear", "Home textiles", "Trade inventory"]
   },
   {
     title: "Dyed Fabrics",
-    image: imageAssets.dyeing,
+    image: "/images/dyed-product.jpeg",
     description:
       "Bulk dyed fabrics processed with attention to shade consistency, softness, finish and dispatch presentation.",
     applications: ["Garment manufacturing", "Resale", "Uniform fabric", "Seasonal ranges"]
   },
   {
     title: "Custom Fabrics",
-    image: imageAssets.hero,
+    image: "/images/products-to-sell.jpeg",
     description:
       "Customer-led dyeing, printing and finishing programs shaped around design direction, quantity and market needs.",
     applications: ["Private labels", "Custom patterns", "Regional ranges", "Buyer programs"]
   },
   {
     title: "Bulk Manufacturing",
-    image: imageAssets.dyeing,
+    image: "/images/printing-textile.jpeg",
     description:
       "Organized fabric processing for buyers who need dependable capacity, repeatable quality and transparent execution.",
     applications: ["Wholesalers", "Textile traders", "Bulk buyers", "Export-ready supply"]
