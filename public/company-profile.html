@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Surjay Design &amp; Prints — Company Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --navy: #08162d;
+      --ink: #0f1f3d;
+      --charcoal: #2d2d2d;
+      --slate: #555;
+      --mist: #f4f5f7;
+      --white: #ffffff;
+      --magenta: #c2185b;
+      --wine: #8e0038;
+      --gold: #c9a84c;
+      --copper: #b87333;
+      --light-grey: #e8e8e8;
+
+      --font-heading: 'Playfair Display', 'DM Serif Display', Georgia, serif;
+      --font-body: 'Inter', 'Manrope', system-ui, sans-serif;
+
+      --page-w: 297mm;
+      --page-h: 210mm;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      font-size: 11pt;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: #d0d0d0;
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PAGE STRUCTURE
+       ═══════════════════════════════════════════════════════════════ */
+    .page {
+      width: var(--page-w);
+      height: var(--page-h);
+      background: var(--white);
+      margin: 12px auto;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 40px rgba(0,0,0,.15);
+      page-break-after: always;
+      page-break-inside: avoid;
+    }
+    .page:last-child { page-break-after: auto; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PRINT RULES
+       ═══════════════════════════════════════════════════════════════ */
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+    @media print {
+      body { background: white; }
+      .page { box-shadow: none; margin: 0; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       TYPOGRAPHY
+       ═══════════════════════════════════════════════════════════════ */
+    h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; line-height: 1.2; }
+    h1 { font-size: 2.8rem; letter-spacing: -0.02em; }
+    h2 { font-size: 1.9rem; letter-spacing: -0.01em; }
+    h3 { font-size: 1.2rem; }
+    h4 { font-size: 1rem; }
+
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .eyebrow-dark { color: var(--magenta); }
+
+    .body-text {
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--slate);
+      max-width: 520px;
+    }
+    .body-sm {
+      font-size: 0.72rem;
+      line-height: 1.7;
+      color: var(--slate);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       UTILITIES
+       ═══════════════════════════════════════════════════════════════ */
+    .flex { display: flex; }
+    .grid { display: grid; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .text-center { text-align: center; }
+    .text-white { color: var(--white); }
+    .text-navy { color: var(--navy); }
+    .text-gold { color: var(--gold); }
+    .text-magenta { color: var(--magenta); }
+    .bg-navy { background: var(--navy); }
+    .bg-mist { background: var(--mist); }
+    .bg-white { background: var(--white); }
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .inset-0 { inset: 0; }
+    .w-full { width: 100%; }
+    .h-full { height: 100%; }
+    .object-cover { object-fit: cover; width: 100%; height: 100%; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PAGE FOOTER
+       ═══════════════════════════════════════════════════════════════ */
+    .page-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.55rem;
+      color: rgba(0,0,0,.35);
+      border-top: 1px solid rgba(0,0,0,.06);
+    }
+    .page-footer-dark {
+      color: rgba(255,255,255,.35);
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .page-num {
+      font-weight: 600;
+      font-family: var(--font-body);
+      letter-spacing: 0.1em;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       COVER PAGE
+       ═══════════════════════════════════════════════════════════════ */
+    .cover {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .cover-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .cover-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(8,22,45,0.55) 0%,
+        rgba(8,22,45,0.82) 50%,
+        rgba(8,22,45,0.95) 100%);
+    }
+    .cover-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .cover-logo {
+      width: 72px;
+      height: 72px;
+      background: white;
+      border-radius: 14px;
+      padding: 6px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.2);
+    }
+    .cover-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .cover-title {
+      font-family: var(--font-heading);
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .cover-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+    .cover-tagline {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+      margin-top: 18px;
+    }
+    .cover-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 22px 0;
+    }
+    .cover-info {
+      display: flex;
+      gap: 28px;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.5);
+    }
+    .cover-info a { color: rgba(255,255,255,0.5); text-decoration: none; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SPLIT LAYOUTS
+       ═══════════════════════════════════════════════════════════════ */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100%;
+    }
+    .split-40-60 { grid-template-columns: 0.4fr 0.6fr; }
+    .split-55-45 { grid-template-columns: 0.55fr 0.45fr; }
+    .split-60-40 { grid-template-columns: 0.6fr 0.4fr; }
+    .split-img {
+      position: relative;
+      overflow: hidden;
+    }
+    .split-img img { width: 100%; height: 100%; object-fit: cover; }
+    .split-text {
+      padding: 42px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       CARDS
+       ═══════════════════════════════════════════════════════════════ */
+    .card {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 10px;
+      padding: 22px 20px;
+    }
+    .card-navy {
+      background: var(--navy);
+      border: none;
+      color: white;
+    }
+    .card-mist {
+      background: var(--mist);
+      border: none;
+    }
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: rgba(194,24,91,0.08);
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+    .card-icon-gold { background: rgba(201,168,76,0.12); }
+    .card-icon-navy { background: rgba(255,255,255,0.08); }
+
+    /* ═══════════════════════════════════════════════════════════════
+       TIMELINE
+       ═══════════════════════════════════════════════════════════════ */
+    .timeline {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+      padding: 0 20px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 40px;
+      right: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--magenta), var(--gold));
+      z-index: 0;
+    }
+    .timeline-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      padding: 0 8px;
+    }
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--magenta);
+      margin: 12px auto 14px;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 2px var(--magenta);
+    }
+    .timeline-year {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .timeline-label {
+      font-size: 0.62rem;
+      color: var(--slate);
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PROCESS FLOW
+       ═══════════════════════════════════════════════════════════════ */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+    }
+    .process-step {
+      text-align: center;
+      padding: 8px 4px;
+      position: relative;
+    }
+    .process-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+    }
+    .process-icon {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+    .process-name {
+      font-family: var(--font-heading);
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    .process-desc {
+      font-size: 0.52rem;
+      color: var(--slate);
+      line-height: 1.4;
+      margin-top: 3px;
+    }
+    .process-arrow {
+      position: absolute;
+      right: -8px;
+      top: 34px;
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       GALLERY GRID
+       ═══════════════════════════════════════════════════════════════ */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 6px;
+      height: calc(100% - 80px);
+      padding: 20px 32px;
+    }
+    .gallery-grid .gi { position: relative; overflow: hidden; border-radius: 6px; }
+    .gallery-grid .gi img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-grid .gi-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 12px;
+      background: linear-gradient(transparent, rgba(8,22,45,0.85));
+      font-size: 0.58rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.05em;
+    }
+    .gi-wide { grid-column: span 2; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       CONTACT PAGE
+       ═══════════════════════════════════════════════════════════════ */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.06);
+    }
+    .contact-item .ci-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(201,168,76,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .contact-item .ci-label {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2px;
+    }
+    .contact-item .ci-value {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.8);
+    }
+    .contact-item .ci-value a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       ICON GRID (WHY CHOOSE / INDUSTRIES)
+       ═══════════════════════════════════════════════════════════════ */
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .icon-card {
+      padding: 18px 16px;
+      border-radius: 8px;
+      background: var(--mist);
+      text-align: center;
+    }
+    .icon-card .ic-icon {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+    .icon-card h4 {
+      font-size: 0.78rem;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .icon-card p {
+      font-size: 0.58rem;
+      color: var(--slate);
+      line-height: 1.5;
+    }
+
+    /* Stat bars */
+    .stat-bar {
+      display: flex;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-value {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .stat-label {
+      font-size: 0.55rem;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 2px;
+    }
+
+    /* Quality check items */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .qa-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 8px;
+      background: var(--mist);
+    }
+    .qa-item .qa-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--magenta);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .qa-item h4 { font-size: 0.78rem; color: var(--navy); margin-bottom: 3px; }
+    .qa-item p { font-size: 0.58rem; color: var(--slate); line-height: 1.5; }
+
+    /* Divider line */
+    .gold-line {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin: 14px 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 1 — COVER
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page cover">
+  <div class="cover-bg">
+    <img src="images/printing-textile.jpeg" alt="Factory" />
+  </div>
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+    <div class="cover-logo">
+      <img src="logo.png" alt="Surjay Design & Prints Logo" />
+    </div>
+    <div class="cover-title">Surjay Design &amp; Prints</div>
+    <div class="cover-subtitle">Premium Textile Manufacturing</div>
+    <div class="cover-tagline">"From Raw Fabric to Remarkable Finishes"</div>
+    <div class="cover-divider"></div>
+    <div class="cover-info">
+      <span>Rajasthan &bull; India</span>
+      <span>&bull;</span>
+      <a href="https://surjaydesignprints.com">surjaydesignprints.com</a>
+      <span>&bull;</span>
+      <a href="mailto:inquiries@surjaydesignprints.com">inquiries@surjaydesignprints.com</a>
+      <span>&bull;</span>
+      <span>+91 76186 54887</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 2 — COMPANY PROFILE
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="split split-55-45" style="height:100%">
+    <div class="split-text" style="padding:42px 52px;">
+      <p class="eyebrow eyebrow-dark">Company Overview</p>
+      <h2 style="color:var(--navy); margin-top:12px;">A Textile Manufacturing<br/>Partner Built on Process.</h2>
+      <div class="gold-line"></div>
+      <p class="body-text" style="margin-top:8px;">
+        Surjay Design &amp; Prints is a B2B textile manufacturing company based in Rajasthan, India. The company specializes in fabric dyeing, screen printing, hand printing, and textile finishing for wholesalers, garment manufacturers, and bulk buyers.
+      </p>
+      <p class="body-text" style="margin-top:12px;">
+        Every meter of fabric processed at our facility follows a structured manufacturing workflow — from raw fabric procurement through dyeing, printing, pressing, quality inspection, and packaging — designed to deliver consistent, market-ready output.
+      </p>
+
+      <div style="margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div style="padding:12px 14px; background:var(--mist); border-radius:6px;">
+          <p class="body-sm" style="font-weight:700; color:var(--navy);">Industry</p>
+          <p class="body-sm">Textile Manufacturing &amp; Processing</p>
+        </div>
+        <div style="padding:12px 14px; background:var(--mist); border-radius:6px;">
+          <p class="body-sm" style="font-weight:700; color:var(--navy);">Business Model</p>
+          <p class="body-sm">B2B Manufacturing &amp; Supply</p>
+        </div>
+        <div style="padding:12px 14px; background:var(--mist); border-radius:6px;">
+          <p class="body-sm" style="font-weight:700; color:var(--navy);">Expertise</p>
+          <p class="body-sm">Dyeing, Printing, Finishing</p>
+        </div>
+        <div style="padding:12px 14px; background:var(--mist); border-radius:6px;">
+          <p class="body-sm" style="font-weight:700; color:var(--navy);">Markets</p>
+          <p class="body-sm">Domestic &amp; Export-Ready</p>
+        </div>
+      </div>
+
+      <div class="stat-bar" style="margin-top:20px;">
+        <div class="stat"><div class="stat-value">10+</div><div class="stat-label">Years Experience</div></div>
+        <div class="stat"><div class="stat-value">500+</div><div class="stat-label">Projects</div></div>
+        <div class="stat"><div class="stat-value">100+</div><div class="stat-label">Clients</div></div>
+        <div class="stat"><div class="stat-value">1000+</div><div class="stat-label">Designs</div></div>
+      </div>
+    </div>
+    <div class="split-img">
+      <img src="images/hero-textile-factory.png" alt="Surjay Factory" />
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">02</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 3 — OUR JOURNEY
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page" style="display:flex; flex-direction:column;">
+  <div style="padding:42px 52px 0; text-align:center;">
+    <p class="eyebrow eyebrow-dark">Our Journey</p>
+    <h2 style="color:var(--navy); margin-top:10px;">Building a Textile Brand —<br/>One Process at a Time.</h2>
+    <div class="gold-line" style="margin:14px auto;"></div>
+    <p class="body-text" style="margin:0 auto; text-align:center; max-width:600px;">
+      From a single manufacturing unit in Rajasthan to a structured B2B textile operation serving domestic and future international markets.
+    </p>
+  </div>
+  <div style="flex:1; display:flex; align-items:center; padding:0 42px;">
+    <div class="timeline" style="width:100%;">
+      <div class="timeline-item">
+        <div class="timeline-year">2014</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-label">Company established.<br/>First manufacturing unit<br/>begins operations.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2016</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-label">Dyeing capacity<br/>expanded. Invested in<br/>processing machinery.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2018</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-label">Screen &amp; hand printing<br/>introduced. Expanded<br/>workforce and facility.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-label">B2B wholesale model<br/>formalized. Consistent<br/>client base established.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2023</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-label">Modern infrastructure<br/>upgrades. Quality systems<br/>implementation.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2025+</div>
+        <div class="timeline-dot" style="background:var(--gold); box-shadow:0 0 0 2px var(--gold);"></div>
+        <div class="timeline-label">National expansion.<br/>Export readiness.<br/>Digital transformation.</div>
+      </div>
+    </div>
+  </div>
+  <!-- Bottom factory image strip -->
+  <div style="height:80px; position:relative; overflow:hidden;">
+    <img src="images/dyed-cloth-press.jpeg" alt="Factory" style="width:100%; height:100%; object-fit:cover; object-position:center 60%;" />
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, var(--white) 0%, transparent 40%);"></div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">03</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 4 — MISSION / VISION / VALUES
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page bg-navy" style="display:flex; flex-direction:column; color:white;">
+  <div style="padding:44px 52px 0; text-align:center;">
+    <p class="eyebrow">Guiding Principles</p>
+    <h2 style="color:white; margin-top:10px;">Mission &bull; Vision &bull; Values</h2>
+  </div>
+  <div style="flex:1; padding:28px 52px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; align-items:start;">
+    <!-- Mission -->
+    <div style="padding:28px 24px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:1.6rem; margin-bottom:14px;">◎</div>
+      <h3 style="color:var(--gold); font-size:1.1rem;">Mission</h3>
+      <div style="width:32px; height:2px; background:var(--gold); margin:10px 0;"></div>
+      <p class="body-sm" style="color:rgba(255,255,255,0.7);">
+        To deliver consistent, process-driven textile manufacturing that meets the quality expectations and commercial timelines of B2B buyers across India and international markets.
+      </p>
+    </div>
+    <!-- Vision -->
+    <div style="padding:28px 24px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:1.6rem; margin-bottom:14px;">◈</div>
+      <h3 style="color:var(--gold); font-size:1.1rem;">Vision</h3>
+      <div style="width:32px; height:2px; background:var(--gold); margin:10px 0;"></div>
+      <p class="body-sm" style="color:rgba(255,255,255,0.7);">
+        To establish Surjay Design &amp; Prints as a nationally and internationally recognized textile manufacturing brand — known for precision, reliability, and manufacturing integrity.
+      </p>
+    </div>
+    <!-- Values -->
+    <div style="padding:28px 24px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+      <div style="font-size:1.6rem; margin-bottom:14px;">◆</div>
+      <h3 style="color:var(--gold); font-size:1.1rem;">Core Values</h3>
+      <div style="width:32px; height:2px; background:var(--gold); margin:10px 0;"></div>
+      <div style="display:grid; gap:8px; margin-top:12px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:5px; height:5px; border-radius:50%; background:var(--gold);"></div>
+          <span class="body-sm" style="color:rgba(255,255,255,0.75);">Quality at Every Stage</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:5px; height:5px; border-radius:50%; background:var(--gold);"></div>
+          <span class="body-sm" style="color:rgba(255,255,255,0.75);">Integrity &amp; Transparency</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:5px; height:5px; border-radius:50%; background:var(--gold);"></div>
+          <span class="body-sm" style="color:rgba(255,255,255,0.75);">Manufacturing Craftsmanship</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:5px; height:5px; border-radius:50%; background:var(--gold);"></div>
+          <span class="body-sm" style="color:rgba(255,255,255,0.75);">Innovation &amp; Growth</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:5px; height:5px; border-radius:50%; background:var(--gold);"></div>
+          <span class="body-sm" style="color:rgba(255,255,255,0.75);">Customer Commitment</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer page-footer-dark">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">04</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 5 — MANUFACTURING PROCESS
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page" style="display:flex; flex-direction:column;">
+  <div style="padding:32px 52px 0; text-align:center;">
+    <p class="eyebrow eyebrow-dark">Manufacturing Excellence</p>
+    <h2 style="color:var(--navy); margin-top:8px;">Our Manufacturing Process</h2>
+    <p class="body-sm" style="margin:8px auto 0; max-width:560px; text-align:center;">
+      A structured 16-stage workflow engineered for consistency, color accuracy, and commercial reliability at every meter of fabric.
+    </p>
+  </div>
+  <div style="flex:1; padding:16px 32px;">
+    <!-- Row 1 -->
+    <div class="process-grid" style="margin-bottom:8px;">
+      <div class="process-step">
+        <div class="process-num">01</div>
+        <div class="process-icon">🧵</div>
+        <div class="process-name">Raw Fabric<br/>Procurement</div>
+        <div class="process-desc">Sourced from trusted suppliers across South India &amp; Bhiwandi.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02</div>
+        <div class="process-icon">✨</div>
+        <div class="process-name">Ready For<br/>Dyeing (RFD)</div>
+        <div class="process-desc">Cleaning &amp; preparation to remove impurities.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03</div>
+        <div class="process-icon">💧</div>
+        <div class="process-name">Dyeing</div>
+        <div class="process-desc">Dyed per customer shade with controlled discipline.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04</div>
+        <div class="process-icon">🛡</div>
+        <div class="process-name">Silicate<br/>Treatment</div>
+        <div class="process-desc">Color fixation and durability improvement.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">05</div>
+        <div class="process-icon">🌊</div>
+        <div class="process-name">Silicone<br/>Softening</div>
+        <div class="process-desc">Premium hand feel with improved drape.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">06</div>
+        <div class="process-icon">⏱</div>
+        <div class="process-name">24-Hour Color<br/>Fixation</div>
+        <div class="process-desc">Controlled window stabilizes color outcome.</div>
+      </div>
+    </div>
+    <!-- Row 2 -->
+    <div class="process-grid" style="margin-bottom:8px;">
+      <div class="process-step">
+        <div class="process-num">07</div>
+        <div class="process-icon">💨</div>
+        <div class="process-name">Drying<br/>Range</div>
+        <div class="process-desc">Stabilizes colors &amp; balances moisture.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">08</div>
+        <div class="process-icon">🎨</div>
+        <div class="process-name">Screen<br/>Printing</div>
+        <div class="process-desc">Clean patterns, consistent scalable production.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">09</div>
+        <div class="process-icon">🤲</div>
+        <div class="process-name">Hand<br/>Printing</div>
+        <div class="process-desc">Craft-led detailing &amp; flexible execution.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">10</div>
+        <div class="process-icon">⚙️</div>
+        <div class="process-name">Pressing</div>
+        <div class="process-desc">Smoothens fabric for cleaner presentation.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">11</div>
+        <div class="process-icon">↔️</div>
+        <div class="process-name">Elongation</div>
+        <div class="process-desc">Width &amp; dimensional stability maintained.</div>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">12</div>
+        <div class="process-icon">📦</div>
+        <div class="process-name">Folding &amp;<br/>Packaging</div>
+        <div class="process-desc">Quality inspected, packed &amp; market-ready.</div>
+      </div>
+    </div>
+    <!-- Process image strip -->
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-top:4px; height:68px;">
+      <div style="border-radius:4px; overflow:hidden;"><img src="images/raw-fabric.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="border-radius:4px; overflow:hidden;"><img src="images/dying-textile.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="border-radius:4px; overflow:hidden;"><img src="images/printing-textile-2.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="border-radius:4px; overflow:hidden;"><img src="images/dyed-cloth-press.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">05</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 6 — DYEING EXPERTISE
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="split split-40-60" style="height:100%;">
+    <div class="split-img">
+      <img src="images/dying-textile-2.jpeg" alt="Dyeing Process" />
+      <div style="position:absolute; inset:0; background:linear-gradient(to right, transparent 60%, var(--white) 100%);"></div>
+    </div>
+    <div class="split-text" style="padding:42px 48px 42px 28px;">
+      <p class="eyebrow eyebrow-dark">Dyeing Expertise</p>
+      <h2 style="color:var(--navy); margin-top:10px;">Precision Color.<br/>Consistent Results.</h2>
+      <div class="gold-line"></div>
+      <p class="body-text" style="margin-top:6px;">
+        Our dyeing process is structured around shade accuracy, color durability, and premium finish quality. Each batch follows a controlled sequence — from color development through fixation, softening, and drying — designed for commercial reliability.
+      </p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px;">
+        <div class="card card-mist">
+          <h4 style="color:var(--navy); margin-bottom:4px;">Color Development</h4>
+          <p class="body-sm">Customer shade matching with lab-grade accuracy before bulk processing.</p>
+        </div>
+        <div class="card card-mist">
+          <h4 style="color:var(--navy); margin-bottom:4px;">Machine Dyeing</h4>
+          <p class="body-sm">Controlled process discipline for uniform shade consistency across lots.</p>
+        </div>
+        <div class="card card-mist">
+          <h4 style="color:var(--navy); margin-bottom:4px;">Silicate &amp; Silicone</h4>
+          <p class="body-sm">Fixation and softening treatments for durability and premium hand feel.</p>
+        </div>
+        <div class="card card-mist">
+          <h4 style="color:var(--navy); margin-bottom:4px;">Controlled Drying</h4>
+          <p class="body-sm">Balanced moisture removal that stabilizes color and fabric structure.</p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:20px; margin-top:18px;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <div style="width:8px; height:8px; border-radius:50%; background:var(--magenta);"></div>
+          <span class="body-sm" style="font-weight:600; color:var(--navy);">Shade Consistency</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <div style="width:8px; height:8px; border-radius:50%; background:var(--magenta);"></div>
+          <span class="body-sm" style="font-weight:600; color:var(--navy);">Wash Durability</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <div style="width:8px; height:8px; border-radius:50%; background:var(--magenta);"></div>
+          <span class="body-sm" style="font-weight:600; color:var(--navy);">Premium Finish</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">06</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 7 — PRINTING EXPERTISE
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="split split-60-40" style="height:100%;">
+    <div class="split-text" style="padding:42px 28px 42px 52px;">
+      <p class="eyebrow eyebrow-dark">Printing Expertise</p>
+      <h2 style="color:var(--navy); margin-top:10px;">Screen &amp; Hand Printing.<br/>Craft Meets Capability.</h2>
+      <div class="gold-line"></div>
+      <p class="body-text" style="margin-top:6px;">
+        Our printing division combines scalable screen printing for commercial repeat orders with traditional hand printing for distinctive textile programs. Both capabilities are supported by experienced craftsmen and organized production scheduling.
+      </p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px;">
+        <div class="card" style="border-left:3px solid var(--magenta);">
+          <h4 style="color:var(--navy); margin-bottom:6px;">Screen Printing</h4>
+          <p class="body-sm">Clean repeat patterns with consistent coverage for bulk commercial orders.</p>
+        </div>
+        <div class="card" style="border-left:3px solid var(--gold);">
+          <h4 style="color:var(--navy); margin-bottom:6px;">Hand Printing</h4>
+          <p class="body-sm">Craft-led detailing with flexible pattern execution for distinctive programs.</p>
+        </div>
+        <div class="card" style="border-left:3px solid var(--magenta);">
+          <h4 style="color:var(--navy); margin-bottom:6px;">Custom Patterns</h4>
+          <p class="body-sm">Design development support for buyer-specific patterns and colorways.</p>
+        </div>
+        <div class="card" style="border-left:3px solid var(--gold);">
+          <h4 style="color:var(--navy); margin-bottom:6px;">Natural Colors</h4>
+          <p class="body-sm">Controlled color systems with traditional craftsmanship principles.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; padding:12px 16px; background:var(--mist); border-radius:6px;">
+        <p class="body-sm" style="font-weight:700; color:var(--navy); margin-bottom:4px;">Applications</p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <span class="body-sm" style="padding:3px 10px; background:white; border-radius:4px;">Fashion</span>
+          <span class="body-sm" style="padding:3px 10px; background:white; border-radius:4px;">Garments</span>
+          <span class="body-sm" style="padding:3px 10px; background:white; border-radius:4px;">Home Textiles</span>
+          <span class="body-sm" style="padding:3px 10px; background:white; border-radius:4px;">Ethnic Wear</span>
+          <span class="body-sm" style="padding:3px 10px; background:white; border-radius:4px;">Industrial</span>
+        </div>
+      </div>
+    </div>
+    <div class="split-img">
+      <img src="images/screen-printing.png" alt="Screen Printing" />
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">07</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 8 — PRODUCT PORTFOLIO
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page" style="display:flex; flex-direction:column;">
+  <div style="padding:36px 52px 0; text-align:center;">
+    <p class="eyebrow eyebrow-dark">Product Portfolio</p>
+    <h2 style="color:var(--navy); margin-top:8px;">Fabric Categories Built for B2B Markets.</h2>
+  </div>
+  <div style="flex:1; padding:20px 42px; display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; align-items:start;">
+    <!-- Card 1 -->
+    <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.06);">
+      <div style="height:100px; overflow:hidden;"><img src="images/printing-textile-2.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="padding:14px 16px;">
+        <h4 style="color:var(--navy);">Printed Fabrics</h4>
+        <p class="body-sm" style="margin:6px 0 10px;">Screen printed and hand printed fabrics for wholesalers and garment manufacturers.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:4px;">
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Apparel</span>
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Ethnic Wear</span>
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Home Textiles</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.06);">
+      <div style="height:100px; overflow:hidden;"><img src="images/dyed-product.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="padding:14px 16px;">
+        <h4 style="color:var(--navy);">Dyed Fabrics</h4>
+        <p class="body-sm" style="margin:6px 0 10px;">Bulk dyed fabrics with shade consistency, softness, and dispatch presentation.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:4px;">
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Manufacturing</span>
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Resale</span>
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Uniforms</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.06);">
+      <div style="height:100px; overflow:hidden;"><img src="images/products-to-sell.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="padding:14px 16px;">
+        <h4 style="color:var(--navy);">Custom Processing</h4>
+        <p class="body-sm" style="margin:6px 0 10px;">Customer-led dyeing, printing and finishing shaped around buyer direction.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:4px;">
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Private Labels</span>
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Custom</span>
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Buyer Programs</span>
+        </div>
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.06);">
+      <div style="height:100px; overflow:hidden;"><img src="images/printing-textile.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="padding:14px 16px;">
+        <h4 style="color:var(--navy);">Bulk Manufacturing</h4>
+        <p class="body-sm" style="margin:6px 0 10px;">Organized processing for buyers who need dependable capacity and quality.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:4px;">
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Wholesale</span>
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Traders</span>
+          <span style="font-size:0.5rem; padding:2px 6px; background:var(--mist); border-radius:3px;">Export</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">08</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 9 — INFRASTRUCTURE
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="split split-40-60" style="height:100%;">
+    <div class="split-img">
+      <img src="images/dyeing-finishing.png" alt="Factory Infrastructure" />
+    </div>
+    <div class="split-text" style="padding:36px 48px 36px 28px;">
+      <p class="eyebrow eyebrow-dark">Infrastructure</p>
+      <h2 style="color:var(--navy); margin-top:10px;">Built for Structured<br/>Manufacturing.</h2>
+      <div class="gold-line"></div>
+      <p class="body-text" style="margin-top:6px;">
+        Our manufacturing facility in Rajasthan is organized around process flow efficiency — with dedicated zones for dyeing, printing, drying, pressing, and packaging.
+      </p>
+
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-top:18px;">
+        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+          <div style="font-size:1.1rem; margin-bottom:4px;">🏭</div>
+          <p class="body-sm" style="font-weight:600; color:var(--navy);">Factory</p>
+        </div>
+        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+          <div style="font-size:1.1rem; margin-bottom:4px;">⚙️</div>
+          <p class="body-sm" style="font-weight:600; color:var(--navy);">Machinery</p>
+        </div>
+        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+          <div style="font-size:1.1rem; margin-bottom:4px;">🖨</div>
+          <p class="body-sm" style="font-weight:600; color:var(--navy);">Printing Tables</p>
+        </div>
+        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+          <div style="font-size:1.1rem; margin-bottom:4px;">☀️</div>
+          <p class="body-sm" style="font-weight:600; color:var(--navy);">Drying Range</p>
+        </div>
+        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+          <div style="font-size:1.1rem; margin-bottom:4px;">🔧</div>
+          <p class="body-sm" style="font-weight:600; color:var(--navy);">Pressing</p>
+        </div>
+        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+          <div style="font-size:1.1rem; margin-bottom:4px;">📦</div>
+          <p class="body-sm" style="font-weight:600; color:var(--navy);">Warehouse</p>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; padding:14px 18px; background:var(--navy); border-radius:8px; color:white;">
+        <p style="font-size:0.6rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:6px;">Production Capacity</p>
+        <p class="body-sm" style="color:rgba(255,255,255,.75);">Organized for consistent output across multiple product categories with flexible scheduling for bulk and custom orders.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">09</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 10 — QUALITY ASSURANCE
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page" style="display:flex; flex-direction:column;">
+  <div style="padding:36px 52px 0; text-align:center;">
+    <p class="eyebrow eyebrow-dark">Quality Assurance</p>
+    <h2 style="color:var(--navy); margin-top:8px;">Process Discipline at Every Stage.</h2>
+    <p class="body-sm" style="margin:8px auto 0; max-width:520px; text-align:center;">
+      Quality is not a final check — it is embedded in every stage of our manufacturing process, from raw material selection to packaging.
+    </p>
+  </div>
+  <div style="flex:1; padding:20px 52px; display:flex; flex-direction:column; justify-content:center;">
+    <div class="qa-grid">
+      <div class="qa-item">
+        <div class="qa-num">01</div>
+        <div>
+          <h4>Raw Material Inspection</h4>
+          <p>Every fabric lot is inspected for construction, weight, and suitability before entering the manufacturing process.</p>
+        </div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-num">02</div>
+        <div>
+          <h4>Color Consistency Testing</h4>
+          <p>Shade matching and uniformity checks are conducted across the batch to maintain visual consistency.</p>
+        </div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-num">03</div>
+        <div>
+          <h4>Fabric Surface Inspection</h4>
+          <p>Each lot is examined for weaving defects, print registration accuracy, and finish quality.</p>
+        </div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-num">04</div>
+        <div>
+          <h4>Dimensional Stability</h4>
+          <p>Width, elongation, and shrinkage parameters are monitored during pressing and finishing.</p>
+        </div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-num">05</div>
+        <div>
+          <h4>Packing Standards</h4>
+          <p>Final folding, packaging and labelling follow standard procedures for market-ready dispatch.</p>
+        </div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-num" style="background:var(--gold);">✓</div>
+        <div>
+          <h4>Quality Commitment</h4>
+          <p>Our manufacturing process is designed to ensure consistency, quality, and reliability at every stage of production.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">10</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 11 — WHY CHOOSE SURJAY
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page" style="display:flex; flex-direction:column;">
+  <div style="padding:36px 52px 0; text-align:center;">
+    <p class="eyebrow eyebrow-dark">Why Choose Surjay</p>
+    <h2 style="color:var(--navy); margin-top:8px;">A Manufacturing Mindset Built<br/>Around Buyer Confidence.</h2>
+  </div>
+  <div style="flex:1; padding:22px 52px; display:flex; align-items:center;">
+    <div class="icon-grid" style="width:100%;">
+      <div class="icon-card">
+        <div class="ic-icon">🏭</div>
+        <h4>Premium Manufacturing</h4>
+        <p>Structured process from procurement to packaging.</p>
+      </div>
+      <div class="icon-card">
+        <div class="ic-icon">👥</div>
+        <h4>Skilled Workforce</h4>
+        <p>Experienced team across dyeing, printing, and finishing.</p>
+      </div>
+      <div class="icon-card">
+        <div class="ic-icon">✅</div>
+        <h4>Quality Assurance</h4>
+        <p>Multi-stage inspection from raw fabric to final output.</p>
+      </div>
+      <div class="icon-card">
+        <div class="ic-icon">🏗</div>
+        <h4>Modern Infrastructure</h4>
+        <p>Organized facility with dedicated process zones.</p>
+      </div>
+      <div class="icon-card">
+        <div class="ic-icon">🎯</div>
+        <h4>Custom Solutions</h4>
+        <p>Buyer-led programs with flexible processing capability.</p>
+      </div>
+      <div class="icon-card">
+        <div class="ic-icon">🚚</div>
+        <h4>Reliable Delivery</h4>
+        <p>Organized dispatch schedules and process transparency.</p>
+      </div>
+      <div class="icon-card">
+        <div class="ic-icon">📈</div>
+        <h4>Scalable Production</h4>
+        <p>Capacity built for commercial volume requirements.</p>
+      </div>
+      <div class="icon-card">
+        <div class="ic-icon">🔍</div>
+        <h4>Transparent Process</h4>
+        <p>Clear communication from order to delivery.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">11</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 12 — INDUSTRIES WE SERVE
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page bg-navy" style="display:flex; flex-direction:column; color:white;">
+  <div style="padding:36px 52px 0; text-align:center;">
+    <p class="eyebrow">Markets &amp; Industries</p>
+    <h2 style="color:white; margin-top:10px;">Industries We Serve.</h2>
+    <p class="body-sm" style="margin:8px auto 0; color:rgba(255,255,255,.6); max-width:520px; text-align:center;">
+      Our manufacturing capabilities serve a diverse range of B2B buyers across the textile value chain.
+    </p>
+  </div>
+  <div style="flex:1; padding:24px 52px; display:flex; align-items:center;">
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; width:100%;">
+      <div style="padding:22px 18px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+        <div style="font-size:1.5rem; margin-bottom:10px;">👗</div>
+        <h4 style="color:white; font-size:0.82rem;">Fashion Brands</h4>
+        <p class="body-sm" style="color:rgba(255,255,255,.5); margin-top:4px;">Fabric for seasonal collections and design programs.</p>
+      </div>
+      <div style="padding:22px 18px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+        <div style="font-size:1.5rem; margin-bottom:10px;">🏭</div>
+        <h4 style="color:white; font-size:0.82rem;">Garment Manufacturers</h4>
+        <p class="body-sm" style="color:rgba(255,255,255,.5); margin-top:4px;">Processed fabric ready for garment production lines.</p>
+      </div>
+      <div style="padding:22px 18px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+        <div style="font-size:1.5rem; margin-bottom:10px;">📊</div>
+        <h4 style="color:white; font-size:0.82rem;">Wholesalers</h4>
+        <p class="body-sm" style="color:rgba(255,255,255,.5); margin-top:4px;">Bulk fabric supply for regional distribution networks.</p>
+      </div>
+      <div style="padding:22px 18px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+        <div style="font-size:1.5rem; margin-bottom:10px;">🏬</div>
+        <h4 style="color:white; font-size:0.82rem;">Retail Chains</h4>
+        <p class="body-sm" style="color:rgba(255,255,255,.5); margin-top:4px;">Private label programs and custom fabric supply.</p>
+      </div>
+      <div style="padding:22px 18px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+        <div style="font-size:1.5rem; margin-bottom:10px;">👔</div>
+        <h4 style="color:white; font-size:0.82rem;">Uniform Suppliers</h4>
+        <p class="body-sm" style="color:rgba(255,255,255,.5); margin-top:4px;">Consistent fabric for institutional and corporate uniforms.</p>
+      </div>
+      <div style="padding:22px 18px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+        <div style="font-size:1.5rem; margin-bottom:10px;">🏠</div>
+        <h4 style="color:white; font-size:0.82rem;">Home Furnishing</h4>
+        <p class="body-sm" style="color:rgba(255,255,255,.5); margin-top:4px;">Fabric for curtains, upholstery, and home décor.</p>
+      </div>
+      <div style="padding:22px 18px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+        <div style="font-size:1.5rem; margin-bottom:10px;">🌍</div>
+        <h4 style="color:white; font-size:0.82rem;">Export Houses</h4>
+        <p class="body-sm" style="color:rgba(255,255,255,.5); margin-top:4px;">Export-quality processing for international buyers.</p>
+      </div>
+      <div style="padding:22px 18px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.06); text-align:center;">
+        <div style="font-size:1.5rem; margin-bottom:10px;">📦</div>
+        <h4 style="color:white; font-size:0.82rem;">Textile Traders</h4>
+        <p class="body-sm" style="color:rgba(255,255,255,.5); margin-top:4px;">Bulk inventory for regional textile markets.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer page-footer-dark">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">12</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 13 — VISION FOR TOMORROW
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="split" style="height:100%;">
+    <div class="split-text" style="padding:42px 28px 42px 52px;">
+      <p class="eyebrow eyebrow-dark">Future Vision</p>
+      <h2 style="color:var(--navy); margin-top:10px;">Our Vision for<br/>Tomorrow.</h2>
+      <div class="gold-line"></div>
+      <p class="body-text" style="margin-top:8px;">
+        Surjay Design &amp; Prints is building toward a future defined by expanded capability, wider market reach, and technology-enabled manufacturing.
+      </p>
+      <div style="display:grid; gap:10px; margin-top:22px;">
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:rgba(194,24,91,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.9rem;">🇮🇳</div>
+          <div>
+            <h4 style="color:var(--navy); font-size:0.78rem;">National Expansion</h4>
+            <p class="body-sm">Expanding distribution across major textile markets in India.</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:rgba(194,24,91,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.9rem;">🌍</div>
+          <div>
+            <h4 style="color:var(--navy); font-size:0.78rem;">International Markets</h4>
+            <p class="body-sm">Building export readiness for global B2B textile buyers.</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:rgba(194,24,91,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.9rem;">💻</div>
+          <div>
+            <h4 style="color:var(--navy); font-size:0.78rem;">Digital Transformation</h4>
+            <p class="body-sm">Implementing technology across manufacturing, quality, and communication.</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:rgba(194,24,91,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.9rem;">🌱</div>
+          <div>
+            <h4 style="color:var(--navy); font-size:0.78rem;">Sustainable Growth</h4>
+            <p class="body-sm">Responsible manufacturing practices with long-term environmental awareness.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="split-img">
+      <img src="images/raw-fabric.jpeg" alt="Vision" />
+      <div style="position:absolute; inset:0; background:linear-gradient(to left, transparent 60%, var(--white) 100%);"></div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">13</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 14 — PHOTO GALLERY
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page" style="display:flex; flex-direction:column;">
+  <div style="padding:24px 32px 0; text-align:center;">
+    <p class="eyebrow eyebrow-dark">Factory Gallery</p>
+    <h2 style="color:var(--navy); margin-top:6px;">Inside Surjay Design &amp; Prints.</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gi gi-wide">
+      <img src="images/printing-textile.jpeg" alt="Printing Floor" />
+      <div class="gi-label">Printing Floor</div>
+    </div>
+    <div class="gi">
+      <img src="images/dying-textile.jpeg" alt="Dyeing Machines" />
+      <div class="gi-label">Dyeing Machines</div>
+    </div>
+    <div class="gi">
+      <img src="images/raw-fabric.jpeg" alt="Raw Fabric" />
+      <div class="gi-label">Raw Fabric</div>
+    </div>
+    <div class="gi">
+      <img src="images/ceo.jpeg" alt="Founder" />
+      <div class="gi-label">Founder</div>
+    </div>
+    <div class="gi">
+      <img src="images/dying-textile-2.jpeg" alt="Processing" />
+      <div class="gi-label">Processing Line</div>
+    </div>
+    <div class="gi">
+      <img src="images/dyed-cloth-press.jpeg" alt="Pressing" />
+      <div class="gi-label">Fabric Pressing</div>
+    </div>
+    <div class="gi gi-wide" style="grid-column: 3 / 5;">
+      <img src="images/products-to-sell.jpeg" alt="Finished Fabrics" />
+      <div class="gi-label">Finished Fabrics &amp; Packaging</div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">14</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 15 — CONTACT
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page bg-navy" style="display:flex; flex-direction:column; color:white;">
+  <div style="flex:1; display:flex; align-items:center; justify-content:center;">
+    <div style="width:100%; max-width:750px; text-align:center; padding:0 40px;">
+      <p class="eyebrow" style="margin-bottom:10px;">Get In Touch</p>
+      <h1 style="color:white; font-size:2.4rem;">Let's Build Together.</h1>
+      <div class="gold-line" style="margin:16px auto;"></div>
+      <p class="body-text" style="color:rgba(255,255,255,.65); margin:0 auto 32px; max-width:500px; text-align:center;">
+        Share your fabric requirement — type, process, quantity, and timeline — and our team will respond with a clear manufacturing conversation.
+      </p>
+
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="ci-icon">📞</div>
+          <div>
+            <div class="ci-label">Phone</div>
+            <div class="ci-value"><a href="tel:+917618654887">+91 76186 54887</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">✉️</div>
+          <div>
+            <div class="ci-label">Email</div>
+            <div class="ci-value"><a href="mailto:inquiries@surjaydesignprints.com">inquiries@surjaydesignprints.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">💬</div>
+          <div>
+            <div class="ci-label">WhatsApp</div>
+            <div class="ci-value"><a href="https://wa.me/917618654887">Message on WhatsApp</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🌐</div>
+          <div>
+            <div class="ci-label">Website</div>
+            <div class="ci-value"><a href="https://surjaydesignprints.com">surjaydesignprints.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <div>
+            <div class="ci-label">Location</div>
+            <div class="ci-value">Rajasthan, India</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🕐</div>
+          <div>
+            <div class="ci-label">Hours</div>
+            <div class="ci-value">Mon–Sat, 9:30 AM – 7 PM</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QR Code -->
+      <div style="margin-top:28px; display:flex; align-items:center; justify-content:center; gap:14px;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://surjaydesignprints.com&bgcolor=08162d&color=c9a84c" alt="QR Code" style="width:64px; height:64px; border-radius:6px; border:2px solid rgba(201,168,76,0.3);" />
+        <div style="text-align:left;">
+          <p style="font-size:0.6rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold);">Scan to Visit</p>
+          <p class="body-sm" style="color:rgba(255,255,255,.5);">surjaydesignprints.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer page-footer-dark">
+    <span>Surjay Design &amp; Prints — Company Profile</span>
+    <span class="page-num">15</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE 16 — BACK COVER
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="page cover">
+  <div class="cover-bg">
+    <img src="images/dyed-product.jpeg" alt="Finished Fabric" />
+  </div>
+  <div class="cover-overlay" style="background:linear-gradient(180deg, rgba(8,22,45,0.65) 0%, rgba(8,22,45,0.88) 60%, rgba(8,22,45,0.96) 100%);"></div>
+  <div class="cover-content">
+    <div class="cover-logo">
+      <img src="logo.png" alt="Surjay Logo" />
+    </div>
+    <div class="cover-title" style="font-size:2rem; letter-spacing:0.15em;">Surjay Design &amp; Prints</div>
+    <div style="width:48px; height:1px; background:var(--gold); margin:18px 0;"></div>
+    <div style="font-family:var(--font-heading); font-size:1.2rem; font-style:italic; color:rgba(255,255,255,.7);">
+      Crafting Quality. Delivering Trust.
+    </div>
+    <div style="margin-top:36px; display:flex; gap:28px; font-size:0.6rem; color:rgba(255,255,255,0.45); letter-spacing:0.06em;">
+      <a href="https://surjaydesignprints.com" style="color:rgba(255,255,255,0.45); text-decoration:none;">surjaydesignprints.com</a>
+      <span>|</span>
+      <a href="mailto:inquiries@surjaydesignprints.com" style="color:rgba(255,255,255,0.45); text-decoration:none;">inquiries@surjaydesignprints.com</a>
+      <span>|</span>
+      <span>+91 76186 54887</span>
+    </div>
+    <div style="margin-top:12px; font-size:0.52rem; color:rgba(255,255,255,0.3); letter-spacing:0.1em;">
+      © 2025 Surjay Design &amp; Prints. All rights reserved.
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

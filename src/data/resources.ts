@@ -10,9 +10,9 @@ export const companyResources: CompanyDocument[] = [
     pdfUrl: "/Surjay-Design-Company-Profile.pdf",
     version: "v1.0",
     language: "English",
-    size: "4.8 MB",
+    size: "12 MB",
     pages: 16,
-    updatedAt: "2024-05-15",
+    updatedAt: "2025-06-26",
     category: "Corporate",
     contents: [
       "Company Overview",
