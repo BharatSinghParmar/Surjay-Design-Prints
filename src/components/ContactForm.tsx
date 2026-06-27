@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { ReactNode } from "react";
 import { useForm } from "react-hook-form";
 
@@ -12,41 +13,90 @@ type ContactValues = {
   message: string;
 };
 
+const formSubmitEndpoint = "https://formsubmit.co/ajax/droptomindspark@gmail.com";
+
 export function ContactForm() {
+  const [submitMessage, setSubmitMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
     reset
   } = useForm<ContactValues>();
+
+  async function onSubmit(values: ContactValues) {
+    setSubmitMessage(null);
+
+    try {
+      const response = await fetch(formSubmitEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          _subject: `New inquiry from ${values.name} - ${values.service}`,
+          _template: "table",
+          _captcha: "false",
+          ...values
+        })
+      });
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+
+      if (!response.ok) {
+        throw new Error(result?.message || "Unable to send inquiry. Please try again.");
+      }
+
+      reset();
+      setSubmitMessage({
+        type: "success",
+        text: "Thank you. Your inquiry has been sent successfully."
+      });
+    } catch (error) {
+      setSubmitMessage({
+        type: "error",
+        text: error instanceof Error ? error.message : "Unable to send inquiry. Please try again."
+      });
+    }
+  }
 
   return (
     <form
       className="rounded-lg border border-slate-200 bg-white p-6 shadow-premium md:p-8"
-      onSubmit={handleSubmit(() => reset())}
+      onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-magenta">Inquiry Form</p>
       <h2 className="mt-3 font-heading text-3xl font-semibold text-navy">Start a conversation</h2>
-      {isSubmitSuccessful ? (
-        <p className="mt-4 rounded-md bg-mist p-4 text-sm text-charcoal/75">
-          Thank you. This demo captured the form state successfully.
+      {submitMessage ? (
+        <p
+          className={`mt-4 rounded-md p-4 text-sm ${
+            submitMessage.type === "success" ? "bg-mist text-charcoal/75" : "bg-red-50 text-red-700"
+          }`}
+          role="status"
+          aria-live="polite"
+        >
+          {submitMessage.text}
         </p>
       ) : null}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <Field label="Name" error={errors.name?.message}>
-          <input className="input" {...register("name", { required: "Name is required" })} />
+          <input autoComplete="name" className="input" {...register("name", { required: "Name is required" })} />
         </Field>
         <Field label="Company" error={errors.company?.message}>
-          <input className="input" {...register("company", { required: "Company is required" })} />
+          <input autoComplete="organization" className="input" {...register("company", { required: "Company is required" })} />
         </Field>
         <Field label="Phone" error={errors.phone?.message}>
-          <input className="input" {...register("phone", { required: "Phone is required" })} />
+          <input type="tel" autoComplete="tel" className="input" {...register("phone", { required: "Phone is required" })} />
         </Field>
         <Field label="Email" error={errors.email?.message}>
           <input
             type="email"
+            autoComplete="email"
             className="input"
             {...register("email", {
               required: "Email is required",
@@ -74,9 +124,10 @@ export function ContactForm() {
       </Field>
       <button
         type="submit"
+        disabled={isSubmitting}
         className="mt-6 min-h-12 w-full rounded-md bg-magenta px-5 py-3 text-sm font-semibold text-white transition hover:bg-wine"
       >
-        Submit Inquiry
+        {isSubmitting ? "Sending..." : "Submit Inquiry"}
       </button>
     </form>
   );

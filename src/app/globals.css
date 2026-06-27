@@ -160,6 +160,16 @@ img {
   overflow: hidden;
 }
 
+/* ── Horizontal manufacturing timeline ─────────────────── */
+.manufacturing-timeline-scroll {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.manufacturing-timeline-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Glass card ────────────────────────────────────────── */
 .glass-card {
   background: rgba(255,255,255,0.08);

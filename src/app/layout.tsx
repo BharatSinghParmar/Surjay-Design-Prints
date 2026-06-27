@@ -20,12 +20,19 @@ const heading = Antonio({
   display: "swap"
 });
 
-export const metadata: Metadata = pageMetadata({
-  title: "Textile Manufacturer in Rajasthan",
-  description:
-    "Surjay Design & Prints is a premium B2B textile manufacturing company in Rajasthan for fabric dyeing, screen printing, hand printing and fabric finishing.",
-  path: "/"
-});
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: "Textile Manufacturer in Rajasthan",
+    description:
+      "Surjay Design & Prints is a premium B2B textile manufacturing company in Rajasthan for fabric dyeing, screen printing, hand printing and fabric finishing.",
+    path: "/"
+  }),
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png"
+  }
+};
 
 export const viewport: Viewport = {
   width: "device-width",

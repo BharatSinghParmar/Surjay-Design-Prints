@@ -1,8 +1,10 @@
 import Image from "next/image";
-import { ArrowRight, BadgeCheck, Factory, Gem, ShieldCheck, Truck, Users, Play } from "lucide-react";
+import { ArrowRight, BadgeCheck, Factory, Gem, Truck, Users } from "lucide-react";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { ButtonLink } from "@/components/ButtonLink";
+import { HeroBackgroundVideo } from "@/components/HeroBackgroundVideo";
 import { JsonLd } from "@/components/JsonLd";
+import { ManufacturingTimeline } from "@/components/ManufacturingTimeline";
 import { Newsletter } from "@/components/Newsletter";
 import { ProductCards } from "@/components/ProductCards";
 import { ResourceCard } from "@/components/ResourceCard";
@@ -25,15 +27,6 @@ const highlights = [
   { icon: Users, title: "Buyer Focus", body: "Built for wholesalers, garment manufacturers, textile traders and repeat bulk programs." }
 ];
 
-const journeySteps = [
-  { label: "Raw Fabric", img: imageAssets.rawFabric },
-  { label: "Dyeing", img: imageAssets.dyeingMachine },
-  { label: "Color Fixation", img: imageAssets.dyeingMachine2 },
-  { label: "Printing", img: imageAssets.printingHall },
-  { label: "Pressing", img: imageAssets.dyedPress },
-  { label: "Market Ready", img: imageAssets.printingFabric }
-];
-
 export default function Home() {
   return (
     <>
@@ -42,17 +35,11 @@ export default function Home() {
       {/* ── CINEMATIC VIDEO HERO ────────────────────────────────────── */}
       <section className="video-hero relative isolate min-h-[100vh] overflow-hidden text-white">
         {/* Background video */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
+        <HeroBackgroundVideo
+          src={videoAssets.printingMachine}
           className="absolute inset-0 h-full w-full object-cover"
           poster={imageAssets.printingHall}
-        >
-          <source src={videoAssets.printingMachine} type="video/mp4" />
-          <source src={videoAssets.dyeingProcess} type="video/mp4" />
-        </video>
+        />
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-navy/30" />
@@ -129,37 +116,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── MANUFACTURING JOURNEY STRIP ──────────────────────────────── */}
-      <section className="overflow-hidden border-y border-slate-100 bg-mist py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="mb-8 text-center text-xs font-bold uppercase tracking-[0.28em] text-charcoal/50">
-            Manufacturing Journey
-          </p>
-          <div className="flex items-center gap-0 overflow-x-auto pb-2 scrollbar-hide">
-            {journeySteps.map((step, index) => (
-              <div key={step.label} className="flex flex-none items-center">
-                <div className="group flex flex-col items-center gap-3">
-                  <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-white shadow-premium ring-2 ring-magenta/20 transition duration-300 group-hover:ring-magenta/60">
-                    <Image
-                      src={step.img}
-                      alt={step.label}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <span className="w-20 text-center text-xs font-semibold text-charcoal/70">{step.label}</span>
-                </div>
-                {index < journeySteps.length - 1 && (
-                  <div className="mx-2 flex flex-none items-center">
-                    <div className="h-px w-8 bg-gradient-to-r from-magenta/40 to-magenta/10 sm:w-12" />
-                    <ArrowRight className="h-3 w-3 flex-none text-magenta/50" />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── INTERACTIVE MANUFACTURING JOURNEY ───────────────────────── */}
+      <ManufacturingTimeline />
 
       {/* ── COMPANY INTRODUCTION ────────────────────────────────────── */}
       <section className="py-20 md:py-28">
