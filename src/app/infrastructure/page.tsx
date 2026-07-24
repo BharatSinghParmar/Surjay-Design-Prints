@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Cog, Factory, Gauge, ScanSearch } from "lucide-react";
+import { ArrowRight, Cog, Droplets, Factory, Gauge, Leaf, Recycle, ScanSearch, ShieldCheck } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ButtonLink } from "@/components/ButtonLink";
 import { JsonLd } from "@/components/JsonLd";
@@ -17,6 +17,13 @@ export const metadata = pageMetadata({
 });
 
 const icons = [Factory, Cog, Gauge, ScanSearch];
+
+const ecoFeatures = [
+  { icon: ShieldCheck, title: "Zero Liquid Discharge", desc: "No polluted water ever leaves the facility — nothing is released into the environment." },
+  { icon: Recycle, title: "Water Recycling & Reuse", desc: "Treated water is cycled back into dyeing and processing, minimising fresh-water draw." },
+  { icon: Droplets, title: "Multi-Stage Treatment", desc: "Effluent passes through a full treatment cycle that restores it to clean, natural-grade water." },
+  { icon: Leaf, title: "Eco-Responsible Dyeing", desc: "A lower environmental footprint on every batch, protecting local groundwater." }
+];
 
 const infraImages = [
   { img: imageAssets.dyeingMachine, label: "Dyeing Machines", desc: "Industrial dyeing line for shade consistency across bulk fabric orders." },
@@ -137,6 +144,75 @@ export default function InfrastructurePage() {
                 })}
               </Stagger>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SUSTAINABILITY / ZERO LIQUID DISCHARGE ─────────────── */}
+      <section className="bg-white py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            {/* Message */}
+            <Reveal>
+              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-emerald-700">
+                <Leaf className="h-3.5 w-3.5" /> Sustainability
+              </span>
+              <h2 className="mt-5 font-heading text-3xl font-semibold text-navy md:text-4xl">
+                An environment-friendly factory, built around a Zero&nbsp;Liquid&nbsp;Discharge plant.
+              </h2>
+              <div className="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-magenta to-gold" />
+              <p className="mt-6 text-lg leading-8 text-charcoal/72">
+                Textile dyeing and finishing consume a great deal of water — but at Surjay Design &amp; Prints, none of it leaves as pollution. Our in-house{" "}
+                <strong className="font-semibold text-navy">Zero Liquid Discharge (ZLD)</strong> plant treats every drop of effluent and converts polluted process water back into clean, natural-grade water.
+              </p>
+              <p className="mt-4 leading-8 text-charcoal/72">
+                That recovered water is then recycled straight back into production — protecting local groundwater, eliminating polluted discharge, and keeping every batch we dye and print genuinely eco-responsible.
+              </p>
+            </Reveal>
+
+            {/* Water transformation visual + eco tiles */}
+            <Reveal delay={0.1}>
+              <div className="rounded-2xl border border-slate-200 bg-mist p-6 shadow-premium sm:p-8">
+                <p className="mb-6 text-center text-xs font-bold uppercase tracking-widest text-charcoal/50">
+                  How the water cycle works
+                </p>
+                <div className="flex items-start justify-between gap-1">
+                  <div className="flex flex-1 flex-col items-center text-center">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-charcoal/10">
+                      <Droplets className="h-6 w-6 text-charcoal/50" />
+                    </span>
+                    <p className="mt-3 text-xs font-semibold leading-4 text-charcoal/70">Polluted<br />Process Water</p>
+                  </div>
+                  <ArrowRight className="mt-4 h-5 w-5 flex-none text-gold" />
+                  <div className="flex flex-1 flex-col items-center text-center">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-navy">
+                      <Recycle className="h-6 w-6 text-gold" />
+                    </span>
+                    <p className="mt-3 text-xs font-semibold leading-4 text-charcoal/70">ZLD<br />Treatment</p>
+                  </div>
+                  <ArrowRight className="mt-4 h-5 w-5 flex-none text-gold" />
+                  <div className="flex flex-1 flex-col items-center text-center">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
+                      <Droplets className="h-6 w-6 text-emerald-600" />
+                    </span>
+                    <p className="mt-3 text-xs font-semibold leading-4 text-charcoal/70">Clean<br />Natural Water</p>
+                  </div>
+                </div>
+
+                <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                  {ecoFeatures.map((feature) => {
+                    const Icon = feature.icon;
+                    return (
+                      <div key={feature.title} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <Icon className="h-5 w-5 text-magenta" />
+                        <h3 className="mt-3 font-heading text-sm font-semibold text-navy">{feature.title}</h3>
+                        <p className="mt-1.5 text-xs leading-5 text-charcoal/64">{feature.desc}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
