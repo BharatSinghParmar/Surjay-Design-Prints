@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { useForm } from "react-hook-form";
+import { submitLead } from "@/lib/submitLead";
 
 type ContactValues = {
   name: string;
@@ -14,9 +15,7 @@ type ContactValues = {
   website?: string; // honeypot — hidden from humans, filled by bots
 };
 
-// Leads are delivered server-side via /api/contact so the destination inbox is
-// never exposed in the client bundle.
-const leadEndpoint = "/api/contact";
+
 
 export function ContactForm() {
   const [submitMessage, setSubmitMessage] = useState<{
@@ -34,20 +33,7 @@ export function ContactForm() {
     setSubmitMessage(null);
 
     try {
-      const response = await fetch(leadEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({ type: "inquiry", ...values })
-      });
-      const result = (await response.json().catch(() => null)) as { error?: string } | null;
-
-      if (!response.ok) {
-        throw new Error(result?.error || "Unable to send inquiry. Please try again.");
-      }
-
+      await submitLead("inquiry", values);
       reset();
       setSubmitMessage({
         type: "success",

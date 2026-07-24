@@ -20,6 +20,8 @@ export const runtime = "nodejs";
 
 const INBOX = LEAD_INBOX;
 const WEBHOOK = process.env.LEAD_WEBHOOK_URL; // optional: CRM/Zapier/Slack
+const RESEND_KEY = process.env.RESEND_API_KEY; // optional: proper transactional email
+const MAIL_FROM = process.env.MAIL_FROM || "Surjay Website <onboarding@resend.dev>";
 
 type LeadType = "inquiry" | "quote" | "newsletter";
 
@@ -98,6 +100,8 @@ export async function POST(req: Request) {
     fields.company ? ` (${fields.company})` : ""
   }`;
 
+  const payload = { _subject: subject, _template: "table", ...fields };
+
   try {
     if (WEBHOOK) {
       const res = await fetch(WEBHOOK, {
@@ -106,29 +110,37 @@ export async function POST(req: Request) {
         body: JSON.stringify({ type, subject, ...fields, receivedAt: new Date().toISOString() })
       });
       if (!res.ok) throw new Error(`Webhook responded ${res.status}`);
-    } else {
-      const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(INBOX)}`, {
+    } else if (RESEND_KEY) {
+      const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
-          "content-type": "application/json",
-          accept: "application/json",
-          // FormSubmit rejects requests that carry no browser origin.
-          referer: `${site.url}/contact`,
-          origin: site.url
+          authorization: `Bearer ${RESEND_KEY}`,
+          "content-type": "application/json"
         },
-        body: JSON.stringify({ _subject: subject, _template: "table", ...fields })
+        body: JSON.stringify({
+          from: MAIL_FROM,
+          to: [INBOX],
+          reply_to: fields.email,
+          subject,
+          text: Object.entries(fields)
+            .map(([k, v]) => `${k}: ${v}`)
+            .join("\n")
+        })
       });
-      // FormSubmit answers 200 even on failure — the body is the source of truth.
-      // Notably it returns success:"false" until the inbox is activated once via
-      // the "Activate Form" email it sends on first submission.
-      const data = (await res.json().catch(() => null)) as
-        | { success?: string | boolean; message?: string }
-        | null;
-      const delivered =
-        res.ok && (data?.success === true || String(data?.success ?? "").toLowerCase() === "true");
-      if (!delivered) {
-        throw new Error(data?.message || `Mail relay responded ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`Resend responded ${res.status}`);
+    } else {
+      // FormSubmit accepts submissions from browsers but blocks datacenter IPs,
+      // so a serverless function cannot relay to it. Validation, spam checks and
+      // rate limiting have already run here; hand the vetted payload back for the
+      // browser to post. The address never appears in the static client bundle —
+      // it is only returned on a request that passed every check.
+      return NextResponse.json({
+        ok: true,
+        relay: {
+          url: `https://formsubmit.co/ajax/${encodeURIComponent(INBOX)}`,
+          payload
+        }
+      });
     }
   } catch (err) {
     // Safety net: if email delivery fails, the lead is still written to the server

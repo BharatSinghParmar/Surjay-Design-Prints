@@ -3,6 +3,7 @@
 import { X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { submitLead } from "@/lib/submitLead";
 
 type FormValues = {
   name: string;
@@ -85,13 +86,7 @@ export function RequestQuoteModal({
   async function onSubmit(values: FormValues) {
     setError("");
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "quote", ...values })
-      });
-      const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      if (!res.ok) throw new Error(data?.error || "Unable to send your request. Please try again.");
+      await submitLead("quote", values);
       reset();
       setSent(true);
     } catch (err) {

@@ -2,6 +2,7 @@
 
 import { Send } from "lucide-react";
 import { useState } from "react";
+import { submitLead } from "@/lib/submitLead";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
@@ -15,13 +16,7 @@ export function Newsletter() {
     setBusy(true);
     setStatus(null);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "newsletter", email, website })
-      });
-      const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      if (!res.ok) throw new Error(data?.error || "Subscription failed. Please try again.");
+      await submitLead("newsletter", { email, website });
       setEmail("");
       setStatus({ type: "success", text: "Thank you — you're subscribed." });
     } catch (err) {
