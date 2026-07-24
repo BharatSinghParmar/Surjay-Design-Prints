@@ -5,3 +5,13 @@ dist
 *.log
 .env*
 !.env.example
+
+# Local admin design catalogue (dev driver)
+.data
+public/uploads
+
+# Raw media originals (large) — processed versions go to public/
+media-inbox
+.DS_Store
+**/.DS_Store
+tsconfig.tsbuildinfo
