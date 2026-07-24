@@ -11,7 +11,7 @@ export const companyResources: CompanyDocument[] = [
     version: "v1.0",
     language: "English",
     size: "12 MB",
-    pages: 16,
+    pages: 17,
     updatedAt: "2025-06-26",
     category: "Corporate",
     contents: [
