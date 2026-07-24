@@ -5,13 +5,15 @@ export const site = {
   tagline: "Premium textile dyeing, printing and finishing for B2B buyers.",
   location: "Bagru, Jaipur, Rajasthan, India",
 
-  // Canonical site URL. Set NEXT_PUBLIC_SITE_URL in the environment; on Vercel the
-  // preview/production URL is injected automatically. Falls back to the live free
-  // URL so canonicals/OG tags never point at a domain that isn't live yet.
-  url:
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "") ||
-    "https://surjay-design-prints.vercel.app",
+  // Canonical site URL — drives canonical tags, OG/social previews, sitemap,
+  // robots and structured data. Set NEXT_PUBLIC_SITE_URL to the custom domain
+  // once it is live; until then this stable Vercel URL is correct.
+  //
+  // Deliberately does NOT fall back to NEXT_PUBLIC_VERCEL_URL: that resolves to a
+  // per-deployment hostname (…-2edvdb770-….vercel.app) which changes on every
+  // push, so canonicals would churn and the mail relay would see a new origin
+  // each deploy. This value must stay stable.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://surjay-design-prints.vercel.app",
 
   phone: "+91 76186 54887",
   phoneHref: "+917618654887", // tel: links must not contain spaces
