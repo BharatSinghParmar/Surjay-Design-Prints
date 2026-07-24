@@ -1,7 +1,7 @@
 import "server-only";
 import crypto from "node:crypto";
 import { cookies } from "next/headers";
-import { findAdminByEmail, listAdmins } from "@/lib/designs/store";
+import { getAdminByEmail, getAdminById } from "./admins";
 import { verifyPassword } from "./password";
 import { SESSION_COOKIE } from "./constants";
 import type { AdminPublic } from "@/types/design";
@@ -58,7 +58,7 @@ export const sessionCookieOptions = {
 
 /** Validate email+password, returning the admin id on success. */
 export async function authenticate(email: string, password: string): Promise<string | null> {
-  const admin = await findAdminByEmail(email);
+  const admin = await getAdminByEmail(email);
   if (!admin) return null;
   return verifyPassword(password, admin.passwordHash) ? admin.id : null;
 }
@@ -68,6 +68,6 @@ export async function getCurrentAdmin(): Promise<AdminPublic | null> {
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   const adminId = verifySessionToken(token);
   if (!adminId) return null;
-  const admin = (await listAdmins()).find((a) => a.id === adminId);
+  const admin = await getAdminById(adminId);
   return admin ? { id: admin.id, email: admin.email, name: admin.name } : null;
 }

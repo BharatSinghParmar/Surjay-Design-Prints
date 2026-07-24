@@ -4,47 +4,51 @@ import path from "node:path";
 import crypto from "node:crypto";
 import type { Design, AttributeDef, AdminUser, DesignCategory } from "@/types/design";
 import { DEFAULT_ATTRIBUTES } from "./seed";
+import { BLOB_ENABLED, readBlobJson, writeBlobJson } from "./blobStore";
 
 /**
  * Data-access layer for the admin design catalogue.
  *
- * Driver = local JSON files under `.data/` (git-ignored). This runs in `next dev`
- * and `next start` locally. In production on Vercel (ephemeral filesystem) this
- * module is the single swap point: reimplement the same async functions against
- * Neon/Postgres + Vercel Blob and every caller keeps working unchanged.
+ * Two interchangeable drivers behind one interface:
+ *   - Vercel Blob, when BLOB_READ_WRITE_TOKEN is set (production)
+ *   - local JSON files under `.data/` (git-ignored) for development
+ *
+ * Callers never know which is active.
  */
 
 const DATA_DIR = path.join(process.cwd(), ".data");
 const FILES = {
-  designs: path.join(DATA_DIR, "designs.json"),
-  attributes: path.join(DATA_DIR, "attributes.json"),
-  admins: path.join(DATA_DIR, "admins.json")
-};
+  designs: "designs.json",
+  attributes: "attributes.json",
+  admins: "admins.json"
+} as const;
 
-async function readJson<T>(file: string, fallback: T): Promise<T> {
+type StoreFile = (typeof FILES)[keyof typeof FILES];
+
+async function readJson<T>(name: StoreFile, fallback: T): Promise<T> {
+  if (BLOB_ENABLED) return readBlobJson<T>(name, fallback);
   try {
-    return JSON.parse(await fs.readFile(file, "utf8")) as T;
+    return JSON.parse(await fs.readFile(path.join(DATA_DIR, name), "utf8")) as T;
   } catch {
     return fallback;
   }
 }
 
-async function writeJson(file: string, data: unknown): Promise<void> {
+async function writeJson(name: StoreFile, data: unknown): Promise<void> {
+  if (BLOB_ENABLED) return writeBlobJson(name, data);
   await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(file, JSON.stringify(data, null, 2), "utf8");
+  await fs.writeFile(path.join(DATA_DIR, name), JSON.stringify(data, null, 2), "utf8");
 }
 
 /**
- * Serverless hosts (Vercel) have a read-only, ephemeral filesystem, so this
- * local driver cannot persist there. Writes must never take down a page that
- * only reads — notably the public Products page. Swallow write failures and let
- * callers fall back to defaults until a real database driver is wired in.
+ * Writes must never take down a page that only reads — notably the public
+ * Products page, which would otherwise 500 on a read-only serverless filesystem.
  */
-async function tryWriteJson(file: string, data: unknown): Promise<void> {
+async function tryWriteJson(name: StoreFile, data: unknown): Promise<void> {
   try {
-    await writeJson(file, data);
+    await writeJson(name, data);
   } catch {
-    // read-only filesystem — non-fatal for reads
+    // storage unavailable — non-fatal for reads
   }
 }
 

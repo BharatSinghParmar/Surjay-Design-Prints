@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 /**
- * Create an admin account for the design-catalogue panel (local dev driver).
+ * Create an admin account for the design-catalogue panel.
  *
- *   node scripts/create-admin.mjs <email> "<name>" <password>
- *   node scripts/create-admin.mjs            # interactive (password hidden-ish)
+ *   node scripts/create-admin.mjs                       # interactive
+ *   node scripts/create-admin.mjs <email> "<Name>" <password>
  *
- * Appends to .data/admins.json using the same scrypt scheme as the app. In
- * production these admin rows live in the database instead.
+ * Does two things:
+ *   1. Writes the account to .data/admins.json so it works locally right away.
+ *   2. Prints the ADMIN_USERS value to paste into the hosting environment,
+ *      which is where production reads admins from. Passwords are never stored
+ *      in plain text — only a scrypt hash is kept.
+ *
+ * Run it once per admin; the printed ADMIN_USERS always contains everyone.
  */
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -21,6 +26,10 @@ function hashPassword(pw) {
   const salt = crypto.randomBytes(16);
   const hash = crypto.scryptSync(pw, salt, 64);
   return `${salt.toString("hex")}:${hash.toString("hex")}`;
+}
+
+function stableId(email) {
+  return crypto.createHash("sha256").update(email.toLowerCase()).digest("hex").slice(0, 32);
 }
 
 async function read() {
@@ -58,7 +67,7 @@ if (admins.some((a) => a.email.toLowerCase() === email)) {
 }
 
 admins.push({
-  id: crypto.randomUUID(),
+  id: stableId(email),
   email,
   name: String(name).trim(),
   passwordHash: hashPassword(String(password)),
@@ -67,4 +76,16 @@ admins.push({
 
 await fs.mkdir(DATA_DIR, { recursive: true });
 await fs.writeFile(ADMINS, JSON.stringify(admins, null, 2), "utf8");
-console.log(`✓ Created admin ${email}. Total admins: ${admins.length}`);
+
+const envValue = JSON.stringify(
+  admins.map((a) => ({ email: a.email, name: a.name, hash: a.passwordHash }))
+);
+
+console.log(`\n✓ Created admin ${email}  (total: ${admins.length})`);
+console.log("  Saved to .data/admins.json — works locally straight away.\n");
+console.log("─".repeat(72));
+console.log("For production, set this environment variable:\n");
+console.log("  Name:  ADMIN_USERS");
+console.log(`  Value: ${envValue}\n`);
+console.log("─".repeat(72));
+console.log("Paste the whole value, including the square brackets.\n");
