@@ -1,6 +1,7 @@
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, Mail, MessageCircle, Phone } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactForm } from "@/components/ContactForm";
+import { FactoryMap } from "@/components/FactoryMap";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
@@ -18,8 +19,8 @@ export const metadata = pageMetadata({
 });
 
 const contactItems = [
-  { icon: Phone, title: "Phone", value: site.phone, href: `tel:${site.phone}` },
-  { icon: Mail, title: "Email", value: site.email, href: `mailto:${site.mailTo}` },
+  { icon: Phone, title: "Phone", value: site.phone, href: `tel:${site.phoneHref}` },
+  { icon: Mail, title: "Email", value: site.email, href: `mailto:${site.email}` },
   { icon: MessageCircle, title: "WhatsApp", value: "Message on WhatsApp", href: `https://wa.me/${site.whatsapp}` },
   { icon: Clock, title: "Business Hours", value: site.hours, href: null }
 ];
@@ -50,12 +51,8 @@ export default function ContactPage() {
               body="The company supplies wholesalers, garment manufacturers, textile traders and bulk buyers with dyeing, printing and finishing support."
             />
             <div className="mt-8 grid gap-4">
-              <Reveal className="rounded-lg border border-slate-200 bg-mist p-6">
-                <MapPin className="h-6 w-6 text-magenta" />
-                <h2 className="mt-4 font-heading text-xl font-semibold text-navy">Google Map Placeholder</h2>
-                <p className="mt-2 text-sm leading-7 text-charcoal/70">
-                  Rajasthan, India. Add the verified Google Maps embed once the public listing is ready.
-                </p>
+              <Reveal>
+                <FactoryMap />
               </Reveal>
               <div className="grid gap-4 sm:grid-cols-2">
                 {contactItems.map((item) => (

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, Phone, Download, Loader2, CheckCircle2 } from "lucide-react";
+import { Building2, Mail, MapPin, Phone, Download, Loader2, CheckCircle2 } from "lucide-react";
 import { navItems, site } from "@/data/site";
 import { useDownload } from "@/hooks/useDownload";
 import { companyResources } from "@/data/resources";
@@ -72,23 +72,61 @@ export function Footer() {
         <div>
           <h3 className="font-heading text-base font-semibold">Contact</h3>
           <div className="mt-5 grid gap-4 text-sm text-white/70">
-            <p className="flex gap-3">
+            <a
+              className="flex gap-3 hover:text-white"
+              href={site.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <MapPin className="mt-0.5 h-4 w-4 flex-none text-magenta" />
-              {site.location}
+              <span>
+                <span className="font-semibold text-white/85">Factory:</span> {site.address.line1},{" "}
+                {site.address.line2}
+                <br />
+                {site.address.locality}, {site.address.city}, {site.address.region}{" "}
+                {site.address.postalCode}
+              </span>
+            </a>
+            <p className="flex gap-3">
+              <Building2 className="mt-0.5 h-4 w-4 flex-none text-magenta" />
+              <span>
+                <span className="font-semibold text-white/85">Registered Office:</span>{" "}
+                {site.registeredOffice.line1}, {site.registeredOffice.line2}
+                <br />
+                {site.registeredOffice.city}, {site.registeredOffice.region}{" "}
+                {site.registeredOffice.postalCode}
+              </span>
             </p>
-            <a className="flex gap-3 hover:text-white" href={`tel:${site.phone}`}>
+            <a className="flex gap-3 hover:text-white" href={`tel:${site.phoneHref}`}>
               <Phone className="mt-0.5 h-4 w-4 flex-none text-magenta" />
               {site.phone}
             </a>
-            <a className="flex gap-3 hover:text-white" href={`mailto:${site.mailTo}`}>
+            <a className="flex gap-3 hover:text-white" href={`mailto:${site.email}`}>
               <Mail className="mt-0.5 h-4 w-4 flex-none text-magenta" />
               {site.email}
             </a>
           </div>
         </div>
       </div>
-      <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-white/50">
-        © {new Date().getFullYear()} {site.name}. All rights reserved.
+      <div className="border-t border-white/10 px-4 py-5 text-xs text-white/50">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 sm:flex-row sm:justify-between">
+          <p>
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <span>GSTIN: {site.registrations.gstin}</span>
+            <span aria-hidden="true" className="hidden sm:inline">
+              ·
+            </span>
+            <span>Udyam: {site.registrations.udyam}</span>
+            <span aria-hidden="true" className="hidden sm:inline">
+              ·
+            </span>
+            <a href="/privacy" className="underline hover:text-white">
+              Privacy Policy
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );
