@@ -1,11 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Antonio } from "next/font/google";
 import "./globals.css";
-import { Footer } from "@/components/Footer";
-import { FloatingActions } from "@/components/FloatingActions";
-import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
-import { LoadingScreen } from "@/components/LoadingScreen";
+import { SiteChrome } from "@/components/SiteChrome";
 import { organizationSchema, pageMetadata } from "@/lib/seo";
 
 const inter = Inter({
@@ -45,11 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-IN" className={`${inter.variable} ${heading.variable}`}>
       <body>
         <JsonLd data={organizationSchema()} />
-        <LoadingScreen />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <FloatingActions />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

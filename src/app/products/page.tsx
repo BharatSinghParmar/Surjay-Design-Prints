@@ -9,6 +9,8 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { Newsletter } from "@/components/Newsletter";
 import { imageAssets } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { listDesigns, listAttributes } from "@/lib/designs/store";
+import { DesignCatalogue } from "@/components/DesignCatalogue";
 
 export const metadata = pageMetadata({
   title: "Products",
@@ -16,6 +18,8 @@ export const metadata = pageMetadata({
     "Printed fabrics, dyed fabrics, custom fabrics and bulk textile manufacturing services for wholesalers, garment manufacturers and textile traders.",
   path: "/products"
 });
+
+export const dynamic = "force-dynamic";
 
 const categories = [
   {
@@ -56,7 +60,10 @@ const categories = [
   }
 ];
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const [designs, allAttributes] = await Promise.all([listDesigns(), listAttributes()]);
+  const visibleAttributes = allAttributes.filter((a) => a.visible);
+
   return (
     <>
       <JsonLd
@@ -176,6 +183,21 @@ export default function ProductsPage() {
           </div>
         </div>
       </section>
+
+      {/* ── ADMIN-MANAGED DESIGN CATALOGUE ────────────────────── */}
+      {designs.length > 0 && (
+        <section className="border-t border-slate-100 bg-white py-20 md:py-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionHeading
+              eyebrow="Design Catalogue"
+              title="Available fabric designs, ready to order."
+              body="Browse current printed, dyed and custom fabric designs — each available by the metre. Sold pieces stay listed and are clearly marked."
+              align="center"
+            />
+            <DesignCatalogue designs={designs} attributes={visibleAttributes} />
+          </div>
+        </section>
+      )}
 
       <Newsletter />
     </>
