@@ -5,6 +5,17 @@ import crypto from "node:crypto";
 import type { Design, AttributeDef, AdminUser, DesignCategory } from "@/types/design";
 import { DEFAULT_ATTRIBUTES } from "./seed";
 import { BLOB_ENABLED, readBlobJson, writeBlobJson } from "./blobStore";
+import {
+  PG_ENABLED,
+  pgListAttributes,
+  pgUpsertAttribute,
+  pgDeleteAttribute,
+  pgListDesigns,
+  pgGetDesign,
+  pgCreateDesign,
+  pgUpdateDesign,
+  pgDeleteDesign
+} from "./pgStore";
 
 /**
  * Data-access layer for the admin design catalogue.
@@ -62,6 +73,7 @@ function nowIso(): string {
 
 // ── Attributes ─────────────────────────────────────────────────────────────
 export async function listAttributes(): Promise<AttributeDef[]> {
+  if (PG_ENABLED) return pgListAttributes();
   const attrs = await readJson<AttributeDef[] | null>(FILES.attributes, null);
   if (!attrs) {
     await tryWriteJson(FILES.attributes, DEFAULT_ATTRIBUTES);
@@ -75,6 +87,7 @@ export async function saveAttributes(attrs: AttributeDef[]): Promise<void> {
 }
 
 export async function upsertAttribute(attr: AttributeDef): Promise<AttributeDef> {
+  if (PG_ENABLED) return pgUpsertAttribute(attr);
   const attrs = await listAttributes();
   const idx = attrs.findIndex((a) => a.id === attr.id);
   if (idx >= 0) attrs[idx] = attr;
@@ -84,6 +97,7 @@ export async function upsertAttribute(attr: AttributeDef): Promise<AttributeDef>
 }
 
 export async function deleteAttribute(id: string): Promise<void> {
+  if (PG_ENABLED) return pgDeleteAttribute(id);
   const attrs = (await listAttributes()).filter((a) => a.id !== id);
   await saveAttributes(attrs);
 }
@@ -92,9 +106,11 @@ export async function deleteAttribute(id: string): Promise<void> {
 interface ListOpts {
   category?: DesignCategory;
   includeSold?: boolean; // default true (sold items stay visible with a badge)
+  limit?: number;
 }
 
 export async function listDesigns(opts: ListOpts = {}): Promise<Design[]> {
+  if (PG_ENABLED) return pgListDesigns(opts);
   let designs = await readJson<Design[]>(FILES.designs, []);
   if (opts.category) designs = designs.filter((d) => d.category === opts.category);
   if (opts.includeSold === false) designs = designs.filter((d) => d.status !== "sold");
@@ -107,6 +123,7 @@ export async function listDesigns(opts: ListOpts = {}): Promise<Design[]> {
 }
 
 export async function getDesign(id: string): Promise<Design | null> {
+  if (PG_ENABLED) return pgGetDesign(id);
   const designs = await readJson<Design[]>(FILES.designs, []);
   return designs.find((d) => d.id === id) ?? null;
 }
@@ -114,6 +131,7 @@ export async function getDesign(id: string): Promise<Design | null> {
 type DesignInput = Omit<Design, "id" | "createdAt" | "updatedAt">;
 
 export async function createDesign(input: DesignInput): Promise<Design> {
+  if (PG_ENABLED) return pgCreateDesign(newId(), input);
   const designs = await readJson<Design[]>(FILES.designs, []);
   const design: Design = { ...input, id: newId(), createdAt: nowIso(), updatedAt: nowIso() };
   designs.push(design);
@@ -125,6 +143,7 @@ export async function updateDesign(
   id: string,
   patch: Partial<DesignInput>
 ): Promise<Design | null> {
+  if (PG_ENABLED) return pgUpdateDesign(id, patch);
   const designs = await readJson<Design[]>(FILES.designs, []);
   const idx = designs.findIndex((d) => d.id === id);
   if (idx < 0) return null;
@@ -134,6 +153,7 @@ export async function updateDesign(
 }
 
 export async function deleteDesign(id: string): Promise<boolean> {
+  if (PG_ENABLED) return pgDeleteDesign(id);
   const designs = await readJson<Design[]>(FILES.designs, []);
   const next = designs.filter((d) => d.id !== id);
   if (next.length === designs.length) return false;

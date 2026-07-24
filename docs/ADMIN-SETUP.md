@@ -1,15 +1,27 @@
 # Admin Panel — Production Setup
 
 One-time setup to switch on the Design Catalogue at **/admin** on the live site.
-Roughly 10 minutes. You only ever do this once.
+Roughly 12 minutes. You only ever do this once.
 
-You need **three** environment variables and **one** Blob store. Nothing else.
+You need **two storage services** and **two environment variables**:
+
+| What | Holds | Free tier |
+|---|---|---|
+| **Vercel Blob** | the uploaded design images and PDFs | 1 GB |
+| **Neon Postgres** | the design records (title, category, features, sold status) | 0.5 GB |
+
+> Why both: images do not belong in a database, and records do not belong in a
+> single JSON file — with thousands of designs that would be slow to save and two
+> admins editing at once could overwrite each other. Postgres saves one row at a
+> time and filters in SQL, so it stays fast as the catalogue grows.
+
+The tables are created automatically on first use — there is no migration to run.
 
 ---
 
 ## Step 1 — Create the Blob store (2 minutes)
 
-This holds the uploaded design files *and* the catalogue records.
+This holds the uploaded design files.
 
 1. Go to **https://vercel.com/dashboard**
 2. Open the **Surjay-Design-Prints** project
@@ -23,6 +35,23 @@ This holds the uploaded design files *and* the catalogue records.
 not need to copy or paste it.
 
 > Free tier: 1 GB of storage. Plenty for thousands of design images.
+
+---
+
+## Step 1b — Create the Postgres database (2 minutes)
+
+This holds the design records.
+
+1. Still in the **Storage** tab, click **Create Database** again
+2. Choose **Neon** (Serverless Postgres) → **Continue**
+3. Accept the free plan, pick a region close to India (e.g. Singapore or Mumbai)
+4. Name it `surjay-catalogue` → **Create**
+5. Connect it to **Surjay-Design-Prints**, **All Environments**
+
+✅ Vercel adds `DATABASE_URL` automatically — nothing to copy.
+
+> The tables are created the first time the admin panel is used. No migration
+> step, no SQL to run.
 
 ---
 
@@ -104,7 +133,8 @@ Environment variables only apply to new deployments.
 | "Invalid email or password" | `ADMIN_USERS` is missing, malformed, or you redeployed before saving it. Re-check Step 4, then redeploy. |
 | The page errors right after login | `AUTH_SECRET` is not set. Add it and redeploy. |
 | Upload fails | The Blob store is not connected to the project. Re-check Step 1. |
-| A design saves but vanishes later | `BLOB_READ_WRITE_TOKEN` is missing, so it fell back to temporary storage. Re-check Step 1, then redeploy. |
+| A design saves but vanishes later | `DATABASE_URL` is missing, so it fell back to temporary storage. Re-check Step 1b, then redeploy. |
+| Images break but details show | The Blob store is missing or was disconnected. Re-check Step 1. |
 
 ---
 
