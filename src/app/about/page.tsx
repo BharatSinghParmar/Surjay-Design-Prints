@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Award, Compass, Eye, Factory, MessageSquareQuote, Target } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ButtonLink } from "@/components/ButtonLink";
+import { CredentialsBlock } from "@/components/CredentialsBlock";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ResourceCard } from "@/components/ResourceCard";
@@ -21,11 +22,14 @@ export const metadata = pageMetadata({
 });
 
 const milestones = [
-  { year: "Founded", event: "Established in Rajasthan with a focus on quality dyeing and fabric processing." },
-  { year: "Growth", event: "Expanded to screen printing and hand printing for B2B textile markets." },
-  { year: "Scale", event: "Serving 100+ business clients across India with 1,000+ fabric designs." },
-  { year: "Today", event: "Full-spectrum manufacturer: RFD → Dyeing → Printing → Finishing → Dispatch." },
-  { year: "Vision", event: "Expanding nationally and internationally as a premium textile brand." }
+  { year: "2010", event: "Hands-on experience begins in textile dyeing, printing and fabric processing in Rajasthan." },
+  { year: "2011", event: "Surjay Design & Print formally registered as a manufacturing enterprise." },
+  { year: "2016", event: "Dyeing capacity expanded with investment in processing machinery." },
+  { year: "2018", event: "Screen printing and hand printing introduced; workforce and facility expanded." },
+  { year: "2020", event: "B2B wholesale model formalised with a consistent business client base." },
+  { year: "2023", event: "Modern infrastructure upgrades and quality systems implementation." },
+  { year: "Today", event: "Serving 80+ business clients across India with 10,000+ fabric designs — RFD → Dyeing → Printing → Finishing → Dispatch." },
+  { year: "Next", event: "National expansion, export readiness and a premium manufacturing identity." }
 ];
 
 export default function AboutPage() {
@@ -51,7 +55,7 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="Company Story"
             title="From raw fabric sourcing to market-ready textile supply."
-            body="The company sources raw fabrics from trusted suppliers across South India and Bhiwandi, then transforms them through RFD preparation, dyeing, printing, silicate treatment, silicone softening, drying, pressing, elongation, folding, inspection and packaging."
+            body="The company sources raw fabrics from trusted suppliers across South India and Bhiwandi, then transforms them through RFD preparation, dyeing, printing, silicate treatment, silicone softening, 24-hour fixation, pressing, elongation, drying, folding, inspection and packaging."
           />
           <div className="grid gap-4">
             <Reveal className="rounded-xl bg-mist p-7">
@@ -148,6 +152,9 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── VERIFIABLE CREDENTIALS ─────────────────────────────── */}
+      <CredentialsBlock />
+
       {/* ── CORE VALUES ────────────────────────────────────────── */}
       <section className="bg-mist py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -230,7 +237,7 @@ export default function AboutPage() {
             <Factory className="h-7 w-7 text-magenta" />
             <h2 className="mt-5 font-heading text-2xl font-semibold text-navy">Manufacturing Strengths</h2>
             <p className="mt-4 leading-8 text-charcoal/72">
-              Dyeing, screen printing, hand printing, softening, drying, pressing, folding and inspection support a wide range of fabric programs.
+              Dyeing, screen printing, hand printing, silicone softening, pressing, drying, folding and inspection support a wide range of fabric programs.
             </p>
           </Reveal>
         </div>

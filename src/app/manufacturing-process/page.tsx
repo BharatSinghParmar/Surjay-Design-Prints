@@ -119,7 +119,7 @@ export default function ManufacturingProcessPage() {
                 body="Prepared fabric enters the dyeing process where shade, absorbency, silicate treatment, silicone softening and a 24-hour fixation window work together to ensure stable, commercial-grade color."
               />
               <ul className="mt-6 space-y-3">
-                {["RFD Preparation", "Controlled Dyeing", "Silicate Treatment", "Silicone Softening", "24-Hour Color Fixation", "Drying Range"].map((step) => (
+                {["RFD Preparation", "Controlled Dyeing", "Silicate Treatment", "Silicone Softening", "24-Hour Color Fixation"].map((step) => (
                   <li key={step} className="flex items-center gap-3 text-sm font-semibold text-navy">
                     <span className="h-1.5 w-1.5 flex-none rounded-full bg-magenta" />
                     {step}
@@ -175,7 +175,7 @@ export default function ManufacturingProcessPage() {
                 Screen printing and hand printing for commercial textile programs.
               </h2>
               <p className="mt-5 leading-8 text-white/72">
-                Fabric moves from the drying range into screen printing or hand printing — executed for repeat patterns, custom motifs and commercial-scale output.
+                Straight after dyeing, fabric moves into screen printing or hand printing — executed for repeat patterns, custom motifs and commercial-scale output.
               </p>
               <div className="mt-8">
                 <ButtonLink href="/printing-methods" variant="light">

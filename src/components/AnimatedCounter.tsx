@@ -36,7 +36,7 @@ export function AnimatedCounter({
       transition={{ duration: 0.6 }}
     >
       <p className="font-heading text-4xl font-semibold text-white md:text-5xl">
-        {display}
+        {display.toLocaleString("en-US")}
         {suffix}
       </p>
       <p className="mt-2 text-sm text-white/62">{label}</p>

@@ -74,45 +74,9 @@ const manufacturingSteps: TimelineStep[] = [
     icon: Droplets
   },
   {
-    title: "Silicate Treatment",
-    eyebrow: "Color fixation",
-    description: "A fixation treatment supports stronger color hold before the fabric moves to finishing stages.",
-    purpose: "Helps preserve shade performance through drying, printing, folding and commercial handling.",
-    duration: "2-3 hrs",
-    image: imageAssets.dyeingMachine2,
-    icon: ShieldCheck
-  },
-  {
-    title: "Silicone Treatment",
-    eyebrow: "Softness & shine",
-    description: "Silicone finishing gives the fabric a smoother hand feel and a more polished visual surface.",
-    purpose: "Improves perceived quality, drape and buyer appeal when the fabric reaches market shelves.",
-    duration: "2-3 hrs",
-    image: "/images/dyeing-finishing.png",
-    icon: Waves
-  },
-  {
-    title: "24-Hour Fabric Preservation",
-    eyebrow: "Stabilization window",
-    description: "The treated fabric rests in a controlled preservation period before the next mechanical stage.",
-    purpose: "Allows shade, chemistry and moisture behavior to stabilize before drying and printing.",
-    duration: "24 hrs",
-    image: imageAssets.printingFabric,
-    icon: Timer
-  },
-  {
-    title: "Drying Range",
-    eyebrow: "Moisture control",
-    description: "Fabric passes through drying so excess moisture is reduced and the batch becomes ready for print work.",
-    purpose: "Protects print sharpness, fabric handle and downstream finishing consistency.",
-    duration: "4-6 hrs",
-    image: "/images/dyeing-finishing.png",
-    icon: Wind
-  },
-  {
     title: "Printing",
     eyebrow: "Design application",
-    description: "Approved designs are applied to the processed fabric using the method best suited to the order.",
+    description: "Approved designs are applied to the dyed fabric using the method best suited to the order.",
     purpose: "Turns processed cloth into commercially distinctive fabric for garment, wholesale and trade buyers.",
     duration: "6-12 hrs",
     image: imageAssets.printingHall,
@@ -137,6 +101,33 @@ const manufacturingSteps: TimelineStep[] = [
     icon: Hand
   },
   {
+    title: "Silicate Treatment",
+    eyebrow: "Color fixation",
+    description: "A fixation treatment supports stronger color hold before the fabric moves to finishing stages.",
+    purpose: "Helps preserve shade and print performance through finishing, folding and commercial handling.",
+    duration: "2-3 hrs",
+    image: imageAssets.dyeingMachine2,
+    icon: ShieldCheck
+  },
+  {
+    title: "Silicone Treatment",
+    eyebrow: "Softness & shine",
+    description: "Silicone finishing gives the fabric a smoother hand feel and a more polished visual surface.",
+    purpose: "Improves perceived quality, drape and buyer appeal when the fabric reaches market shelves.",
+    duration: "2-3 hrs",
+    image: "/images/dyeing-finishing.png",
+    icon: Waves
+  },
+  {
+    title: "24-Hour Fabric Preservation",
+    eyebrow: "Stabilization window",
+    description: "The treated fabric rests in a controlled preservation period before the next mechanical stage.",
+    purpose: "Allows shade, chemistry and moisture behavior to stabilize before pressing and final finishing.",
+    duration: "24 hrs",
+    image: imageAssets.printingFabric,
+    icon: Timer
+  },
+  {
     title: "Pressing",
     eyebrow: "Presentation finish",
     description: "The fabric is pressed to smooth the surface and improve its finished commercial appearance.",
@@ -155,13 +146,13 @@ const manufacturingSteps: TimelineStep[] = [
     icon: MoveHorizontal
   },
   {
-    title: "Quality Inspection",
-    eyebrow: "Final review",
-    description: "The batch is checked for shade, print clarity, finish, fabric feel and visible processing issues.",
-    purpose: "Catches avoidable issues before fabric reaches the buyer's cutting table or market counter.",
-    duration: "2-4 hrs",
-    image: imageAssets.printingFabric,
-    icon: SearchCheck
+    title: "Drying Range",
+    eyebrow: "Moisture control",
+    description: "Fabric passes through the drying range so residual moisture is reduced and the batch becomes ready for folding, packing and dispatch.",
+    purpose: "Protects fabric handle, presentation and downstream finishing consistency before packaging.",
+    duration: "4-6 hrs",
+    image: "/images/dyeing-finishing.png",
+    icon: Wind
   },
   {
     title: "Folding",
@@ -171,6 +162,15 @@ const manufacturingSteps: TimelineStep[] = [
     duration: "1-2 hrs",
     image: imageAssets.rawFabric,
     icon: Layers
+  },
+  {
+    title: "Quality Inspection",
+    eyebrow: "Final review",
+    description: "The batch is checked for shade, print clarity, finish, fabric feel and visible processing issues.",
+    purpose: "Catches avoidable issues before fabric reaches the buyer's cutting table or market counter.",
+    duration: "2-4 hrs",
+    image: imageAssets.printingFabric,
+    icon: SearchCheck
   },
   {
     title: "Packaging",

@@ -71,7 +71,7 @@ export default function Home() {
 
             {/* Trust badges */}
             <div className="mt-10 flex flex-wrap gap-6">
-              {["10+ Years", "500+ Projects", "100+ Clients", "B2B Focused"].map((badge) => (
+              {["16+ Years", "2,500+ Projects", "80+ Clients", "B2B Focused"].map((badge) => (
                 <div key={badge} className="flex items-center gap-2">
                   <BadgeCheck className="h-4 w-4 text-gold" />
                   <span className="text-sm font-semibold text-white/80">{badge}</span>

@@ -1,14 +1,70 @@
 export const site = {
   name: "Surjay Design & Prints",
-  legalName: "SURJAY DESIGN & PRINTS",
+  legalName: "SURJAY DESIGN & PRINT", // as registered (GST / Udyam)
+  proprietor: "Ajay Soni",
   tagline: "Premium textile dyeing, printing and finishing for B2B buyers.",
-  location: "Rajasthan, India",
-  url: "https://surjaydesignprints.com",
+  location: "Bagru, Jaipur, Rajasthan, India",
+
+  // Canonical site URL. Set NEXT_PUBLIC_SITE_URL in the environment; on Vercel the
+  // preview/production URL is injected automatically. Falls back to the live free
+  // URL so canonicals/OG tags never point at a domain that isn't live yet.
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "") ||
+    "https://surjay-design-prints.vercel.app",
+
   phone: "+91 76186 54887",
-  email: "inquiries@surjaydesignprints.com",
-  mailTo: "droptomindspark@gmail.com",
+  phoneHref: "+917618654887", // tel: links must not contain spaces
+
+  // Address shown publicly to buyers (also the one on the Udyam registration).
+  // NOTE: this file is imported by client components, so never put the private
+  // lead-delivery inbox here — it lives server-side in src/lib/leadInbox.ts.
+  email: "surjaydesign@gmail.com",
   whatsapp: "917618654887",
-  hours: "Monday to Saturday, 9:30 AM - 7:00 PM",
+  hours: "Monday to Saturday, 10:00 AM - 6:00 PM",
+  hoursShort: "Mon–Sat, 10:00–18:00",
+
+  // Timeline. Experience dates from 2010; the firm was formally registered in
+  // 2011 (per the Udyam certificate). Always present it as
+  // "16+ years of experience since 2010 · registered 2011" — never as
+  // "established 16 years ago", which the registration would contradict.
+  experienceSince: 2010,
+  registeredYear: 2011,
+
+  // Factory / works address (visitors welcome)
+  address: {
+    line1: "Plot No. D-2, SPL-1, Phase 2nd",
+    line2: "Jaipur Block, RIICO Industrial Area",
+    locality: "Bagru",
+    city: "Jaipur",
+    region: "Rajasthan",
+    postalCode: "303007",
+    country: "IN",
+    full: "Plot No. D-2, SPL-1, Phase 2nd, Jaipur Block, RIICO Industrial Area, Bagru, Jaipur, Rajasthan 303007"
+  },
+  mapsUrl: "https://maps.app.goo.gl/GRbfs3GE56gzefu5A",
+
+  // Registered office as per the GST / Udyam registrations (Jodhpur).
+  // Distinct from the Bagru works address above — both are shown publicly.
+  registeredOffice: {
+    line1: "2/1006, Kudi Bhagtasni Housing Board",
+    line2: "Basni First Phase",
+    city: "Jodhpur",
+    region: "Rajasthan",
+    postalCode: "342005",
+    country: "IN",
+    full: "2/1006, Kudi Bhagtasni Housing Board, Basni First Phase, Jodhpur, Rajasthan 342005"
+  },
+
+  // Business facts
+  employees: "40-45",
+  visitorsWelcome: true,
+
+  // Statutory registrations (publicly verifiable)
+  registrations: {
+    gstin: "08ANXPS6652G1Z5",
+    udyam: "UDYAM-RJ-22-0015640"
+  },
   keywords: [
     "Textile Manufacturer India",
     "Fabric Dyeing",
@@ -55,10 +111,10 @@ export const videoAssets = {
 };
 
 export const stats = [
-  { value: 10, suffix: "+", label: "Years of Experience" },
-  { value: 500, suffix: "+", label: "Projects Delivered" },
-  { value: 100, suffix: "+", label: "Business Clients" },
-  { value: 1000, suffix: "+", label: "Fabric Designs" }
+  { value: 16, suffix: "+", label: "Years of Experience" },
+  { value: 2500, suffix: "+", label: "Projects Delivered" },
+  { value: 80, suffix: "+", label: "Business Clients" },
+  { value: 10000, suffix: "+", label: "Fabric Designs" }
 ];
 
 export const processSteps = [
@@ -81,30 +137,6 @@ export const processSteps = [
       "Prepared fabric is dyed according to customer shade, bulk order and end-use requirements with controlled process discipline."
   },
   {
-    title: "Silicate Treatment",
-    icon: "ShieldCheck",
-    description:
-      "Silicate treatment supports color fixation and improves durability through the next stages of finishing and handling."
-  },
-  {
-    title: "Silicone Softening",
-    icon: "Waves",
-    description:
-      "Silicone softening gives the fabric a smooth, premium hand feel while improving drape and perceived finish quality."
-  },
-  {
-    title: "24 Hour Color Fixation",
-    icon: "Timer",
-    description:
-      "A controlled fixation window helps stabilize the color outcome before the fabric moves into drying and final processing."
-  },
-  {
-    title: "Drying Range",
-    icon: "Wind",
-    description:
-      "Controlled drying stabilizes colors, balances moisture and prepares the fabric for printing, pressing or dispatch."
-  },
-  {
     title: "Printing",
     icon: "Paintbrush",
     description:
@@ -123,6 +155,24 @@ export const processSteps = [
       "Hand printing brings craft-led detailing and flexible pattern execution for distinctive textile programs."
   },
   {
+    title: "Silicate Treatment",
+    icon: "ShieldCheck",
+    description:
+      "Silicate treatment supports color fixation and improves durability through the next stages of finishing and handling."
+  },
+  {
+    title: "Silicone Softening",
+    icon: "Waves",
+    description:
+      "Silicone softening gives the fabric a smooth, premium hand feel while improving drape and perceived finish quality."
+  },
+  {
+    title: "24 Hour Color Fixation",
+    icon: "Timer",
+    description:
+      "A controlled fixation window helps stabilize the color outcome before the fabric moves into pressing and final finishing."
+  },
+  {
     title: "Pressing",
     icon: "BadgeCheck",
     description:
@@ -133,6 +183,12 @@ export const processSteps = [
     icon: "MoveHorizontal",
     description:
       "Elongation control helps maintain width, dimensional stability and handling consistency across the batch."
+  },
+  {
+    title: "Drying Range",
+    icon: "Wind",
+    description:
+      "Controlled drying reduces residual moisture and stabilizes the fabric before folding, packing and dispatch."
   },
   {
     title: "Folding",
