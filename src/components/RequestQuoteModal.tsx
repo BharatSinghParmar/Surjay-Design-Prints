@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type FormValues = {
@@ -10,6 +10,7 @@ type FormValues = {
   phone: string;
   email: string;
   requirement: string;
+  website?: string; // honeypot
 };
 
 export function RequestQuoteModal({
@@ -19,38 +20,106 @@ export function RequestQuoteModal({
   open: boolean;
   onClose: () => void;
 }) {
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
     reset
   } = useForm<FormValues>();
 
+  // Lock background scroll, close on Escape, keep focus inside, restore on close.
   useEffect(() => {
     if (!open) return;
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusables = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusables?.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    // Move focus into the dialog
+    const timer = window.setTimeout(() => {
+      dialogRef.current
+        ?.querySelector<HTMLElement>("input:not([aria-hidden]), button")
+        ?.focus();
+    }, 0);
+
     return () => {
       document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeyDown);
+      window.clearTimeout(timer);
+      previouslyFocused.current?.focus?.();
     };
+  }, [open, onClose]);
+
+  // Reset transient state each time the modal is opened
+  useEffect(() => {
+    if (open) {
+      setSent(false);
+      setError("");
+    }
   }, [open]);
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
+  async function onSubmit(values: FormValues) {
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "quote", ...values })
+      });
+      const data = (await res.json().catch(() => null)) as { error?: string } | null;
+      if (!res.ok) throw new Error(data?.error || "Unable to send your request. Please try again.");
       reset();
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to send your request.");
     }
-  }, [isSubmitSuccessful, reset]);
+  }
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/70 px-4 py-6 backdrop-blur-sm">
-      <div className="w-full max-w-xl rounded-lg bg-white p-6 shadow-premium md:p-8">
+    <div
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/70 px-4 py-6 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="request-quote-title"
+        className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-lg bg-white p-6 shadow-premium md:p-8"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-magenta">
               Request Quote
             </p>
-            <h2 className="mt-2 font-heading text-2xl font-semibold text-navy">
+            <h2 id="request-quote-title" className="mt-2 font-heading text-2xl font-semibold text-navy">
               Share your fabric requirement
             </h2>
           </div>
@@ -64,18 +133,33 @@ export function RequestQuoteModal({
           </button>
         </div>
 
-        {isSubmitSuccessful ? (
-          <div className="rounded-md bg-mist p-5 text-sm leading-7 text-charcoal">
-            Thank you. The inquiry has been captured in this demo experience.
-            Connect the form action to your CRM, email service or WhatsApp flow for production.
-          </div>
-        ) : null}
+        <div role="status" aria-live="polite">
+          {sent ? (
+            <div className="rounded-md bg-mist p-5 text-sm leading-7 text-charcoal">
+              <strong className="font-semibold text-navy">Thank you — your request has been sent.</strong>
+              <br />
+              Our team will get back to you shortly. For anything urgent, message us on WhatsApp.
+            </div>
+          ) : null}
+          {error ? (
+            <div className="rounded-md bg-red-50 p-4 text-sm leading-6 text-red-700">{error}</div>
+          ) : null}
+        </div>
 
         <form
           className="mt-5 grid gap-4"
-          onSubmit={handleSubmit(() => undefined)}
+          onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
+          {/* Honeypot — hidden from humans */}
+          <input
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            {...register("website")}
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="grid gap-2 text-sm font-semibold text-navy">
               Name
@@ -134,9 +218,10 @@ export function RequestQuoteModal({
           </label>
           <button
             type="submit"
-            className="mt-2 min-h-12 rounded-md bg-magenta px-5 py-3 text-sm font-semibold text-white transition hover:bg-wine"
+            disabled={isSubmitting}
+            className="mt-2 min-h-12 rounded-md bg-magenta px-5 py-3 text-sm font-semibold text-white transition hover:bg-wine disabled:opacity-60"
           >
-            Send Inquiry
+            {isSubmitting ? "Sending…" : "Send Inquiry"}
           </button>
         </form>
       </div>

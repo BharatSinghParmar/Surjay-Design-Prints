@@ -15,34 +15,22 @@ export function useDownload() {
     console.log(`[Analytics] Downloading Resource: ${document.title} (${document.id})`);
 
     try {
-      // Fetch the file as a blob for a reliable programmatic download
-      const response = await fetch(document.pdfUrl);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-
+      // Let the browser stream the file straight to disk. Fetching into a Blob
+      // first would buffer the whole ~12 MB PDF in memory, which stalls (and can
+      // crash) low-end mobile devices.
       const link = window.document.createElement("a");
-      link.href = blobUrl;
-      link.download = document.pdfUrl.split('/').pop() || `${document.title}.pdf`;
+      link.href = document.pdfUrl;
+      link.download = document.pdfUrl.split("/").pop() || `${document.title}.pdf`;
+      link.rel = "noopener";
       window.document.body.appendChild(link);
       link.click();
-
-      // Clean up
       window.document.body.removeChild(link);
-      URL.revokeObjectURL(blobUrl);
 
       setDownloaded(true);
       setTimeout(() => setDownloaded(false), 3000);
     } catch (err) {
       console.error("[Download] Failed:", err);
-      // Fallback: direct navigation download
-      const link = window.document.createElement("a");
-      link.href = document.pdfUrl;
-      link.download = document.pdfUrl.split('/').pop() || `${document.title}.pdf`;
-      window.document.body.appendChild(link);
-      link.click();
-      window.document.body.removeChild(link);
+      window.open(document.pdfUrl, "_blank", "noopener");
     } finally {
       setIsDownloading(false);
     }

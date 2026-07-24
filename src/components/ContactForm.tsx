@@ -11,9 +11,12 @@ type ContactValues = {
   email: string;
   service: string;
   message: string;
+  website?: string; // honeypot — hidden from humans, filled by bots
 };
 
-const formSubmitEndpoint = "https://formsubmit.co/ajax/droptomindspark@gmail.com";
+// Leads are delivered server-side via /api/contact so the destination inbox is
+// never exposed in the client bundle.
+const leadEndpoint = "/api/contact";
 
 export function ContactForm() {
   const [submitMessage, setSubmitMessage] = useState<{
@@ -31,23 +34,18 @@ export function ContactForm() {
     setSubmitMessage(null);
 
     try {
-      const response = await fetch(formSubmitEndpoint, {
+      const response = await fetch(leadEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json"
         },
-        body: JSON.stringify({
-          _subject: `New inquiry from ${values.name} - ${values.service}`,
-          _template: "table",
-          _captcha: "false",
-          ...values
-        })
+        body: JSON.stringify({ type: "inquiry", ...values })
       });
-      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+      const result = (await response.json().catch(() => null)) as { error?: string } | null;
 
       if (!response.ok) {
-        throw new Error(result?.message || "Unable to send inquiry. Please try again.");
+        throw new Error(result?.error || "Unable to send inquiry. Please try again.");
       }
 
       reset();
@@ -82,6 +80,16 @@ export function ContactForm() {
           {submitMessage.text}
         </p>
       ) : null}
+
+      {/* Honeypot — visually hidden, never filled by real users */}
+      <input
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-0 w-0 opacity-0"
+        {...register("website")}
+      />
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <Field label="Name" error={errors.name?.message}>
