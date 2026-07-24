@@ -61,8 +61,18 @@ const categories = [
 ];
 
 export default async function ProductsPage() {
-  const [designs, allAttributes] = await Promise.all([listDesigns(), listAttributes()]);
-  const visibleAttributes = allAttributes.filter((a) => a.visible);
+  // The catalogue is an enhancement — if its store is unavailable (e.g. the local
+  // driver on a read-only serverless filesystem), the rest of the page must still
+  // render rather than returning a 500.
+  let designs: Awaited<ReturnType<typeof listDesigns>> = [];
+  let visibleAttributes: Awaited<ReturnType<typeof listAttributes>> = [];
+  try {
+    const [loadedDesigns, allAttributes] = await Promise.all([listDesigns(), listAttributes()]);
+    designs = loadedDesigns;
+    visibleAttributes = allAttributes.filter((a) => a.visible);
+  } catch (error) {
+    console.error("[products] design catalogue unavailable", error);
+  }
 
   return (
     <>

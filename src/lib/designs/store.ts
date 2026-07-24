@@ -34,6 +34,20 @@ async function writeJson(file: string, data: unknown): Promise<void> {
   await fs.writeFile(file, JSON.stringify(data, null, 2), "utf8");
 }
 
+/**
+ * Serverless hosts (Vercel) have a read-only, ephemeral filesystem, so this
+ * local driver cannot persist there. Writes must never take down a page that
+ * only reads — notably the public Products page. Swallow write failures and let
+ * callers fall back to defaults until a real database driver is wired in.
+ */
+async function tryWriteJson(file: string, data: unknown): Promise<void> {
+  try {
+    await writeJson(file, data);
+  } catch {
+    // read-only filesystem — non-fatal for reads
+  }
+}
+
 export function newId(): string {
   return crypto.randomUUID();
 }
@@ -46,7 +60,7 @@ function nowIso(): string {
 export async function listAttributes(): Promise<AttributeDef[]> {
   const attrs = await readJson<AttributeDef[] | null>(FILES.attributes, null);
   if (!attrs) {
-    await writeJson(FILES.attributes, DEFAULT_ATTRIBUTES);
+    await tryWriteJson(FILES.attributes, DEFAULT_ATTRIBUTES);
     return [...DEFAULT_ATTRIBUTES];
   }
   return attrs.sort((a, b) => a.sortOrder - b.sortOrder);
