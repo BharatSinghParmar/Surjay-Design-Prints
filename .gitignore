@@ -15,3 +15,6 @@ media-inbox
 .DS_Store
 **/.DS_Store
 tsconfig.tsbuildinfo
+
+# Local editor/agent config (machine-specific paths)
+.claude
