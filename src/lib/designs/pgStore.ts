@@ -63,6 +63,23 @@ export function ensureSchema(): Promise<void> {
       await q`
         CREATE INDEX IF NOT EXISTS designs_order_idx
         ON designs (featured DESC, sort_order ASC, created_at DESC)`;
+      // Admin accounts live here, not in Blob: Blob objects are publicly
+      // readable and password hashes must not be. Postgres is private.
+      await q`
+        CREATE TABLE IF NOT EXISTS admins (
+          id            TEXT PRIMARY KEY,
+          email         TEXT UNIQUE NOT NULL,
+          name          TEXT NOT NULL,
+          password_hash TEXT NOT NULL,
+          created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+        )`;
+      // Internal key/value settings — currently the session signing secret,
+      // generated on first run so no environment variable is required.
+      await q`
+        CREATE TABLE IF NOT EXISTS app_settings (
+          key   TEXT PRIMARY KEY,
+          value TEXT NOT NULL
+        )`;
       await q`
         CREATE TABLE IF NOT EXISTS design_attributes (
           id           TEXT PRIMARY KEY,
@@ -250,4 +267,86 @@ export async function pgUpsertAttribute(a: AttributeDef): Promise<AttributeDef> 
 export async function pgDeleteAttribute(id: string): Promise<void> {
   await ensureSchema();
   await db()`DELETE FROM design_attributes WHERE id = ${id}`;
+}
+
+// ── Admin accounts ─────────────────────────────────────────────────────────
+type AdminRow = {
+  id: string;
+  email: string;
+  name: string;
+  password_hash: string;
+  created_at: string | Date;
+};
+
+function toAdmin(r: AdminRow) {
+  return {
+    id: r.id,
+    email: r.email,
+    name: r.name,
+    passwordHash: r.password_hash,
+    createdAt: toIso(r.created_at)
+  };
+}
+
+export async function pgListAdmins() {
+  await ensureSchema();
+  const rows = (await db()`
+    SELECT * FROM admins ORDER BY created_at ASC`) as AdminRow[];
+  return rows.map(toAdmin);
+}
+
+export async function pgCountAdmins(): Promise<number> {
+  await ensureSchema();
+  const [{ count }] = (await db()`SELECT count(*)::int AS count FROM admins`) as {
+    count: number;
+  }[];
+  return count;
+}
+
+export async function pgCreateAdmin(admin: {
+  id: string;
+  email: string;
+  name: string;
+  passwordHash: string;
+}): Promise<boolean> {
+  await ensureSchema();
+  const rows = (await db()`
+    INSERT INTO admins (id, email, name, password_hash)
+    VALUES (${admin.id}, ${admin.email.toLowerCase()}, ${admin.name}, ${admin.passwordHash})
+    ON CONFLICT (email) DO NOTHING
+    RETURNING id`) as { id: string }[];
+  return rows.length > 0;
+}
+
+export async function pgDeleteAdmin(id: string): Promise<boolean> {
+  await ensureSchema();
+  const rows = (await db()`DELETE FROM admins WHERE id = ${id} RETURNING id`) as { id: string }[];
+  return rows.length > 0;
+}
+
+export async function pgUpdateAdminPassword(id: string, passwordHash: string): Promise<boolean> {
+  await ensureSchema();
+  const rows = (await db()`
+    UPDATE admins SET password_hash = ${passwordHash} WHERE id = ${id} RETURNING id`) as {
+    id: string;
+  }[];
+  return rows.length > 0;
+}
+
+// ── Settings ───────────────────────────────────────────────────────────────
+export async function pgGetSetting(key: string): Promise<string | null> {
+  await ensureSchema();
+  const rows = (await db()`SELECT value FROM app_settings WHERE key = ${key}`) as {
+    value: string;
+  }[];
+  return rows[0]?.value ?? null;
+}
+
+/** Insert only if absent, returning whichever value ends up stored. */
+export async function pgSetSettingIfAbsent(key: string, value: string): Promise<string> {
+  await ensureSchema();
+  await db()`
+    INSERT INTO app_settings (key, value) VALUES (${key}, ${value})
+    ON CONFLICT (key) DO NOTHING`;
+  return (await pgGetSetting(key)) ?? value;
 }

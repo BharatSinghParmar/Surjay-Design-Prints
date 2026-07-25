@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
 
@@ -10,6 +10,19 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+
+  // If nobody has claimed the panel yet, send them to first-run setup instead of
+  // showing a login form no credentials can satisfy.
+  useEffect(() => {
+    fetch("/api/admin/setup")
+      .then((res) => res.json())
+      .then((data: { needsSetup?: boolean }) => {
+        if (data?.needsSetup) router.replace("/admin/setup");
+      })
+      .catch(() => {
+        /* leave the login form in place */
+      });
+  }, [router]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();

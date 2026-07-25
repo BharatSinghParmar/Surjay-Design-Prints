@@ -3,22 +3,30 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import type { AdminUser } from "@/types/design";
+import {
+  PG_ENABLED,
+  pgListAdmins,
+  pgCountAdmins,
+  pgCreateAdmin,
+  pgDeleteAdmin,
+  pgUpdateAdminPassword,
+  pgGetSetting,
+  pgSetSettingIfAbsent
+} from "@/lib/designs/pgStore";
 
 /**
- * Admin accounts.
+ * Admin accounts, in priority order:
  *
- * In production these come from the ADMIN_USERS environment variable, never from
- * Blob storage: Blob objects are publicly readable, and password hashes must not
- * be. Environment variables are encrypted at rest by the host.
- *
- * ADMIN_USERS is a JSON array — generate it with:
- *   node scripts/create-admin.mjs
- *
- *   [{ "email": "owner@example.com", "name": "Ajay Soni", "hash": "<salt>:<hash>" }]
- *
- * Locally, if ADMIN_USERS is unset, accounts fall back to .data/admins.json so
- * development keeps working with no configuration.
+ *  1. Postgres — the normal case. Accounts are created from the app itself
+ *     (/admin/setup on first run, then the Admins page), so no CLI step and no
+ *     environment variable is needed. Safe for password hashes because, unlike
+ *     Blob, the database is not publicly readable.
+ *  2. ADMIN_USERS env var — optional override, kept for environments without a
+ *     database.
+ *  3. .data/admins.json — local development fallback.
  */
+
+const SECRET_KEY = "session_secret";
 
 function stableId(email: string): string {
   return crypto.createHash("sha256").update(email.toLowerCase()).digest("hex").slice(0, 32);
@@ -45,7 +53,7 @@ function fromEnv(): AdminUser[] {
         createdAt: "1970-01-01T00:00:00.000Z"
       }));
   } catch {
-    console.error("[auth] ADMIN_USERS is not valid JSON — no admins loaded from env");
+    console.error("[auth] ADMIN_USERS is not valid JSON — ignoring it");
     return [];
   }
 }
@@ -59,7 +67,22 @@ async function fromFile(): Promise<AdminUser[]> {
   }
 }
 
+async function appendToFile(admin: AdminUser): Promise<void> {
+  const dir = path.join(process.cwd(), ".data");
+  const file = path.join(dir, "admins.json");
+  const existing = await fromFile();
+  if (existing.some((a) => a.email.toLowerCase() === admin.email.toLowerCase())) {
+    throw new Error("An admin with that email already exists.");
+  }
+  await fs.mkdir(dir, { recursive: true });
+  await fs.writeFile(file, JSON.stringify([...existing, admin], null, 2), "utf8");
+}
+
 export async function getAdmins(): Promise<AdminUser[]> {
+  if (PG_ENABLED) {
+    const dbAdmins = await pgListAdmins();
+    if (dbAdmins.length) return dbAdmins;
+  }
   const envAdmins = fromEnv();
   if (envAdmins.length) return envAdmins;
   return fromFile();
@@ -72,4 +95,84 @@ export async function getAdminByEmail(email: string): Promise<AdminUser | null> 
 
 export async function getAdminById(id: string): Promise<AdminUser | null> {
   return (await getAdmins()).find((a) => a.id === id) ?? null;
+}
+
+export async function countAdmins(): Promise<number> {
+  if (PG_ENABLED) {
+    const count = await pgCountAdmins();
+    if (count > 0) return count;
+  }
+  return (await getAdmins()).length;
+}
+
+/** True when nobody has claimed the panel yet, so first-run setup should open. */
+export async function needsSetup(): Promise<boolean> {
+  return (await countAdmins()) === 0;
+}
+
+export async function addAdmin(input: {
+  email: string;
+  name: string;
+  passwordHash: string;
+}): Promise<AdminUser> {
+  const admin: AdminUser = {
+    id: stableId(input.email),
+    email: input.email.trim().toLowerCase(),
+    name: input.name.trim(),
+    passwordHash: input.passwordHash,
+    createdAt: new Date().toISOString()
+  };
+
+  if (PG_ENABLED) {
+    const created = await pgCreateAdmin(admin);
+    if (!created) throw new Error("An admin with that email already exists.");
+    return admin;
+  }
+  await appendToFile(admin);
+  return admin;
+}
+
+export async function removeAdmin(id: string): Promise<boolean> {
+  if (PG_ENABLED) return pgDeleteAdmin(id);
+  const existing = await fromFile();
+  const next = existing.filter((a) => a.id !== id);
+  if (next.length === existing.length) return false;
+  const file = path.join(process.cwd(), ".data", "admins.json");
+  await fs.writeFile(file, JSON.stringify(next, null, 2), "utf8");
+  return true;
+}
+
+export async function changeAdminPassword(id: string, passwordHash: string): Promise<boolean> {
+  if (PG_ENABLED) return pgUpdateAdminPassword(id, passwordHash);
+  const existing = await fromFile();
+  const idx = existing.findIndex((a) => a.id === id);
+  if (idx < 0) return false;
+  existing[idx] = { ...existing[idx], passwordHash };
+  const file = path.join(process.cwd(), ".data", "admins.json");
+  await fs.writeFile(file, JSON.stringify(existing, null, 2), "utf8");
+  return true;
+}
+
+/**
+ * Secret used to sign session cookies.
+ *
+ * Prefers AUTH_SECRET when set. Otherwise generates one on first run and stores
+ * it in the database, so production needs no manual secret. Sessions survive
+ * redeploys because the value is persisted rather than regenerated per instance.
+ */
+export async function getSessionSecret(): Promise<string> {
+  if (process.env.AUTH_SECRET) return process.env.AUTH_SECRET;
+
+  if (PG_ENABLED) {
+    const existing = await pgGetSetting(SECRET_KEY);
+    if (existing) return existing;
+    return pgSetSettingIfAbsent(SECRET_KEY, crypto.randomBytes(32).toString("base64"));
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "No session secret available: set AUTH_SECRET or configure a database."
+    );
+  }
+  return "dev-insecure-secret-change-me";
 }

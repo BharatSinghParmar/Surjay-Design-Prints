@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FileText, LogOut, Plus, Settings2, Star, Trash2, Upload, X } from "lucide-react";
+import { FileText, LogOut, Plus, Settings2, Star, Trash2, Upload, Users, X } from "lucide-react";
 import { adminApi } from "@/lib/admin/client";
 import {
   DESIGN_CATEGORIES,
@@ -149,6 +149,12 @@ export function AdminDashboard({
             <p className="text-xs text-charcoal/55">Signed in as {admin.name}</p>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href="/admin/admins"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-navy hover:bg-mist"
+            >
+              <Users className="h-4 w-4" /> Team
+            </a>
             <a
               href="/admin/attributes"
               className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-navy hover:bg-mist"

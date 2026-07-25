@@ -2,7 +2,7 @@ import "server-only";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import type { Design, AttributeDef, AdminUser, DesignCategory } from "@/types/design";
+import type { Design, AttributeDef, DesignCategory } from "@/types/design";
 import { DEFAULT_ATTRIBUTES } from "./seed";
 import { BLOB_ENABLED, readBlobJson, writeBlobJson } from "./blobStore";
 import {
@@ -161,23 +161,5 @@ export async function deleteDesign(id: string): Promise<boolean> {
   return true;
 }
 
-// ── Admin users ────────────────────────────────────────────────────────────
-export async function listAdmins(): Promise<AdminUser[]> {
-  return readJson<AdminUser[]>(FILES.admins, []);
-}
-
-export async function findAdminByEmail(email: string): Promise<AdminUser | null> {
-  const admins = await listAdmins();
-  const target = email.trim().toLowerCase();
-  return admins.find((a) => a.email.toLowerCase() === target) ?? null;
-}
-
-export async function createAdmin(admin: AdminUser): Promise<void> {
-  const admins = await listAdmins();
-  admins.push(admin);
-  await writeJson(FILES.admins, admins);
-}
-
-export async function countAdmins(): Promise<number> {
-  return (await listAdmins()).length;
-}
+// Admin accounts live in src/lib/auth/admins.ts — they are an auth concern, and
+// must never be written to Blob, which is publicly readable.

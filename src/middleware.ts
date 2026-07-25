@@ -6,7 +6,8 @@ import { SESSION_COOKIE } from "@/lib/auth/constants";
 // route via getCurrentAdmin()/requireAdmin() — a forged cookie never passes those.
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
+  const isPublicAdminRoute = pathname === "/admin/login" || pathname === "/admin/setup";
+  if (pathname.startsWith("/admin") && !isPublicAdminRoute) {
     if (!req.cookies.has(SESSION_COOKIE)) {
       const url = req.nextUrl.clone();
       url.pathname = "/admin/login";
