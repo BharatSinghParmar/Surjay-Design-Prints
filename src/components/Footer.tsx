@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Building2, Mail, MapPin, Phone, Download, Loader2, CheckCircle2 } from "lucide-react";
+import { Building2, Mail, MapPin, Phone, Download, Loader2, CheckCircle2, Lock } from "lucide-react";
 import { navItems, site } from "@/data/site";
 import { useDownload } from "@/hooks/useDownload";
 import { companyResources } from "@/data/resources";
@@ -51,6 +51,19 @@ export function Footer() {
               )}
               Download Company Profile
             </button>
+          </div>
+
+          {/* Staff entry point. Deliberately understated so it does not compete
+              with the buyer-facing call to action above. /admin decides where it
+              lands: account setup on a fresh install, otherwise sign-in. */}
+          <div className="mt-3">
+            <Link
+              href="/admin"
+              className="inline-flex min-h-11 items-center gap-2 rounded-md px-1 text-sm font-medium text-white/50 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            >
+              <Lock className="h-3.5 w-3.5" />
+              Admin Login
+            </Link>
           </div>
         </div>
 
