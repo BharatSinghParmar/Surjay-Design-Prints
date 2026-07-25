@@ -80,6 +80,16 @@ export function ensureSchema(): Promise<void> {
           key   TEXT PRIMARY KEY,
           value TEXT NOT NULL
         )`;
+      // Failed sign-in attempts. Held in the database rather than in memory
+      // because each serverless invocation may run on a different instance, so
+      // an in-process counter sees an empty bucket and blocks nothing.
+      await q`
+        CREATE TABLE IF NOT EXISTS login_attempts (
+          id  BIGSERIAL PRIMARY KEY,
+          key TEXT NOT NULL,
+          at  TIMESTAMPTZ NOT NULL DEFAULT now()
+        )`;
+      await q`CREATE INDEX IF NOT EXISTS login_attempts_key_at_idx ON login_attempts (key, at)`;
       await q`
         CREATE TABLE IF NOT EXISTS design_attributes (
           id           TEXT PRIMARY KEY,
@@ -331,6 +341,44 @@ export async function pgUpdateAdminPassword(id: string, passwordHash: string): P
     id: string;
   }[];
   return rows.length > 0;
+}
+
+// ── Failed sign-in attempts ────────────────────────────────────────────────
+/** Count recent failures for a key, pruning anything outside the window. */
+export async function pgCountAttempts(key: string, windowMs: number): Promise<number> {
+  await ensureSchema();
+  const q = db();
+  const seconds = Math.ceil(windowMs / 1000);
+  await q`DELETE FROM login_attempts WHERE at < now() - make_interval(secs => ${seconds})`;
+  const [{ count }] = (await q`
+    SELECT count(*)::int AS count FROM login_attempts
+    WHERE key = ${key} AND at > now() - make_interval(secs => ${seconds})`) as {
+    count: number;
+  }[];
+  return count;
+}
+
+export async function pgRecordAttempt(key: string): Promise<void> {
+  await ensureSchema();
+  await db()`INSERT INTO login_attempts (key) VALUES (${key})`;
+}
+
+export async function pgClearAttempts(key: string): Promise<void> {
+  await ensureSchema();
+  await db()`DELETE FROM login_attempts WHERE key = ${key}`;
+}
+
+/** Seconds until the oldest failure in the window ages out. */
+export async function pgRetryAfter(key: string, windowMs: number): Promise<number> {
+  await ensureSchema();
+  const seconds = Math.ceil(windowMs / 1000);
+  const rows = (await db()`
+    SELECT ceil(${seconds} - extract(epoch from (now() - min(at))))::int AS wait
+    FROM login_attempts
+    WHERE key = ${key} AND at > now() - make_interval(secs => ${seconds})`) as {
+    wait: number | null;
+  }[];
+  return Math.max(1, rows[0]?.wait ?? seconds);
 }
 
 // ── Settings ───────────────────────────────────────────────────────────────
