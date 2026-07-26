@@ -3,6 +3,7 @@ import { getCurrentAdmin } from "@/lib/auth/session";
 import { getAdmins } from "@/lib/auth/admins";
 import { PG_ENABLED, ensureSchema } from "@/lib/designs/pgStore";
 import { BLOB_ENABLED } from "@/lib/designs/blobStore";
+import { checkRateLimit, clearAttempts, recordFailure } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -43,6 +44,24 @@ export async function GET() {
       ? "blob (records + files)"
       : "local filesystem — will not persist in production";
 
+  // Live round-trip through the rate limiter. An in-memory counter silently does
+  // nothing on serverless (each request may hit a different instance), so prove
+  // the database-backed path actually works rather than assuming it.
+  let rateLimiter: "database" | "in-memory only" | "error" = "in-memory only";
+  let rateLimiterError: string | undefined;
+  if (PG_ENABLED) {
+    try {
+      const probe = `selftest:${Math.random().toString(36).slice(2)}`;
+      await recordFailure(probe, { limit: 1, windowMs: 60_000 });
+      const after = await checkRateLimit(probe, { limit: 1, windowMs: 60_000 });
+      await clearAttempts(probe);
+      rateLimiter = after.allowed ? "in-memory only" : "database";
+    } catch (err) {
+      rateLimiter = "error";
+      rateLimiterError = err instanceof Error ? err.message : String(err);
+    }
+  }
+
   return NextResponse.json({
     ready: Boolean(process.env.AUTH_SECRET) && configured && postgres === "ready" && BLOB_ENABLED,
     authSecretSet: Boolean(process.env.AUTH_SECRET),
@@ -51,6 +70,8 @@ export async function GET() {
     postgres,
     ...(postgresError ? { postgresError } : {}),
     blobConfigured: BLOB_ENABLED,
-    activeStorage: storage
+    activeStorage: storage,
+    rateLimiter,
+    ...(rateLimiterError ? { rateLimiterError } : {})
   });
 }

@@ -349,10 +349,10 @@ export async function pgCountAttempts(key: string, windowMs: number): Promise<nu
   await ensureSchema();
   const q = db();
   const seconds = Math.ceil(windowMs / 1000);
-  await q`DELETE FROM login_attempts WHERE at < now() - make_interval(secs => ${seconds})`;
+  await q`DELETE FROM login_attempts WHERE at < now() - (${seconds}::int * interval '1 second')`;
   const [{ count }] = (await q`
     SELECT count(*)::int AS count FROM login_attempts
-    WHERE key = ${key} AND at > now() - make_interval(secs => ${seconds})`) as {
+    WHERE key = ${key} AND at > now() - (${seconds}::int * interval '1 second')`) as {
     count: number;
   }[];
   return count;
@@ -375,7 +375,7 @@ export async function pgRetryAfter(key: string, windowMs: number): Promise<numbe
   const rows = (await db()`
     SELECT ceil(${seconds} - extract(epoch from (now() - min(at))))::int AS wait
     FROM login_attempts
-    WHERE key = ${key} AND at > now() - make_interval(secs => ${seconds})`) as {
+    WHERE key = ${key} AND at > now() - (${seconds}::int * interval '1 second')`) as {
     wait: number | null;
   }[];
   return Math.max(1, rows[0]?.wait ?? seconds);
