@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
 
-export function LoginForm() {
+export function LoginForm({ showFirstRunLink = false }: { showFirstRunLink?: boolean }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -96,6 +96,15 @@ export function LoginForm() {
             {busy ? "Signing in…" : "Sign In"}
           </button>
         </form>
+
+        {showFirstRunLink && (
+          <p className="mt-5 rounded-lg bg-mist px-3 py-2.5 text-center text-xs leading-5 text-charcoal/70">
+            No admin account exists yet.{" "}
+            <Link href="/admin/signup" className="font-semibold text-magenta underline">
+              Create the first one
+            </Link>
+          </p>
+        )}
 
         <Link
           href="/"

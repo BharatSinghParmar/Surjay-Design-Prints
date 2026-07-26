@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { needsSetup } from "@/lib/auth/admins";
 import { LoginForm } from "./LoginForm";
 
@@ -9,8 +8,8 @@ export const metadata = {
 };
 
 export default async function AdminLoginPage() {
-  // Decided on the server so a fresh install goes straight to account creation,
-  // with no redirect flash and no login form that no credentials could satisfy.
-  if (await needsSetup()) redirect("/admin/setup");
-  return <LoginForm />;
+  // The sign-up link is surfaced only while no account exists, so nobody browsing
+  // the site is ever pointed at it. Once the panel has an owner it disappears and
+  // /admin/signup requires being signed in.
+  return <LoginForm showFirstRunLink={await needsSetup()} />;
 }

@@ -4,7 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 
-export function SetupForm({ requiresToken }: { requiresToken: boolean }) {
+export function SignupForm({
+  mode,
+  requiresToken = false,
+  invitedBy
+}: {
+  mode: "first-run" | "authenticated";
+  requiresToken?: boolean;
+  invitedBy?: string;
+}) {
+  const firstRun = mode === "first-run";
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,17 +31,19 @@ export function SetupForm({ requiresToken }: { requiresToken: boolean }) {
 
     setBusy(true);
     try {
-      const res = await fetch("/api/admin/setup", {
+      // First run claims the panel and signs the owner in. Once an owner exists
+      // this becomes an ordinary "add a teammate" action by a signed-in admin.
+      const res = await fetch(firstRun ? "/api/admin/setup" : "/api/admin/admins", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, token })
+        body: JSON.stringify(firstRun ? { name, email, password, token } : { name, email, password })
       });
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      if (!res.ok) throw new Error(data?.error || "Could not complete setup.");
-      router.push("/admin");
+      if (!res.ok) throw new Error(data?.error || "Could not create the account.");
+      router.push(firstRun ? "/admin" : "/admin/admins");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not complete setup.");
+      setError(err instanceof Error ? err.message : "Could not create the account.");
       setBusy(false);
     }
   }
@@ -49,11 +60,12 @@ export function SetupForm({ requiresToken }: { requiresToken: boolean }) {
             <ShieldCheck className="h-5 w-5 text-gold" />
           </span>
           <h1 className="mt-4 font-heading text-2xl font-semibold text-navy">
-            Create your admin account
+            {firstRun ? "Create your admin account" : "Add an admin account"}
           </h1>
           <p className="mt-2 text-sm leading-6 text-charcoal/64">
-            This is a one-time setup for the Design Catalogue. You will use these details to sign in
-            from now on.
+            {firstRun
+              ? "This is a one-time setup for the Design Catalogue. You will use these details to sign in from now on."
+              : `Signed in as ${invitedBy}. The new admin will be able to manage the design catalogue.`}
           </p>
         </div>
 
@@ -141,13 +153,14 @@ export function SetupForm({ requiresToken }: { requiresToken: boolean }) {
             disabled={busy}
             className="w-full rounded-lg bg-magenta px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-wine disabled:opacity-60"
           >
-            {busy ? "Creating account…" : "Create account & sign in"}
+            {busy ? "Creating account…" : firstRun ? "Create account & sign in" : "Create admin account"}
           </button>
         </form>
 
         <p className="mt-5 text-center text-xs leading-5 text-charcoal/55">
-          Available only until the first account is created. After that, further admins are added
-          from inside the panel.
+          {firstRun
+            ? "Open only until the first account is created. After that, only a signed-in admin can add more."
+            : "Only signed-in admins can reach this page."}
         </p>
       </div>
     </main>

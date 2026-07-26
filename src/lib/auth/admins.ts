@@ -18,7 +18,7 @@ import {
  * Admin accounts, in priority order:
  *
  *  1. Postgres — the normal case. Accounts are created from the app itself
- *     (/admin/setup on first run, then the Admins page), so no CLI step and no
+ *     (/admin/signup on first run, then the Team page), so no CLI step and no
  *     environment variable is needed. Safe for password hashes because, unlike
  *     Blob, the database is not publicly readable.
  *  2. ADMIN_USERS env var — optional override, kept for environments without a

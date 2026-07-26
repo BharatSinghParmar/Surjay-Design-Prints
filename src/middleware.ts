@@ -6,7 +6,10 @@ import { SESSION_COOKIE } from "@/lib/auth/constants";
 // route via getCurrentAdmin()/requireAdmin() — a forged cookie never passes those.
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const isPublicAdminRoute = pathname === "/admin/login" || pathname === "/admin/setup";
+  // /admin/signup guards itself: open only while no account exists, then
+  // signed-in admins only. It must bypass this cookie check so a fresh install
+  // can reach it at all.
+  const isPublicAdminRoute = pathname === "/admin/login" || pathname === "/admin/signup";
   if (pathname.startsWith("/admin") && !isPublicAdminRoute) {
     if (!req.cookies.has(SESSION_COOKIE)) {
       const url = req.nextUrl.clone();
