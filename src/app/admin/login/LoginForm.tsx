@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
 
@@ -96,12 +97,12 @@ export function LoginForm() {
           </button>
         </form>
 
-        <a
+        <Link
           href="/"
           className="mt-6 block text-center text-xs text-charcoal/50 underline hover:text-charcoal"
         >
           Back to website
-        </a>
+        </Link>
       </div>
     </main>
   );
