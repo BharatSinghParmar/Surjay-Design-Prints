@@ -1,8 +1,10 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { useForm } from "react-hook-form";
+import { site } from "@/data/site";
 import { submitLead } from "@/lib/submitLead";
 
 type ContactValues = {
@@ -55,17 +57,24 @@ export function ContactForm() {
     >
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-magenta">Inquiry Form</p>
       <h2 className="mt-3 font-heading text-3xl font-semibold text-navy">Start a conversation</h2>
-      {submitMessage ? (
-        <p
-          className={`mt-4 rounded-md p-4 text-sm ${
-            submitMessage.type === "success" ? "bg-mist text-charcoal/75" : "bg-red-50 text-red-700"
-          }`}
-          role="status"
-          aria-live="polite"
-        >
-          {submitMessage.text}
-        </p>
-      ) : null}
+      <AnimatePresence>
+        {submitMessage ? (
+          <motion.p
+            key={submitMessage.type}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+            className={`mt-4 rounded-md p-4 text-sm ${
+              submitMessage.type === "success" ? "bg-mist text-charcoal/75" : "bg-red-50 text-red-700"
+            }`}
+            role="status"
+            aria-live="polite"
+          >
+            {submitMessage.text}
+          </motion.p>
+        ) : null}
+      </AnimatePresence>
 
       {/* Honeypot — visually hidden, never filled by real users */}
       <input
@@ -123,6 +132,18 @@ export function ContactForm() {
       >
         {isSubmitting ? "Sending..." : "Submit Inquiry"}
       </button>
+      <p className="mt-4 text-center text-sm text-charcoal/60">
+        Prefer to talk directly?{" "}
+        <a
+          href={`https://wa.me/${site.whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-magenta hover:text-wine"
+        >
+          Message us on WhatsApp
+        </a>
+        .
+      </p>
     </form>
   );
 }

@@ -4,6 +4,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { FactoryMap } from "@/components/FactoryMap";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
+import { PrintBackdrop } from "@/components/PrintBackdrop";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ResourceCard } from "@/components/ResourceCard";
@@ -42,42 +43,47 @@ export default function ContactPage() {
       />
       <Breadcrumbs items={[{ name: "Contact", href: "/contact" }]} />
 
+      {/* Reach-us cards run full width above the fold, so the form and the map
+          sit side by side as two comparable columns below — the form no longer
+          trails past a stack of details after "Submit Inquiry". */}
       <section className="py-20 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
-          <div>
-            <SectionHeading
-              eyebrow="Rajasthan, India"
-              title="Connect with Surjay Design & Prints."
-              body="The company supplies wholesalers, garment manufacturers, textile traders and bulk buyers with dyeing, printing and finishing support."
-            />
-            <div className="mt-8 grid gap-4">
-              <Reveal>
-                <FactoryMap />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Rajasthan, India"
+            title="Connect with Surjay Design & Prints."
+            body="The company supplies wholesalers, garment manufacturers, textile traders and bulk buyers with dyeing, printing and finishing support."
+            align="center"
+          />
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {contactItems.map((item) => (
+              <Reveal key={item.title} className="rounded-lg border border-slate-200 bg-white p-5">
+                <item.icon className="h-6 w-6 text-magenta" />
+                <h3 className="mt-4 font-heading text-lg font-semibold text-navy">{item.title}</h3>
+                {item.href ? (
+                  <a className="mt-2 block text-sm text-charcoal/72 hover:text-magenta" href={item.href}>
+                    {item.value}
+                  </a>
+                ) : (
+                  <p className="mt-2 text-sm text-charcoal/72">{item.value}</p>
+                )}
               </Reveal>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {contactItems.map((item) => (
-                  <Reveal key={item.title} className="rounded-lg border border-slate-200 p-5">
-                    <item.icon className="h-6 w-6 text-magenta" />
-                    <h3 className="mt-4 font-heading text-lg font-semibold text-navy">{item.title}</h3>
-                    {item.href ? (
-                      <a className="mt-2 block text-sm text-charcoal/72 hover:text-magenta" href={item.href}>
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="mt-2 text-sm text-charcoal/72">{item.value}</p>
-                    )}
-                  </Reveal>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
-          <ContactForm />
+
+          <div className="mt-12 grid items-start gap-10 lg:grid-cols-2">
+            <ContactForm />
+            <Reveal>
+              <FactoryMap />
+            </Reveal>
+          </div>
         </div>
       </section>
 
       {/* ── RESOURCE CENTER ────────────────────────────────────────────── */}
-      <section className="bg-mist py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-mist py-20 md:py-28">
+        <PrintBackdrop tone="light" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Company Profile"
             title="Need more information before reaching out?"
