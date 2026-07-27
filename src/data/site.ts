@@ -91,25 +91,144 @@ export const navItems = [
   { href: "/contact", label: "Contact" }
 ];
 
+/**
+ * Photography from the Bagru factory, processed by scripts/process-media.mjs
+ * from the originals in media-inbox/photos/<PROCESS>/. Keys are grouped and
+ * named by the manufacturing stage the photo actually shows, so a slot can
+ * never quietly drift onto the wrong process.
+ *
+ * Every manufacturing step on the site holds its own image — nothing is shared
+ * between steps. Where a process appears on more than one page, the pages take
+ * different photos from that folder. See the script header for the full rules.
+ */
 export const imageAssets = {
-  // Original AI-generated placeholders (kept as fallback)
-  hero: "/images/printing-textile.jpeg",
-  dyeing: "/images/dying-textile-2.jpeg",
-  printing: "/images/printing-textile-2.jpeg",
-  // Real factory photography
-  rawFabric: "/images/raw-fabric.jpeg",
-  dyeingMachine: "/images/dying-textile.jpeg",
-  dyeingMachine2: "/images/dying-textile-2.jpeg",
-  dyedPress: "/images/dyed-cloth-press.jpeg",
-  printingHall: "/images/printing-textile.jpeg",
-  printingFabric: "/images/printing-textile-2.jpeg",
-  ceo: "/images/ceo.jpeg"
+  hero: "/images/hand-print-hall.jpg", // red bandana print down the printing hall
+
+  // Raw fabric
+  rawBales: "/images/raw-bales.jpg",
+  rawRolls: "/images/raw-rolls.jpg",
+
+  // Ready for dyeing
+  rfdPile: "/images/rfd-pile.jpg",
+  rfdRoller: "/images/rfd-roller.jpg",
+  rfdBeam: "/images/rfd-beam.jpg",
+  rfdWinding: "/images/rfd-winding.jpg", // still pulled from the 4K RFD clip
+
+  // Fabric cleaning and preparation
+  cleaningTank: "/images/cleaning-tank.jpg",
+  cleaningTrolley: "/images/cleaning-trolley.jpg",
+  cleaningRollers: "/images/cleaning-rollers.jpg",
+  cleaningPile: "/images/cleaning-pile.jpg",
+  cleaningBeam: "/images/cleaning-beam.jpg",
+
+  // Dyeing
+  dyeingMachine: "/images/dyeing-machine.jpg",
+  dyeDrum: "/images/dye-drum.jpg",
+
+  // Silicate fixation and silicone softening
+  silicateTreatment: "/images/silicate-treatment.jpg",
+  siliconeTreatment: "/images/silicone-treatment.jpg",
+  siliconeMagenta: "/images/silicone-magenta.jpg",
+
+  // 24-hour colour fixation
+  fixationStock: "/images/fixation-stock.jpg",
+
+  // Screen printing
+  printGreen: "/images/print-green.jpg",
+  printGreenScreen: "/images/print-green-screen.jpg",
+  printTableDark: "/images/print-table-dark.jpg",
+  printMono: "/images/print-mono.jpg",
+  printMonoScreen: "/images/print-mono-screen.jpg",
+
+  // Hand printing
+  handPrintHall: "/images/hand-print-hall.jpg",
+  handPrintTable: "/images/hand-print-table.jpg",
+  handPrintDetail: "/images/hand-print-detail.jpg",
+
+  // Design and screen preparation
+  designSetup: "/images/design-setup.jpg",
+  designScreen: "/images/design-screen.jpg",
+  designScreenPortrait: "/images/design-screen-portrait.jpg",
+  screenFrame: "/images/screen-frame.jpg",
+
+  // Pressing, elongation, drying
+  pressingLine: "/images/pressing-line.jpg",
+  pressingRollers: "/images/pressing-rollers.jpg",
+  elongationLoops: "/images/elongation-loops.jpg",
+  elongationLine: "/images/elongation-line.jpg",
+  elongationFeed: "/images/elongation-feed.jpg",
+  elongationRoll: "/images/elongation-roll.jpg",
+  dryingColour: "/images/drying-colour.jpg",
+  dryingWhite: "/images/drying-white.jpg",
+
+  // Folding, inspection, packing, dispatch
+  folding: "/images/folding.jpg",
+  foldingDetail: "/images/folding-detail.jpg",
+  qualityInspection: "/images/quality-inspection.jpg",
+  qualityTable: "/images/quality-table.jpg",
+  packaging: "/images/packaging.jpg",
+  marketReady: "/images/market-ready.jpg",
+  marketReadyWide: "/images/market-ready-wide.jpg",
+  marketReadyRolls: "/images/market-ready-rolls.jpg",
+
+  ceo: "/images/ceo.jpeg" // awaiting a new founder portrait
 };
 
+/**
+ * Factory footage from media-inbox/videos/<PROCESS>/, re-encoded to short loops.
+ * Each folder's longest clip wins; the three screenPrinting* entries are separate
+ * segments of one 20-second take, so the home hero, the process page and the
+ * gallery each show a different part of the printing hall.
+ *
+ * The clips KEEP their live factory audio (mono AAC). Inline players mute via the
+ * `muted` attribute; only VideoLightbox lets a visitor unmute.
+ *
+ * Stages with no clip, and why:
+ *   FOLDING, PACKAGING          — only ever photographed
+ *   raw fabric (2s)             — too short to loop
+ *   24 HOUR FABRIC PRESERVE     — 1.6s, too short to loop
+ *   SILICATE TREATMENT          — has footage, but the silicone clip already
+ *                                 covers the same padding line; the stage uses
+ *                                 its own still (silicate-treatment.jpg)
+ * Those stages use stills instead.
+ */
 export const videoAssets = {
-  printingMachine: "/videos/printing-machine.mp4",
-  dyeingProcess: "/videos/dying-process.mp4",
-  printingTextile: "/videos/printing-textile.mp4"
+  screenPrinting: "/videos/screen-printing.mp4",
+  screenPrintingTable: "/videos/screen-printing-table.mp4",
+  screenPrintingRun: "/videos/screen-printing-run.mp4",
+  handPrinting: "/videos/hand-printing.mp4",
+  dyeing: "/videos/dyeing.mp4",
+  dyeDrum: "/videos/dye-drum.mp4",
+  fabricCleaning: "/videos/fabric-cleaning.mp4",
+  rfd: "/videos/rfd.mp4",
+  silicone: "/videos/silicone.mp4",
+  pressing: "/videos/pressing.mp4",
+  elongation: "/videos/elongation.mp4",
+  elongationRun: "/videos/elongation-run.mp4",
+  elongationWide: "/videos/elongation-wide.mp4",
+  dryingRange: "/videos/drying-range.mp4",
+  qualityInspection: "/videos/quality-inspection.mp4",
+  marketReady: "/videos/market-ready.mp4"
+};
+
+/** Poster frame for each video, keyed the same way and cut from the encoded clip. */
+export const videoPosters: Record<keyof typeof videoAssets, string> = {
+  screenPrinting: "/images/screen-printing-poster.jpg",
+  screenPrintingTable: "/images/screen-printing-table-poster.jpg",
+  screenPrintingRun: "/images/screen-printing-run-poster.jpg",
+  handPrinting: "/images/hand-printing-poster.jpg",
+  dyeing: "/images/dyeing-poster.jpg",
+  dyeDrum: "/images/dye-drum-poster.jpg",
+  fabricCleaning: "/images/fabric-cleaning-poster.jpg",
+  rfd: "/images/rfd-poster.jpg",
+  silicone: "/images/silicone-poster.jpg",
+  pressing: "/images/pressing-poster.jpg",
+  elongation: "/images/elongation-poster.jpg",
+  elongationRun: "/images/elongation-run-poster.jpg",
+  elongationWide: "/images/elongation-wide-poster.jpg",
+  dryingRange: "/images/drying-range-poster.jpg",
+  qualityInspection: "/images/quality-inspection-poster.jpg",
+  marketReady: "/images/market-ready-poster.jpg"
 };
 
 export const stats = [
@@ -221,28 +340,28 @@ export const processSteps = [
 export const productCategories = [
   {
     title: "Printed Fabrics",
-    image: "/images/printing-textile-2.jpeg",
+    image: imageAssets.printMono,
     description:
       "Screen printed and hand printed fabrics developed for wholesalers, garment manufacturers and textile traders.",
     applications: ["Apparel", "Ethnic wear", "Home textiles", "Trade inventory"]
   },
   {
     title: "Dyed Fabrics",
-    image: "/images/dyed-product.jpeg",
+    image: imageAssets.siliconeMagenta,
     description:
       "Bulk dyed fabrics processed with attention to shade consistency, softness, finish and dispatch presentation.",
     applications: ["Garment manufacturing", "Resale", "Uniform fabric", "Seasonal ranges"]
   },
   {
     title: "Custom Fabrics",
-    image: "/images/products-to-sell.jpeg",
+    image: imageAssets.designSetup,
     description:
       "Customer-led dyeing, printing and finishing programs shaped around design direction, quantity and market needs.",
     applications: ["Private labels", "Custom patterns", "Regional ranges", "Buyer programs"]
   },
   {
     title: "Bulk Manufacturing",
-    image: "/images/printing-textile.jpeg",
+    image: imageAssets.marketReadyWide,
     description:
       "Organized fabric processing for buyers who need dependable capacity, repeatable quality and transparent execution.",
     applications: ["Wholesalers", "Textile traders", "Bulk buyers", "Export-ready supply"]
