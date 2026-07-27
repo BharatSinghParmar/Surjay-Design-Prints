@@ -36,7 +36,7 @@ export default function PrivacyPage() {
         eyebrow="Legal"
         title="Privacy Policy"
         body="How we handle the information you share with us through this website."
-        image={imageAssets.rawFabric}
+        image={imageAssets.rawBales}
       />
       <Breadcrumbs items={[{ name: "Privacy Policy", href: "/privacy" }]} />
 

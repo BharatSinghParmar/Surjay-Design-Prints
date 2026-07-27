@@ -5,7 +5,7 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { imageAssets, videoAssets } from "@/data/site";
+import { imageAssets, videoAssets, videoPosters } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -20,19 +20,19 @@ const methods = [
     icon: PanelsTopLeft,
     title: "Screen Printing",
     body: "A dependable method for repeat designs, controlled coverage and commercial-scale printed fabric programs.",
-    img: imageAssets.printingHall
+    img: imageAssets.printGreen
   },
   {
     icon: Paintbrush,
     title: "Hand Printing",
     body: "Craft-led printing for distinctive patterns, specialty looks and flexible customer-led textile development.",
-    img: imageAssets.printingFabric
+    img: imageAssets.handPrintTable
   },
   {
     icon: DraftingCompass,
     title: "Custom Pattern Development",
     body: "Design direction, color needs and fabric use case are translated into practical print execution for business buyers.",
-    img: imageAssets.dyeingMachine2
+    img: imageAssets.screenFrame
   }
 ];
 
@@ -65,10 +65,9 @@ export default function PrintingMethodsPage() {
           loop
           playsInline
           className="absolute inset-0 h-full w-full object-cover"
-          poster={imageAssets.printingFabric}
+          poster={videoPosters.handPrinting}
         >
-          <source src={videoAssets.printingTextile} type="video/mp4" />
-          <source src={videoAssets.printingMachine} type="video/mp4" />
+          <source src={videoAssets.handPrinting} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/65 to-navy/30" />
         <div className="absolute inset-0 fabric-noise opacity-30" />
@@ -107,6 +106,7 @@ export default function PrintingMethodsPage() {
                     src={method.img}
                     alt={method.title}
                     fill
+          sizes="(min-width: 768px) 33vw, 100vw"
                     className="object-cover opacity-60 transition duration-700 group-hover:scale-105 group-hover:opacity-75"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy to-transparent" />
@@ -125,8 +125,8 @@ export default function PrintingMethodsPage() {
       {/* ── PRINTING HALL PANORAMIC ─────────────────────────────── */}
       <section className="relative h-[60vh] min-h-[380px] overflow-hidden">
         <Image
-          src={imageAssets.printingHall}
-          alt="Printing hall at Surjay Design and Prints — long tables with fabric"
+          src={imageAssets.handPrintHall}
+          alt="Printing hall at Surjay Design and Prints — red bandana print down the tables"
           fill
           className="object-cover"
           sizes="100vw"
@@ -149,8 +149,8 @@ export default function PrintingMethodsPage() {
           <Reveal>
             <div className="overflow-hidden rounded-2xl shadow-premium">
               <Image
-                src={imageAssets.printingFabric}
-                alt="Beautifully printed teal and blue patterned fabric on printing table"
+                src={imageAssets.printMono}
+                alt="Monochrome paisley print running on the table"
                 width={900}
                 height={700}
                 className="aspect-[4/3] w-full object-cover"
@@ -204,9 +204,9 @@ export default function PrintingMethodsPage() {
           />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {[
-              { img: imageAssets.printingHall, alt: "Printing hall with red patterned fabric on long tables" },
-              { img: imageAssets.printingFabric, alt: "Beautifully printed blue fabric panoramic" },
-              { img: imageAssets.dyeingMachine2, alt: "Dyeing and fabric processing machinery" }
+              { img: imageAssets.printMonoScreen, alt: "Monochrome print run with the screen in position" },
+              { img: imageAssets.printGreenScreen, alt: "Green screen print lifted over the table" },
+              { img: imageAssets.handPrintDetail, alt: "Finished hand printed bandana fabric detail" }
             ].map((item, index) => (
               <Reveal key={index} className="group overflow-hidden rounded-2xl">
                 <Image

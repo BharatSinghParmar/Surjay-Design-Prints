@@ -6,7 +6,8 @@ import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { imageAssets, videoAssets, infrastructure } from "@/data/site";
+import { VideoCard } from "@/components/VideoCard";
+import { imageAssets, videoAssets, videoPosters, infrastructure } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -27,11 +28,11 @@ const ecoFeatures = [
 
 const infraImages = [
   { img: imageAssets.dyeingMachine, label: "Dyeing Machines", desc: "Industrial dyeing line for shade consistency across bulk fabric orders." },
-  { img: imageAssets.printingHall, label: "Printing Tables", desc: "Long-table screen printing setup for repeat and custom textile programs." },
-  { img: imageAssets.dyedPress, label: "Pressing Line", desc: "Fabric pressing for clean finish, dimensional stability and market presentation." },
-  { img: imageAssets.dyeingMachine2, label: "Processing Line", desc: "Silicate treatment, silicone softening and 24-hour fixation for quality output." },
-  { img: imageAssets.rawFabric, label: "Raw Fabric Storage", desc: "Grey fabrics sourced from South India and Bhiwandi — stored for production flow." },
-  { img: imageAssets.printingFabric, label: "Finished Fabric", desc: "Market-ready fabric ready for quality inspection, folding and dispatch." }
+  { img: imageAssets.printGreenScreen, label: "Printing Tables", desc: "Long-table screen printing setup for repeat and custom textile programs." },
+  { img: imageAssets.pressingLine, label: "Pressing Line", desc: "Fabric pressing for clean finish, dimensional stability and market presentation." },
+  { img: imageAssets.siliconeTreatment, label: "Processing Line", desc: "Silicate treatment, silicone softening and 24-hour fixation for quality output." },
+  { img: imageAssets.rawBales, label: "Raw Fabric Storage", desc: "Grey fabrics sourced from South India and Bhiwandi — stored for production flow." },
+  { img: imageAssets.marketReadyWide, label: "Finished Fabric", desc: "Market-ready fabric ready for quality inspection, folding and dispatch." }
 ];
 
 export default function InfrastructurePage() {
@@ -47,7 +48,7 @@ export default function InfrastructurePage() {
         eyebrow="Infrastructure"
         title="Factory capability designed for textile production discipline."
         body="From dyeing machines and printing tables to drying, folding and inspection, infrastructure supports reliable business supply."
-        image={imageAssets.printingHall}
+        image={imageAssets.printTableDark}
       />
       <Breadcrumbs items={[{ name: "Infrastructure", href: "/infrastructure" }]} />
 
@@ -83,8 +84,8 @@ export default function InfrastructurePage() {
       {/* ── PRINTING HALL FULL-WIDTH ───────────────────────────── */}
       <section className="relative h-[55vh] min-h-[360px] overflow-hidden">
         <Image
-          src={imageAssets.printingHall}
-          alt="Massive printing hall at Surjay Design and Prints"
+          src={imageAssets.printGreen}
+          alt="Green print repeat running the length of the printing table"
           fill
           className="object-cover"
           sizes="100vw"
@@ -107,22 +108,18 @@ export default function InfrastructurePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <Reveal>
-              <div className="relative overflow-hidden rounded-2xl shadow-premium">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="aspect-video w-full object-cover"
-                  poster={imageAssets.dyeingMachine}
-                >
-                  <source src={videoAssets.printingMachine} type="video/mp4" />
-                </video>
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 to-transparent p-5">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gold">Live Factory</p>
-                  <p className="mt-1 text-sm font-semibold text-white">Printing Machine in Operation</p>
-                </div>
-              </div>
+              <VideoCard
+                src={videoAssets.elongationWide}
+                poster={videoPosters.elongationWide}
+                label="Elongation line in operation"
+                preview="autoplay"
+                overlay={
+                  <>
+                    <span className="block text-xs font-bold uppercase tracking-widest text-gold">Live Factory</span>
+                    <span className="mt-1 block text-sm font-semibold text-white">Elongation Line in Operation</span>
+                  </>
+                }
+              />
             </Reveal>
             <div>
               <SectionHeading
@@ -220,9 +217,10 @@ export default function InfrastructurePage() {
       {/* ── PRODUCTION CAPACITY ────────────────────────────────── */}
       <section className="relative overflow-hidden bg-navy py-20 text-white md:py-28">
         <Image
-          src={imageAssets.printingFabric}
-          alt="Production capacity visual"
+          src={imageAssets.dryingColour}
+          alt=""
           fill
+          sizes="100vw"
           className="object-cover opacity-10"
         />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

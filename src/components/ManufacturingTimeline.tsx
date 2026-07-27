@@ -43,7 +43,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Grey fabric is sourced from established textile supply hubs and checked for suitability before processing begins.",
     purpose: "Gives buyers confidence that the base fabric is selected for construction, consistency and order requirement.",
     duration: "0.5 day",
-    image: imageAssets.rawFabric,
+    image: imageAssets.rawBales,
     icon: PackageSearch
   },
   {
@@ -52,7 +52,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Fabric is moved into an RFD-ready state so it can absorb dye evenly and respond predictably in processing.",
     purpose: "Creates a dependable foundation for shade matching, print clarity and repeat batch outcomes.",
     duration: "2-4 hrs",
-    image: imageAssets.dyeingMachine,
+    image: imageAssets.rfdWinding,
     icon: Sparkles
   },
   {
@@ -61,7 +61,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Dust, handling residue and loose impurities are reduced before the fabric enters wet processing.",
     purpose: "Improves absorbency and reduces defects that can show up later during dyeing or printing.",
     duration: "3-5 hrs",
-    image: imageAssets.dyeingMachine2,
+    image: imageAssets.cleaningTank,
     icon: Droplets
   },
   {
@@ -79,7 +79,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Approved designs are applied to the dyed fabric using the method best suited to the order.",
     purpose: "Turns processed cloth into commercially distinctive fabric for garment, wholesale and trade buyers.",
     duration: "6-12 hrs",
-    image: imageAssets.printingHall,
+    image: imageAssets.printGreenScreen,
     icon: Paintbrush
   },
   {
@@ -88,7 +88,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Screens support sharp pattern repeats and controlled coverage for larger commercial runs.",
     purpose: "Creates scalable print consistency across bulk fabric orders.",
     duration: "4-8 hrs",
-    image: "/images/screen-printing.png",
+    image: imageAssets.printMonoScreen,
     icon: PanelsTopLeft
   },
   {
@@ -97,7 +97,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Skilled hands handle craft-led pattern work where flexible detailing or specialty execution is required.",
     purpose: "Adds human finish and design character for fabric programs that need a more distinctive surface.",
     duration: "6-10 hrs",
-    image: imageAssets.printingFabric,
+    image: imageAssets.handPrintTable,
     icon: Hand
   },
   {
@@ -106,7 +106,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "A fixation treatment supports stronger color hold before the fabric moves to finishing stages.",
     purpose: "Helps preserve shade and print performance through finishing, folding and commercial handling.",
     duration: "2-3 hrs",
-    image: imageAssets.dyeingMachine2,
+    image: imageAssets.silicateTreatment,
     icon: ShieldCheck
   },
   {
@@ -115,7 +115,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Silicone finishing gives the fabric a smoother hand feel and a more polished visual surface.",
     purpose: "Improves perceived quality, drape and buyer appeal when the fabric reaches market shelves.",
     duration: "2-3 hrs",
-    image: "/images/dyeing-finishing.png",
+    image: imageAssets.siliconeTreatment,
     icon: Waves
   },
   {
@@ -124,7 +124,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "The treated fabric rests in a controlled preservation period before the next mechanical stage.",
     purpose: "Allows shade, chemistry and moisture behavior to stabilize before pressing and final finishing.",
     duration: "24 hrs",
-    image: imageAssets.printingFabric,
+    image: imageAssets.fixationStock,
     icon: Timer
   },
   {
@@ -133,7 +133,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "The fabric is pressed to smooth the surface and improve its finished commercial appearance.",
     purpose: "Makes the fabric easier to inspect, fold, present and dispatch.",
     duration: "2-4 hrs",
-    image: imageAssets.dyedPress,
+    image: imageAssets.pressingLine,
     icon: BadgeCheck
   },
   {
@@ -142,7 +142,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Width, stretch and handling behavior are stabilized before final inspection and packing.",
     purpose: "Reduces surprises for garment manufacturers and repeat bulk buyers.",
     duration: "1-2 hrs",
-    image: imageAssets.dyedPress,
+    image: imageAssets.elongationFeed,
     icon: MoveHorizontal
   },
   {
@@ -151,7 +151,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Fabric passes through the drying range so residual moisture is reduced and the batch becomes ready for folding, packing and dispatch.",
     purpose: "Protects fabric handle, presentation and downstream finishing consistency before packaging.",
     duration: "4-6 hrs",
-    image: "/images/dyeing-finishing.png",
+    image: imageAssets.dryingColour,
     icon: Wind
   },
   {
@@ -160,7 +160,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Approved fabric is folded into a buyer-friendly format for easier storage, transport and resale.",
     purpose: "Preserves presentation and reduces handling friction for trade and garment customers.",
     duration: "1-2 hrs",
-    image: imageAssets.rawFabric,
+    image: imageAssets.folding,
     icon: Layers
   },
   {
@@ -169,7 +169,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "The batch is checked for shade, print clarity, finish, fabric feel and visible processing issues.",
     purpose: "Catches avoidable issues before fabric reaches the buyer's cutting table or market counter.",
     duration: "2-4 hrs",
-    image: imageAssets.printingFabric,
+    image: imageAssets.qualityInspection,
     icon: SearchCheck
   },
   {
@@ -178,7 +178,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "Finished fabric is packed securely so it can move through logistics without losing presentation quality.",
     purpose: "Protects finished goods and helps buyers receive shelf-ready or production-ready fabric.",
     duration: "1-2 hrs",
-    image: "/images/products-to-sell.jpeg",
+    image: imageAssets.packaging,
     icon: PackageCheck
   },
   {
@@ -187,7 +187,7 @@ const manufacturingSteps: TimelineStep[] = [
     description: "The final fabric lot is ready for wholesalers, garment manufacturers, textile traders and bulk buyers.",
     purpose: "Completes the conversion from raw fabric into reliable business-ready inventory.",
     duration: "Dispatch ready",
-    image: imageAssets.printingFabric,
+    image: imageAssets.marketReady,
     icon: Truck
   }
 ];

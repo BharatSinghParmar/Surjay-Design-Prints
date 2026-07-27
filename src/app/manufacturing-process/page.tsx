@@ -6,7 +6,8 @@ import { PageHero } from "@/components/PageHero";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { imageAssets, videoAssets } from "@/data/site";
+import { VideoCard } from "@/components/VideoCard";
+import { imageAssets, videoAssets, videoPosters } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -18,25 +19,25 @@ export const metadata = pageMetadata({
 
 const processHighlights = [
   {
-    img: imageAssets.rawFabric,
+    img: imageAssets.rawRolls,
     step: "01",
     title: "Raw Fabric Procurement",
     desc: "Grey fabrics sourced from South India and Bhiwandi — selected for consistency, construction and buyer requirements."
   },
   {
-    img: imageAssets.dyeingMachine,
+    img: imageAssets.rfdBeam,
     step: "02",
     title: "RFD & Dyeing",
     desc: "Fabric is cleaned, prepared and dyed to precise shade specifications with controlled process discipline."
   },
   {
-    img: imageAssets.printingHall,
+    img: imageAssets.printMono,
     step: "03",
     title: "Printing",
     desc: "Screen printing and hand printing for commercial-scale fabric programs and custom design development."
   },
   {
-    img: imageAssets.dyedPress,
+    img: imageAssets.pressingRollers,
     step: "04",
     title: "Pressing & Finishing",
     desc: "Pressing, elongation, folding and final inspection to deliver market-ready fabric to every buyer."
@@ -56,7 +57,7 @@ export default function ManufacturingProcessPage() {
         eyebrow="Manufacturing Process"
         title="A visual textile journey from raw fabric to market-ready products."
         body="Each process stage supports consistency, finish quality and dispatch confidence for B2B textile buyers."
-        image={imageAssets.dyeingMachine2}
+        image={imageAssets.printGreenScreen}
       />
       <Breadcrumbs items={[{ name: "Manufacturing Process", href: "/manufacturing-process" }]} />
 
@@ -96,21 +97,12 @@ export default function ManufacturingProcessPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <Reveal>
-              <div className="relative overflow-hidden rounded-2xl shadow-premium">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="aspect-video w-full object-cover"
-                  poster={imageAssets.dyeingMachine}
-                >
-                  <source src={videoAssets.dyeingProcess} type="video/mp4" />
-                </video>
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 to-transparent p-5">
-                  <span className="text-sm font-semibold text-white">Live: Dyeing Process</span>
-                </div>
-              </div>
+              <VideoCard
+                src={videoAssets.dyeing}
+                poster={videoPosters.dyeing}
+                label="Live: Dyeing Process"
+                preview="autoplay"
+              />
             </Reveal>
             <Reveal delay={0.1}>
               <SectionHeading
@@ -143,8 +135,8 @@ export default function ManufacturingProcessPage() {
           <div className="mt-14 grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
             <div className="sticky top-28 hidden overflow-hidden rounded-2xl shadow-premium lg:block">
               <Image
-                src={imageAssets.dyedPress}
-                alt="Fabric pressing and finishing process at Surjay Design & Prints"
+                src={imageAssets.handPrintDetail}
+                alt="Hand printed bandana fabric detail at Surjay Design & Prints"
                 width={720}
                 height={900}
                 className="aspect-[4/5] w-full object-cover"
@@ -162,9 +154,10 @@ export default function ManufacturingProcessPage() {
       {/* ── PRINTING PROCESS VIDEO ────────────────────────────── */}
       <section className="relative overflow-hidden bg-navy py-20 text-white md:py-28">
         <Image
-          src={imageAssets.printingFabric}
-          alt="Printing process background"
+          src={imageAssets.printMonoScreen}
+          alt=""
           fill
+          sizes="100vw"
           className="object-cover opacity-15"
         />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -184,18 +177,12 @@ export default function ManufacturingProcessPage() {
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <div className="relative overflow-hidden rounded-2xl shadow-premium">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="aspect-video w-full object-cover"
-                  poster={imageAssets.printingHall}
-                >
-                  <source src={videoAssets.printingMachine} type="video/mp4" />
-                </video>
-              </div>
+              <VideoCard
+                src={videoAssets.screenPrintingTable}
+                poster={videoPosters.screenPrintingTable}
+                label="Screen printing — table run"
+                preview="autoplay"
+              />
             </Reveal>
           </div>
         </div>

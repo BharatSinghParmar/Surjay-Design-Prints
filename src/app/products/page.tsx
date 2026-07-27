@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ButtonLink } from "@/components/ButtonLink";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
+import { PrintBackdrop } from "@/components/PrintBackdrop";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Newsletter } from "@/components/Newsletter";
@@ -24,7 +25,7 @@ export const dynamic = "force-dynamic";
 const categories = [
   {
     title: "Printed Fabrics",
-    image: imageAssets.printingFabric,
+    image: imageAssets.printGreen,
     tag: "01",
     description:
       "Screen printed and hand printed fabrics developed for wholesalers, garment manufacturers and textile traders.",
@@ -33,7 +34,7 @@ const categories = [
   },
   {
     title: "Dyed Fabrics",
-    image: "/images/dyed-product.jpeg",
+    image: imageAssets.fixationStock,
     tag: "02",
     description:
       "Bulk dyed fabrics processed with attention to shade consistency, softness, finish and dispatch presentation.",
@@ -42,7 +43,7 @@ const categories = [
   },
   {
     title: "Custom Fabrics",
-    image: "/images/products-to-sell.jpeg",
+    image: imageAssets.designScreen,
     tag: "03",
     description:
       "Customer-led dyeing, printing and finishing programs shaped around design direction, quantity and market needs.",
@@ -51,7 +52,7 @@ const categories = [
   },
   {
     title: "Bulk Manufacturing",
-    image: imageAssets.printingHall,
+    image: imageAssets.rawBales,
     tag: "04",
     description:
       "Organized fabric processing for buyers who need dependable capacity, repeatable quality and transparent execution.",
@@ -86,7 +87,7 @@ export default async function ProductsPage() {
         eyebrow="Products"
         title="Market-ready fabric categories for serious B2B textile buyers."
         body="Surjay Design & Prints supports printed, dyed, custom and bulk manufacturing needs through organized fabric processing."
-        image={imageAssets.printingFabric}
+        image={imageAssets.printMonoScreen}
       />
       <Breadcrumbs items={[{ name: "Products", href: "/products" }]} />
 
@@ -163,8 +164,9 @@ export default async function ProductsPage() {
       </section>
 
       {/* ── PRODUCT IMAGES HORIZONTAL STRIP ──────────────────── */}
-      <section className="overflow-hidden bg-navy py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-navy py-20">
+        <PrintBackdrop />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Fabric Varieties"
             title="From the factory to your supply chain."
@@ -173,9 +175,9 @@ export default async function ProductsPage() {
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-3">
             {[
-              { img: "/images/dyed-product.jpeg", label: "Dyed Textile Products" },
-              { img: "/images/products-to-sell.jpeg", label: "Market-Ready Fabrics" },
-              { img: imageAssets.printingFabric, label: "Printed Fabric Rolls" }
+              { img: imageAssets.dryingColour, label: "Dyed Textile Products" },
+              { img: imageAssets.marketReadyWide, label: "Market-Ready Fabrics" },
+              { img: imageAssets.printMono, label: "Printed Fabrics" }
             ].map((item) => (
               <Reveal key={item.label} className="group relative overflow-hidden rounded-2xl">
                 <Image

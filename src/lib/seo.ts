@@ -75,7 +75,7 @@ export function organizationSchema() {
     legalName: site.legalName,
     url: site.url,
     logo: `${site.url}/logo.png`,
-    image: `${site.url}/images/hero-textile-factory.png`,
+    image: `${site.url}/images/hand-print-hall.jpg`,
     email: site.email,
     telephone: site.phoneHref,
     founder: { "@type": "Person", name: site.proprietor },

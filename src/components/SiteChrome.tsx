@@ -1,5 +1,6 @@
 "use client";
 
+import { MotionConfig } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -14,12 +15,14 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
   return (
-    <>
+    // reducedMotion="user" makes every framer-motion animation site-wide honour
+    // the OS "reduce motion" preference (transforms snap, opacity still fades).
+    <MotionConfig reducedMotion="user">
       <LoadingScreen />
       <Header />
       <main>{children}</main>
       <Footer />
       <FloatingActions />
-    </>
+    </MotionConfig>
   );
 }

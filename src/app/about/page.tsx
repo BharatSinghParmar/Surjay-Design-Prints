@@ -5,6 +5,7 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { CredentialsBlock } from "@/components/CredentialsBlock";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
+import { PrintBackdrop } from "@/components/PrintBackdrop";
 import { ResourceCard } from "@/components/ResourceCard";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -45,7 +46,7 @@ export default function AboutPage() {
         eyebrow="About Us"
         title="A premium textile manufacturing brand in motion."
         body="Surjay Design & Prints brings together sourcing, dyeing, printing, finishing and quality inspection for B2B textile buyers."
-        image={imageAssets.printingHall}
+        image={imageAssets.handPrintTable}
       />
       <Breadcrumbs items={[{ name: "About Us", href: "/about" }]} />
 
@@ -79,8 +80,8 @@ export default function AboutPage() {
       {/* ── FULL-WIDTH RAW FABRIC BANNER ──────────────────────── */}
       <section className="relative h-[50vh] min-h-[320px] overflow-hidden">
         <Image
-          src={imageAssets.rawFabric}
-          alt="Raw grey fabric rolls stacked at Surjay Design and Prints"
+          src={imageAssets.rawBales}
+          alt="Raw grey fabric bales stacked at Surjay Design and Prints"
           fill
           className="object-cover"
           sizes="100vw"
@@ -187,8 +188,9 @@ export default function AboutPage() {
       </section>
 
       {/* ── COMPANY MILESTONE TIMELINE ──────────────────────────── */}
-      <section className="bg-mist py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-mist py-20 md:py-28">
+        <PrintBackdrop tone="light" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Our Journey"
             title="Building a textile brand — one process at a time."
@@ -246,9 +248,10 @@ export default function AboutPage() {
       {/* ── FUTURE VISION ─────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-navy py-24 text-white md:py-32">
         <Image
-          src={imageAssets.printingFabric}
-          alt="Future textile manufacturing vision"
+          src={imageAssets.handPrintDetail}
+          alt=""
           fill
+          sizes="100vw"
           className="object-cover opacity-10"
         />
         <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
