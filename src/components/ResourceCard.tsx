@@ -42,11 +42,16 @@ export function ResourceCard({ document }: ResourceCardProps) {
         transition={{ duration: 0.5 }}
       >
         {/* Left Side: Visual Preview */}
-        <div className="relative w-full overflow-hidden bg-mist sm:w-2/5">
+        {/* `fill` needs a parent with height. From `sm` up this panel is a flex
+            row item and stretches to the sibling, but in the stacked mobile
+            layout it has no intrinsic height — without h-64 it collapses to zero
+            and the cover, badge, title and byline all disappear. */}
+        <div className="relative h-64 w-full overflow-hidden bg-mist sm:h-auto sm:w-2/5">
           <Image
             src={document.coverImage}
             alt={`${document.title} Cover`}
             fill
+            sizes="(min-width: 640px) 40vw, 100vw"
             className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent" />

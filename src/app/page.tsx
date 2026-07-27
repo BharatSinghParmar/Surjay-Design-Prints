@@ -6,12 +6,13 @@ import { HeroBackgroundVideo } from "@/components/HeroBackgroundVideo";
 import { JsonLd } from "@/components/JsonLd";
 import { ManufacturingTimeline } from "@/components/ManufacturingTimeline";
 import { Newsletter } from "@/components/Newsletter";
+import { PrintBackdrop } from "@/components/PrintBackdrop";
 import { ProductCards } from "@/components/ProductCards";
 import { ResourceCard } from "@/components/ResourceCard";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { companyResources } from "@/data/resources";
-import { imageAssets, videoAssets, processSteps, stats, testimonials, whyChoose } from "@/data/site";
+import { imageAssets, videoAssets, videoPosters, processSteps, stats, testimonials, whyChoose } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -36,9 +37,10 @@ export default function Home() {
       <section className="video-hero relative isolate min-h-[100vh] overflow-hidden text-white">
         {/* Background video */}
         <HeroBackgroundVideo
-          src={videoAssets.printingMachine}
+          eager
+          src={videoAssets.screenPrinting}
           className="absolute inset-0 h-full w-full object-cover"
-          poster={imageAssets.printingHall}
+          poster={videoPosters.screenPrinting}
         />
 
         {/* Gradient overlay */}
@@ -80,26 +82,40 @@ export default function Home() {
             </div>
           </Reveal>
 
-          {/* Right — Real photo mosaic */}
+          {/* Right — real process mosaic; the Elongation tile is live footage so
+              the hero carries motion beyond the background video */}
           <Reveal delay={0.15} className="hidden lg:block">
             <div className="grid grid-cols-2 gap-3">
               {[
-                { img: imageAssets.rawFabric, label: "Raw Fabric", tall: true },
-                { img: imageAssets.printingHall, label: "Printing Hall", tall: false },
-                { img: imageAssets.dyeingMachine2, label: "Dyeing", tall: false },
-                { img: imageAssets.dyedPress, label: "Processing", tall: true }
+                // Slots 0 and 2 render tall (row-span-2) — keep the portrait
+                // shots there; the live elongation clip sits in a wide slot.
+                { img: imageAssets.marketReadyRolls, label: "Market-Ready Fabric" },
+                { video: videoAssets.elongation, poster: videoPosters.elongation, label: "Elongation Line" },
+                { img: imageAssets.handPrintDetail, label: "Hand Printing" },
+                { video: videoAssets.dyeDrum, poster: videoPosters.dyeDrum, label: "Dyeing" }
               ].map((item, i) => (
                 <div
                   key={item.label}
                   className={`group relative overflow-hidden rounded-xl ${i % 2 === 0 ? "row-span-2" : ""}`}
                 >
-                  <Image
-                    src={item.img}
-                    alt={item.label}
-                    width={400}
-                    height={i % 2 === 0 ? 480 : 230}
-                    className={`w-full object-cover transition duration-700 group-hover:scale-105 ${i % 2 === 0 ? "h-[300px]" : "h-[140px]"}`}
-                  />
+                  {"video" in item && item.video ? (
+                    // HeroBackgroundVideo, not a bare <video>: React does not
+                    // serialise `muted` into SSR HTML, so parse-time autoplay is
+                    // blocked — this component force-plays after hydration.
+                    <HeroBackgroundVideo
+                      src={item.video}
+                      poster={item.poster!}
+                      className={`w-full object-cover transition duration-700 group-hover:scale-105 ${i % 2 === 0 ? "h-[300px]" : "h-[140px]"}`}
+                    />
+                  ) : (
+                    <Image
+                      src={item.img!}
+                      alt={item.label}
+                      width={400}
+                      height={i % 2 === 0 ? 480 : 230}
+                      className={`w-full object-cover transition duration-700 group-hover:scale-105 ${i % 2 === 0 ? "h-[300px]" : "h-[140px]"}`}
+                    />
+                  )}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 to-transparent px-3 py-2">
                     <span className="text-xs font-semibold text-white/90">{item.label}</span>
                   </div>
@@ -144,8 +160,8 @@ export default function Home() {
       {/* ── FULL-WIDTH PRINTING HALL BANNER ─────────────────────────── */}
       <section className="relative h-[70vh] min-h-[420px] overflow-hidden">
         <Image
-          src={imageAssets.printingHall}
-          alt="Surjay Design & Prints printing hall with fabric on tables"
+          src={imageAssets.printTableDark}
+          alt="Surjay Design & Prints printing table with a fresh print run"
           fill
           className="object-cover"
           sizes="100vw"
@@ -178,8 +194,8 @@ export default function Home() {
             <Reveal>
               <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-mist shadow-premium">
                 <Image
-                  src={imageAssets.dyeingMachine2}
-                  alt="Textile dyeing machinery at Surjay Design & Prints"
+                  src={imageAssets.rfdPile}
+                  alt="RFD fabric prepared for dyeing at Surjay Design & Prints"
                   fill
                   className="object-cover"
                   sizes="(min-width: 1024px) 50vw, 100vw"
@@ -226,9 +242,10 @@ export default function Home() {
       {/* ── STATISTICS SECTION ──────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-navy py-20 text-white md:py-28">
         <Image
-          src={imageAssets.printingFabric}
-          alt="Textile printing at scale"
+          src={imageAssets.handPrintDetail}
+          alt=""
           fill
+          sizes="100vw"
           className="object-cover opacity-10 mix-blend-luminosity"
         />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -258,12 +275,12 @@ export default function Home() {
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { img: imageAssets.rawFabric, label: "Raw Fabric Procurement" },
-              { img: imageAssets.dyeingMachine, label: "Dyeing Machines" },
-              { img: imageAssets.printingHall, label: "Printing Floor" },
-              { img: imageAssets.dyedPress, label: "Fabric Pressing" },
-              { img: imageAssets.printingFabric, label: "Printed Fabric" },
-              { img: imageAssets.dyeingMachine2, label: "Processing Line" }
+              { img: imageAssets.cleaningTrolley, label: "Fabric Preparation" },
+              { img: imageAssets.cleaningRollers, label: "Cleaning Line" },
+              { img: imageAssets.designScreen, label: "Screen Preparation" },
+              { img: imageAssets.dryingWhite, label: "Drying Range" },
+              { img: imageAssets.elongationRoll, label: "Elongation Line" },
+              { img: imageAssets.marketReadyRolls, label: "Dispatch-Ready Stock" }
             ].map((item) => (
               <Reveal key={item.label} className="group relative overflow-hidden rounded-xl bg-navy">
                 <Image
@@ -355,12 +372,7 @@ export default function Home() {
 
       {/* ── CTA ──────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-navy py-24 text-white md:py-32">
-        <Image
-          src={imageAssets.rawFabric}
-          alt="Raw fabric rolls at Surjay Design and Prints"
-          fill
-          className="object-cover opacity-10"
-        />
+        <PrintBackdrop />
         <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
           <Truck className="mx-auto h-8 w-8 text-gold" />
           <h2 className="mt-6 font-heading text-3xl font-semibold md:text-5xl">
