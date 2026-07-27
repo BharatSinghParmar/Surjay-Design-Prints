@@ -8,11 +8,11 @@ export const companyResources: CompanyDocument[] = [
     description: "A comprehensive overview of our premium textile manufacturing capabilities, infrastructure, and future vision.",
     coverImage: imageAssets.hero, // Using the printing textile image as a nice cover
     pdfUrl: "/Surjay-Design-Company-Profile.pdf",
-    version: "v1.0",
+    version: "v1.1",
     language: "English",
-    size: "12 MB",
+    size: "4 MB",
     pages: 17,
-    updatedAt: "2025-06-26",
+    updatedAt: "2026-07-27",
     category: "Corporate",
     contents: [
       "Company Overview",

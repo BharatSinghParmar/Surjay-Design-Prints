@@ -348,6 +348,10 @@
       grid-template-columns: repeat(6, 1fr);
       gap: 6px;
     }
+    .process-grid-8 { grid-template-columns: repeat(8, 1fr); gap: 4px; }
+    .process-grid-8 .process-name { font-size: 0.58rem; }
+    .process-grid-8 .process-num { width: 24px; height: 24px; margin-bottom: 8px; }
+    .process-grid-8 .process-arrow { right: -7px; top: 6px; }
     .process-step {
       text-align: center;
       padding: 8px 4px;
@@ -398,13 +402,15 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(2, 1fr);
-      gap: 6px;
-      height: calc(100% - 80px);
-      padding: 20px 32px;
+      gap: 8px;
+      flex: 1;
+      min-height: 0;
+      padding: 18px 32px 40px;
     }
     .gallery-grid .gi { position: relative; overflow: hidden; border-radius: 6px; }
     .gallery-grid .gi img { width: 100%; height: 100%; object-fit: cover; }
-    .gallery-grid .gi-label {
+    .gi-label { position: absolute; }
+    .gi-label {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -423,8 +429,9 @@
        ═══════════════════════════════════════════════════════════════ */
     .contact-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      text-align: left;
     }
     .contact-item {
       display: flex;
@@ -544,6 +551,39 @@
     .qa-item h4 { font-size: 0.78rem; color: var(--navy); margin-bottom: 3px; }
     .qa-item p { font-size: 0.58rem; color: var(--slate); line-height: 1.5; }
 
+    /* Minimal geometric markers — replaces emoji for a consistent,
+       print-safe, professional icon language */
+    .mark {
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      border-radius: 2px;
+    }
+    .mark-magenta { background: var(--magenta); }
+    .mark-ring {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .mark-ring .mark { width: 9px; height: 9px; }
+    .mark-box {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      background: rgba(194,24,91,0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .mark-box .mark { width: 8px; height: 8px; }
+
     /* Divider line */
     .gold-line {
       width: 48px;
@@ -560,7 +600,7 @@
      ══════════════════════════════════════════════════════════════════ -->
 <section class="page cover">
   <div class="cover-bg">
-    <img src="images/printing-textile.jpeg" alt="Factory" />
+    <img src="images/pdf-hero.jpg" alt="Factory" />
   </div>
   <div class="cover-overlay"></div>
   <div class="cover-content">
@@ -626,7 +666,7 @@
       </div>
     </div>
     <div class="split-img">
-      <img src="images/hero-textile-factory.png" alt="Surjay Factory" />
+      <img src="images/pdf-printing.jpg" alt="Surjay Factory" />
     </div>
   </div>
   <div class="page-footer">
@@ -687,8 +727,8 @@
     </div>
   </div>
   <!-- Bottom factory image strip -->
-  <div style="height:80px; position:relative; overflow:hidden;">
-    <img src="images/dyed-cloth-press.jpeg" alt="Factory" style="width:100%; height:100%; object-fit:cover; object-position:center 60%;" />
+  <div style="height:118px; position:relative; overflow:hidden;">
+    <img src="images/pdf-elongation.jpg" alt="Factory" style="width:100%; height:100%; object-fit:cover; object-position:center 60%;" />
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, var(--white) 0%, transparent 40%);"></div>
   </div>
   <div class="page-footer">
@@ -705,10 +745,10 @@
     <p class="eyebrow">Guiding Principles</p>
     <h2 style="color:white; margin-top:10px;">Mission &bull; Vision &bull; Values</h2>
   </div>
-  <div style="flex:1; padding:28px 52px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; align-items:start;">
+  <div style="flex:1; padding:28px 52px 0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; align-items:center; align-content:center;">
     <!-- Mission -->
     <div style="padding:28px 24px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
-      <div style="font-size:1.6rem; margin-bottom:14px;">◎</div>
+      <div style="font-size:1.6rem; margin-bottom:14px; color:var(--gold);">◎</div>
       <h3 style="color:var(--gold); font-size:1.1rem;">Mission</h3>
       <div style="width:32px; height:2px; background:var(--gold); margin:10px 0;"></div>
       <p class="body-sm" style="color:rgba(255,255,255,0.7);">
@@ -717,7 +757,7 @@
     </div>
     <!-- Vision -->
     <div style="padding:28px 24px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
-      <div style="font-size:1.6rem; margin-bottom:14px;">◈</div>
+      <div style="font-size:1.6rem; margin-bottom:14px; color:var(--gold);">◈</div>
       <h3 style="color:var(--gold); font-size:1.1rem;">Vision</h3>
       <div style="width:32px; height:2px; background:var(--gold); margin:10px 0;"></div>
       <p class="body-sm" style="color:rgba(255,255,255,0.7);">
@@ -726,7 +766,7 @@
     </div>
     <!-- Values -->
     <div style="padding:28px 24px; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
-      <div style="font-size:1.6rem; margin-bottom:14px;">◆</div>
+      <div style="font-size:1.6rem; margin-bottom:14px; color:var(--gold);">◆</div>
       <h3 style="color:var(--gold); font-size:1.1rem;">Core Values</h3>
       <div style="width:32px; height:2px; background:var(--gold); margin:10px 0;"></div>
       <div style="display:grid; gap:8px; margin-top:12px;">
@@ -753,6 +793,13 @@
       </div>
     </div>
   </div>
+  <div style="padding:0 52px 46px; text-align:center;">
+    <div style="width:48px; height:1px; background:rgba(201,168,76,0.5); margin:0 auto 16px;"></div>
+    <p style="font-family:var(--font-heading); font-size:1.05rem; font-style:italic; color:rgba(255,255,255,0.82); max-width:620px; margin:0 auto;">
+      "Our work is to make fabric dependable for the next business in the chain."
+    </p>
+    <p style="font-size:0.6rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-top:10px;">Ajay Soni — Founder &amp; Proprietor</p>
+  </div>
   <div class="page-footer page-footer-dark">
     <span>Surjay Design &amp; Prints — Company Profile</span>
     <span class="page-num">04</span>
@@ -763,109 +810,106 @@
      PAGE 5 — MANUFACTURING PROCESS
      ══════════════════════════════════════════════════════════════════ -->
 <section class="page" style="display:flex; flex-direction:column;">
-  <div style="padding:32px 52px 0; text-align:center;">
+  <div style="padding:36px 52px 0; text-align:center;">
     <p class="eyebrow eyebrow-dark">Manufacturing Excellence</p>
-    <h2 style="color:var(--navy); margin-top:8px;">Our Manufacturing Process</h2>
-    <p class="body-sm" style="margin:8px auto 0; max-width:560px; text-align:center;">
-      A structured 16-stage workflow engineered for consistency, color accuracy, and commercial reliability at every meter of fabric.
+    <h2 style="color:var(--navy); margin-top:8px;">A Sixteen-Stage Manufacturing Journey</h2>
+    <div class="gold-line" style="margin:12px auto;"></div>
+    <p class="body-sm" style="margin:0 auto; max-width:600px; text-align:center;">
+      Every metre of fabric moves through the same disciplined sequence — engineered for consistency, color accuracy, and commercial reliability from procurement to dispatch.
     </p>
   </div>
-  <div style="flex:1; padding:16px 32px;">
-    <!-- Row 1 -->
-    <div class="process-grid" style="margin-bottom:8px;">
+  <div style="padding:22px 36px 0;">
+    <div class="process-grid process-grid-8" style="margin-bottom:14px;">
       <div class="process-step">
         <div class="process-num">01</div>
         <div class="process-icon">🧵</div>
-        <div class="process-name">Raw Fabric<br/>Procurement</div>
-        <div class="process-desc">Sourced from trusted suppliers across South India &amp; Bhiwandi.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-name">Raw Fabric Procurement</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">02</div>
         <div class="process-icon">✨</div>
-        <div class="process-name">Ready For<br/>Dyeing (RFD)</div>
-        <div class="process-desc">Cleaning &amp; preparation to remove impurities.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-name">Ready For Dyeing (RFD)</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">03</div>
         <div class="process-icon">💧</div>
-        <div class="process-name">Dyeing</div>
-        <div class="process-desc">Dyed per customer shade with controlled discipline.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-name">Dyeing</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">04</div>
         <div class="process-icon">🎨</div>
-        <div class="process-name">Screen<br/>Printing</div>
-        <div class="process-desc">Clean patterns, consistent scalable production.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-name">Printing</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">05</div>
-        <div class="process-icon">🤲</div>
-        <div class="process-name">Hand<br/>Printing</div>
-        <div class="process-desc">Craft-led detailing &amp; flexible execution.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-icon">🖨</div>
+        <div class="process-name">Screen Printing</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">06</div>
-        <div class="process-icon">🛡</div>
-        <div class="process-name">Silicate<br/>Treatment</div>
-        <div class="process-desc">Color fixation and durability improvement.</div>
+        <div class="process-icon">🤲</div>
+        <div class="process-name">Hand Printing</div><div class="process-arrow">&rarr;</div>
       </div>
-    </div>
-    <!-- Row 2 -->
-    <div class="process-grid" style="margin-bottom:8px;">
       <div class="process-step">
         <div class="process-num">07</div>
-        <div class="process-icon">🌊</div>
-        <div class="process-name">Silicone<br/>Softening</div>
-        <div class="process-desc">Premium hand feel with improved drape.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-icon">🛡</div>
+        <div class="process-name">Silicate Treatment</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">08</div>
-        <div class="process-icon">⏱</div>
-        <div class="process-name">24-Hour Color<br/>Fixation</div>
-        <div class="process-desc">Controlled window stabilizes color outcome.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-icon">🌊</div>
+        <div class="process-name">Silicone Softening</div>
       </div>
+    </div>
+    <div class="process-grid process-grid-8">
       <div class="process-step">
         <div class="process-num">09</div>
-        <div class="process-icon">⚙️</div>
-        <div class="process-name">Pressing</div>
-        <div class="process-desc">Smoothens fabric for cleaner presentation.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-icon">⏱</div>
+        <div class="process-name">24-Hour Color Fixation</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">10</div>
-        <div class="process-icon">↔️</div>
-        <div class="process-name">Elongation</div>
-        <div class="process-desc">Width &amp; dimensional stability maintained.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-icon">⚙️</div>
+        <div class="process-name">Pressing</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">11</div>
-        <div class="process-icon">💨</div>
-        <div class="process-name">Drying<br/>Range</div>
-        <div class="process-desc">Stabilizes colors &amp; balances moisture before folding.</div>
-        <div class="process-arrow">→</div>
+        <div class="process-icon">↔️</div>
+        <div class="process-name">Elongation</div><div class="process-arrow">&rarr;</div>
       </div>
       <div class="process-step">
         <div class="process-num">12</div>
+        <div class="process-icon">💨</div>
+        <div class="process-name">Drying Range</div><div class="process-arrow">&rarr;</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">13</div>
+        <div class="process-icon">🧺</div>
+        <div class="process-name">Folding</div><div class="process-arrow">&rarr;</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">14</div>
+        <div class="process-icon">🔍</div>
+        <div class="process-name">Quality Inspection</div><div class="process-arrow">&rarr;</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">15</div>
         <div class="process-icon">📦</div>
-        <div class="process-name">Folding &amp;<br/>Packaging</div>
-        <div class="process-desc">Quality inspected, packed &amp; market-ready.</div>
+        <div class="process-name">Packaging</div><div class="process-arrow">&rarr;</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">16</div>
+        <div class="process-icon">🚚</div>
+        <div class="process-name">Market Ready Products</div>
       </div>
     </div>
-    <!-- Process image strip -->
-    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-top:4px; height:68px;">
-      <div style="border-radius:4px; overflow:hidden;"><img src="images/raw-fabric.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
-      <div style="border-radius:4px; overflow:hidden;"><img src="images/dying-textile.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
-      <div style="border-radius:4px; overflow:hidden;"><img src="images/printing-textile-2.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
-      <div style="border-radius:4px; overflow:hidden;"><img src="images/dyed-cloth-press.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
-    </div>
+  </div>
+  <!-- Process image strip -->
+  <div style="flex:1; min-height:0; display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin:22px 36px 40px;">
+    <div style="border-radius:6px; overflow:hidden; position:relative;"><img src="images/pdf-raw-fabric.jpg" style="width:100%;height:100%;object-fit:cover;" alt="" /><div class="gi-label">Raw Fabric</div></div>
+    <div style="border-radius:6px; overflow:hidden; position:relative;"><img src="images/pdf-rfd.jpg" style="width:100%;height:100%;object-fit:cover;" alt="" /><div class="gi-label">RFD Preparation</div></div>
+    <div style="border-radius:6px; overflow:hidden; position:relative;"><img src="images/pdf-dyeing.jpg" style="width:100%;height:100%;object-fit:cover;" alt="" /><div class="gi-label">Dyeing</div></div>
+    <div style="border-radius:6px; overflow:hidden; position:relative;"><img src="images/pdf-pressing.jpg" style="width:100%;height:100%;object-fit:cover;" alt="" /><div class="gi-label">Pressing</div></div>
   </div>
   <div class="page-footer">
     <span>Surjay Design &amp; Prints — Company Profile</span>
@@ -879,7 +923,7 @@
 <section class="page">
   <div class="split split-40-60" style="height:100%;">
     <div class="split-img">
-      <img src="images/dying-textile-2.jpeg" alt="Dyeing Process" />
+      <img src="images/pdf-drying.jpg" alt="Dyed fabric lots on the drying range" />
       <div style="position:absolute; inset:0; background:linear-gradient(to right, transparent 60%, var(--white) 100%);"></div>
     </div>
     <div class="split-text" style="padding:42px 48px 42px 28px;">
@@ -975,7 +1019,7 @@
       </div>
     </div>
     <div class="split-img">
-      <img src="images/screen-printing.png" alt="Screen Printing" />
+      <img src="images/pdf-mono.jpg" alt="Screen Printing" />
     </div>
   </div>
   <div class="page-footer">
@@ -988,14 +1032,18 @@
      PAGE 8 — PRODUCT PORTFOLIO
      ══════════════════════════════════════════════════════════════════ -->
 <section class="page" style="display:flex; flex-direction:column;">
-  <div style="padding:36px 52px 0; text-align:center;">
+  <div style="padding:40px 52px 0; text-align:center;">
     <p class="eyebrow eyebrow-dark">Product Portfolio</p>
     <h2 style="color:var(--navy); margin-top:8px;">Fabric Categories Built for B2B Markets.</h2>
+    <div class="gold-line" style="margin:12px auto;"></div>
+    <p class="body-sm" style="margin:0 auto; max-width:560px; text-align:center;">
+      Four fabric programs, each adaptable by construction, pattern direction, finish expectation, quantity and dispatch requirement.
+    </p>
   </div>
-  <div style="flex:1; padding:20px 42px; display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; align-items:start;">
+  <div style="flex:1; padding:24px 42px 0; display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; align-items:start;">
     <!-- Card 1 -->
     <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.06);">
-      <div style="height:100px; overflow:hidden;"><img src="images/printing-textile-2.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="height:200px; overflow:hidden;"><img src="images/pdf-hand-print.jpg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
       <div style="padding:14px 16px;">
         <h4 style="color:var(--navy);">Printed Fabrics</h4>
         <p class="body-sm" style="margin:6px 0 10px;">Screen printed and hand printed fabrics for wholesalers and garment manufacturers.</p>
@@ -1008,7 +1056,7 @@
     </div>
     <!-- Card 2 -->
     <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.06);">
-      <div style="height:100px; overflow:hidden;"><img src="images/dyed-product.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="height:200px; overflow:hidden;"><img src="images/pdf-stock.jpg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
       <div style="padding:14px 16px;">
         <h4 style="color:var(--navy);">Dyed Fabrics</h4>
         <p class="body-sm" style="margin:6px 0 10px;">Bulk dyed fabrics with shade consistency, softness, and dispatch presentation.</p>
@@ -1021,7 +1069,7 @@
     </div>
     <!-- Card 3 -->
     <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.06);">
-      <div style="height:100px; overflow:hidden;"><img src="images/products-to-sell.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="height:200px; overflow:hidden;"><img src="images/pdf-screen.jpg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
       <div style="padding:14px 16px;">
         <h4 style="color:var(--navy);">Custom Processing</h4>
         <p class="body-sm" style="margin:6px 0 10px;">Customer-led dyeing, printing and finishing shaped around buyer direction.</p>
@@ -1034,7 +1082,7 @@
     </div>
     <!-- Card 4 -->
     <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,.06);">
-      <div style="height:100px; overflow:hidden;"><img src="images/printing-textile.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
+      <div style="height:200px; overflow:hidden;"><img src="images/pdf-rfd.jpg" style="width:100%;height:100%;object-fit:cover;" alt="" /></div>
       <div style="padding:14px 16px;">
         <h4 style="color:var(--navy);">Bulk Manufacturing</h4>
         <p class="body-sm" style="margin:6px 0 10px;">Organized processing for buyers who need dependable capacity and quality.</p>
@@ -1045,6 +1093,13 @@
         </div>
       </div>
     </div>
+  </div>
+  <div style="margin:20px 42px 40px; padding:14px 22px; background:var(--navy); border-radius:10px; display:flex; align-items:center; justify-content:space-between; gap:18px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div style="width:4px; height:34px; background:var(--gold); border-radius:2px; flex:none;"></div>
+      <p class="body-sm" style="color:rgba(255,255,255,.82);">Every category is produced on the same sixteen-stage line — one discipline, four commercial outcomes.</p>
+    </div>
+    <p style="font-size:0.6rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); white-space:nowrap;">10,000+ Designs Delivered</p>
   </div>
   <div class="page-footer">
     <span>Surjay Design &amp; Prints — Company Profile</span>
@@ -1058,7 +1113,7 @@
 <section class="page">
   <div class="split split-40-60" style="height:100%;">
     <div class="split-img">
-      <img src="images/dyeing-finishing.png" alt="Factory Infrastructure" />
+      <img src="images/pdf-cleaning.jpg" alt="Factory Infrastructure" />
     </div>
     <div class="split-text" style="padding:36px 48px 36px 28px;">
       <p class="eyebrow eyebrow-dark">Infrastructure</p>
@@ -1069,27 +1124,27 @@
       </p>
 
       <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-top:18px;">
-        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+        <div style="padding:12px; background:var(--mist); border-radius:6px; text-align:center;">
           <div style="font-size:1.1rem; margin-bottom:4px;">🏭</div>
           <p class="body-sm" style="font-weight:600; color:var(--navy);">Factory</p>
         </div>
-        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+        <div style="padding:12px; background:var(--mist); border-radius:6px; text-align:center;">
           <div style="font-size:1.1rem; margin-bottom:4px;">⚙️</div>
           <p class="body-sm" style="font-weight:600; color:var(--navy);">Machinery</p>
         </div>
-        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+        <div style="padding:12px; background:var(--mist); border-radius:6px; text-align:center;">
           <div style="font-size:1.1rem; margin-bottom:4px;">🖨</div>
           <p class="body-sm" style="font-weight:600; color:var(--navy);">Printing Tables</p>
         </div>
-        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+        <div style="padding:12px; background:var(--mist); border-radius:6px; text-align:center;">
           <div style="font-size:1.1rem; margin-bottom:4px;">☀️</div>
           <p class="body-sm" style="font-weight:600; color:var(--navy);">Drying Range</p>
         </div>
-        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+        <div style="padding:12px; background:var(--mist); border-radius:6px; text-align:center;">
           <div style="font-size:1.1rem; margin-bottom:4px;">🔧</div>
           <p class="body-sm" style="font-weight:600; color:var(--navy);">Pressing</p>
         </div>
-        <div style="padding:10px 12px; background:var(--mist); border-radius:6px; text-align:center;">
+        <div style="padding:12px; background:var(--mist); border-radius:6px; text-align:center;">
           <div style="font-size:1.1rem; margin-bottom:4px;">📦</div>
           <p class="body-sm" style="font-weight:600; color:var(--navy);">Warehouse</p>
         </div>
@@ -1185,56 +1240,58 @@
 <!-- ══════════════════════════════════════════════════════════════════
      PAGE 11 — QUALITY ASSURANCE
      ══════════════════════════════════════════════════════════════════ -->
-<section class="page" style="display:flex; flex-direction:column;">
-  <div style="padding:36px 52px 0; text-align:center;">
-    <p class="eyebrow eyebrow-dark">Quality Assurance</p>
-    <h2 style="color:var(--navy); margin-top:8px;">Process Discipline at Every Stage.</h2>
-    <p class="body-sm" style="margin:8px auto 0; max-width:520px; text-align:center;">
-      Quality is not a final check — it is embedded in every stage of our manufacturing process, from raw material selection to packaging.
-    </p>
-  </div>
-  <div style="flex:1; padding:20px 52px; display:flex; flex-direction:column; justify-content:center;">
-    <div class="qa-grid">
-      <div class="qa-item">
-        <div class="qa-num">01</div>
-        <div>
-          <h4>Raw Material Inspection</h4>
-          <p>Every fabric lot is inspected for construction, weight, and suitability before entering the manufacturing process.</p>
-        </div>
+<section class="page">
+  <div class="split split-40-60" style="height:100%;">
+    <div class="split-img">
+      <img src="images/pdf-fixation.jpg" alt="Dyed lots resting through the fixation window" />
+      <div style="position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(8,22,45,0.72) 100%);"></div>
+      <div style="position:absolute; left:24px; right:24px; bottom:26px; color:white;">
+        <p style="font-size:0.58rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold);">Shade &amp; finish control</p>
+        <p style="font-family:var(--font-heading); font-size:1rem; margin-top:4px;">Every lot. Every shade. Every dispatch.</p>
       </div>
-      <div class="qa-item">
-        <div class="qa-num">02</div>
-        <div>
-          <h4>Color Consistency Testing</h4>
-          <p>Shade matching and uniformity checks are conducted across the batch to maintain visual consistency.</p>
+    </div>
+    <div class="split-text" style="padding:38px 48px 38px 34px;">
+      <p class="eyebrow eyebrow-dark">Quality Assurance</p>
+      <h2 style="color:var(--navy); margin-top:8px;">Process Discipline<br/>at Every Stage.</h2>
+      <div class="gold-line"></div>
+      <p class="body-text" style="margin-top:4px;">
+        Quality is not a final check — it is embedded in every stage of manufacturing, from raw material selection to packaging.
+      </p>
+      <div style="display:grid; gap:9px; margin-top:16px;">
+        <div class="qa-item">
+          <div class="qa-num">01</div>
+          <div>
+            <h4>Raw Material Inspection</h4>
+            <p>Every fabric lot is inspected for construction, weight, and suitability before entering the manufacturing process.</p>
+          </div>
         </div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-num">03</div>
-        <div>
-          <h4>Fabric Surface Inspection</h4>
-          <p>Each lot is examined for weaving defects, print registration accuracy, and finish quality.</p>
+        <div class="qa-item">
+          <div class="qa-num">02</div>
+          <div>
+            <h4>Color Consistency Testing</h4>
+            <p>Shade matching and uniformity checks are conducted across the batch to maintain visual consistency.</p>
+          </div>
         </div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-num">04</div>
-        <div>
-          <h4>Dimensional Stability</h4>
-          <p>Width, elongation, and shrinkage parameters are monitored during pressing and finishing.</p>
+        <div class="qa-item">
+          <div class="qa-num">03</div>
+          <div>
+            <h4>Fabric Surface Inspection</h4>
+            <p>Each lot is examined for weaving defects, print registration accuracy, and finish quality.</p>
+          </div>
         </div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-num">05</div>
-        <div>
-          <h4>Packing Standards</h4>
-          <p>Final folding, packaging and labelling follow standard procedures for market-ready dispatch.</p>
+        <div class="qa-item">
+          <div class="qa-num">04</div>
+          <div>
+            <h4>Dimensional Stability</h4>
+            <p>Width, elongation, and shrinkage parameters are monitored during pressing and finishing.</p>
+          </div>
         </div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-num" style="background:var(--gold);">✓</div>
-        <div>
-          <h4>Quality Commitment</h4>
-          <p>Our manufacturing process is designed to ensure consistency, quality, and reliability at every stage of production.</p>
+        <div class="qa-item">
+          <div class="qa-num">05</div>
+          <div>
+            <h4>Packing Standards</h4>
+            <p>Final folding, packaging and labelling follow standard procedures for market-ready dispatch.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1297,6 +1354,13 @@
       </div>
     </div>
   </div>
+  <div style="margin:0 52px 44px; padding:14px 22px; background:var(--navy); border-radius:10px; display:flex; align-items:center; justify-content:center; gap:34px;">
+    <p class="body-sm" style="color:rgba(255,255,255,.85);"><span style="color:var(--gold); font-weight:700;">40–45</span> skilled team members</p>
+    <div style="width:1px; height:18px; background:rgba(255,255,255,.18);"></div>
+    <p class="body-sm" style="color:rgba(255,255,255,.85);">RIICO Industrial Area, <span style="color:var(--gold); font-weight:700;">Bagru, Jaipur</span></p>
+    <div style="width:1px; height:18px; background:rgba(255,255,255,.18);"></div>
+    <p class="body-sm" style="color:rgba(255,255,255,.85);"><span style="color:var(--gold); font-weight:700;">GST &amp; Udyam</span> registered enterprise</p>
+  </div>
   <div class="page-footer">
     <span>Surjay Design &amp; Prints — Company Profile</span>
     <span class="page-num">12</span>
@@ -1358,6 +1422,9 @@
       </div>
     </div>
   </div>
+  <div style="margin:0 52px 44px; padding:13px 22px; border:1px solid rgba(201,168,76,0.35); border-radius:10px; text-align:center;">
+    <p class="body-sm" style="color:rgba(255,255,255,.8);">Serving <span style="color:var(--gold); font-weight:700;">80+ business clients</span> across India — with <span style="color:var(--gold); font-weight:700;">2,500+ projects</span> delivered and export-facing capability in development.</p>
+  </div>
   <div class="page-footer page-footer-dark">
     <span>Surjay Design &amp; Prints — Company Profile</span>
     <span class="page-num">13</span>
@@ -1378,28 +1445,28 @@
       </p>
       <div style="display:grid; gap:10px; margin-top:22px;">
         <div style="display:flex; align-items:flex-start; gap:12px;">
-          <div style="width:32px; height:32px; border-radius:6px; background:rgba(194,24,91,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.9rem;">🇮🇳</div>
+          <div class="mark-box" style="font-size:0.9rem;">🇮🇳</div>
           <div>
             <h4 style="color:var(--navy); font-size:0.78rem;">National Expansion</h4>
             <p class="body-sm">Expanding distribution across major textile markets in India.</p>
           </div>
         </div>
         <div style="display:flex; align-items:flex-start; gap:12px;">
-          <div style="width:32px; height:32px; border-radius:6px; background:rgba(194,24,91,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.9rem;">🌍</div>
+          <div class="mark-box" style="font-size:0.9rem;">🌍</div>
           <div>
             <h4 style="color:var(--navy); font-size:0.78rem;">International Markets</h4>
             <p class="body-sm">Building export readiness for global B2B textile buyers.</p>
           </div>
         </div>
         <div style="display:flex; align-items:flex-start; gap:12px;">
-          <div style="width:32px; height:32px; border-radius:6px; background:rgba(194,24,91,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.9rem;">💻</div>
+          <div class="mark-box" style="font-size:0.9rem;">💻</div>
           <div>
             <h4 style="color:var(--navy); font-size:0.78rem;">Digital Transformation</h4>
             <p class="body-sm">Implementing technology across manufacturing, quality, and communication.</p>
           </div>
         </div>
         <div style="display:flex; align-items:flex-start; gap:12px;">
-          <div style="width:32px; height:32px; border-radius:6px; background:rgba(194,24,91,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.9rem;">🌱</div>
+          <div class="mark-box" style="font-size:0.9rem;">🌱</div>
           <div>
             <h4 style="color:var(--navy); font-size:0.78rem;">Sustainable Growth</h4>
             <p class="body-sm">Responsible manufacturing practices with long-term environmental awareness.</p>
@@ -1408,7 +1475,7 @@
       </div>
     </div>
     <div class="split-img">
-      <img src="images/raw-fabric.jpeg" alt="Vision" />
+      <img src="images/pdf-elongation.jpg" alt="Elongation line — fabric in motion" style="object-position:center;" />
       <div style="position:absolute; inset:0; background:linear-gradient(to left, transparent 60%, var(--white) 100%);"></div>
     </div>
   </div>
@@ -1422,38 +1489,34 @@
      PAGE 15 — PHOTO GALLERY
      ══════════════════════════════════════════════════════════════════ -->
 <section class="page" style="display:flex; flex-direction:column;">
-  <div style="padding:24px 32px 0; text-align:center;">
+  <div style="padding:28px 32px 0; text-align:center;">
     <p class="eyebrow eyebrow-dark">Factory Gallery</p>
     <h2 style="color:var(--navy); margin-top:6px;">Inside Surjay Design &amp; Prints.</h2>
   </div>
   <div class="gallery-grid">
-    <div class="gi gi-wide">
-      <img src="images/printing-textile.jpeg" alt="Printing Floor" />
+    <div class="gi" style="grid-column:1 / 3; grid-row:1;">
+      <img src="images/pdf-printing.jpg" alt="Printing floor" />
       <div class="gi-label">Printing Floor</div>
     </div>
-    <div class="gi">
-      <img src="images/dying-textile.jpeg" alt="Dyeing Machines" />
+    <div class="gi" style="grid-column:3; grid-row:1;">
+      <img src="images/pdf-dyeing.jpg" alt="Dyeing machines" />
       <div class="gi-label">Dyeing Machines</div>
     </div>
-    <div class="gi">
-      <img src="images/raw-fabric.jpeg" alt="Raw Fabric" />
+    <div class="gi" style="grid-column:4; grid-row:1 / 3;">
+      <img src="images/ceo.jpeg" alt="Founder of Surjay Design &amp; Prints" style="object-position:center 18%;" />
+      <div class="gi-label">Ajay Soni — Founder</div>
+    </div>
+    <div class="gi" style="grid-column:1; grid-row:2;">
+      <img src="images/pdf-raw-fabric.jpg" alt="Raw fabric store" />
       <div class="gi-label">Raw Fabric</div>
     </div>
-    <div class="gi">
-      <img src="images/ceo.jpeg" alt="Founder" />
-      <div class="gi-label">Founder</div>
+    <div class="gi" style="grid-column:2; grid-row:2;">
+      <img src="images/pdf-folding.jpg" alt="Folding finished fabric" />
+      <div class="gi-label">Folding &amp; Finishing</div>
     </div>
-    <div class="gi">
-      <img src="images/dying-textile-2.jpeg" alt="Processing" />
-      <div class="gi-label">Processing Line</div>
-    </div>
-    <div class="gi">
-      <img src="images/dyed-cloth-press.jpeg" alt="Pressing" />
-      <div class="gi-label">Fabric Pressing</div>
-    </div>
-    <div class="gi gi-wide" style="grid-column: 3 / 5;">
-      <img src="images/products-to-sell.jpeg" alt="Finished Fabrics" />
-      <div class="gi-label">Finished Fabrics &amp; Packaging</div>
+    <div class="gi" style="grid-column:3; grid-row:2;">
+      <img src="images/pdf-market-ready.jpg" alt="Market-ready stock racked and tied" />
+      <div class="gi-label">Market-Ready Stock</div>
     </div>
   </div>
   <div class="page-footer">
@@ -1467,7 +1530,7 @@
      ══════════════════════════════════════════════════════════════════ -->
 <section class="page bg-navy" style="display:flex; flex-direction:column; color:white;">
   <div style="flex:1; display:flex; align-items:center; justify-content:center;">
-    <div style="width:100%; max-width:750px; text-align:center; padding:0 40px;">
+    <div style="width:100%; max-width:980px; text-align:center; padding:0 40px;">
       <p class="eyebrow" style="margin-bottom:10px;">Get In Touch</p>
       <h1 style="color:white; font-size:2.4rem;">Let's Build Together.</h1>
       <div class="gold-line" style="margin:16px auto;"></div>
@@ -1525,6 +1588,13 @@
             <div class="ci-value">Mon–Sat, 10:00 AM – 6:00 PM</div>
           </div>
         </div>
+        <div class="contact-item">
+          <div class="ci-icon">👤</div>
+          <div>
+            <div class="ci-label">Proprietor</div>
+            <div class="ci-value">Ajay Soni</div>
+          </div>
+        </div>
       </div>
 
       <!-- Statutory registrations -->
@@ -1560,7 +1630,7 @@
      ══════════════════════════════════════════════════════════════════ -->
 <section class="page cover">
   <div class="cover-bg">
-    <img src="images/dyed-product.jpeg" alt="Finished Fabric" />
+    <img src="images/pdf-hand-print.jpg" alt="Hand printed paisley fabric" />
   </div>
   <div class="cover-overlay" style="background:linear-gradient(180deg, rgba(8,22,45,0.65) 0%, rgba(8,22,45,0.88) 60%, rgba(8,22,45,0.96) 100%);"></div>
   <div class="cover-content">
@@ -1580,7 +1650,7 @@
       <span>+91 76186 54887</span>
     </div>
     <div style="margin-top:12px; font-size:0.52rem; color:rgba(255,255,255,0.3); letter-spacing:0.1em;">
-      © 2025 Surjay Design &amp; Prints. All rights reserved.
+      © 2026 Surjay Design &amp; Prints. All rights reserved.
     </div>
   </div>
 </section>
