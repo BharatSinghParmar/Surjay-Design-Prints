@@ -101,7 +101,9 @@ img {
   overflow: hidden;
 }
 
-.video-hero video {
+/* Direct child only — the full-bleed background layer. Videos nested deeper in
+   the hero (e.g. a live mosaic tile) lay out normally. */
+.video-hero > video {
   position: absolute;
   inset: 0;
   width: 100%;

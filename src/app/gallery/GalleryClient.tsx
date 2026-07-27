@@ -1,70 +1,46 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useRef } from "react";
-import { Play, Pause } from "lucide-react";
+import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { imageAssets, videoAssets } from "@/data/site";
+import { VideoCard } from "@/components/VideoCard";
+import { imageAssets, videoAssets, videoPosters } from "@/data/site";
 
 const galleryItems = [
-  { img: imageAssets.rawFabric,       label: "Raw Fabric Storage",    category: "factory",   tall: true },
-  { img: imageAssets.printingHall,    label: "Printing Floor",        category: "printing",  tall: false },
-  { img: imageAssets.dyeingMachine,   label: "Dyeing Machine",        category: "machinery", tall: false },
-  { img: imageAssets.printingFabric,  label: "Printed Fabric Detail", category: "printing",  tall: true },
-  { img: imageAssets.dyedPress,       label: "Fabric Pressing",       category: "factory",   tall: false },
-  { img: imageAssets.dyeingMachine2,  label: "Processing Line",       category: "machinery", tall: false },
+  { img: imageAssets.handPrintHall,        label: "Bandana Print Down the Hall",  category: "printing",  tall: false },
+  { img: imageAssets.rawRolls,             label: "Raw Fabric Rolls",             category: "factory",   tall: true  },
+  { img: imageAssets.printGreen,           label: "Green Repeat on the Table",    category: "printing",  tall: false },
+  { img: imageAssets.fixationStock,        label: "Dyed Lots in Fixation",        category: "factory",   tall: false },
+  { img: imageAssets.handPrintDetail,      label: "Hand Print Detail",            category: "printing",  tall: true  },
+  { img: imageAssets.dyeingMachine,        label: "Dyeing Line",                  category: "machinery", tall: false },
+  { img: imageAssets.cleaningTank,         label: "Wash & Preparation Tank",      category: "machinery", tall: false },
+  { img: imageAssets.designScreenPortrait, label: "Screen & Design Station",      category: "printing",  tall: true  },
+  { img: imageAssets.elongationLine,       label: "Elongation Line",              category: "machinery", tall: false },
+  { img: imageAssets.qualityTable,         label: "Quality Check",                category: "factory",   tall: false },
+  { img: imageAssets.dryingColour,         label: "Drying Range",                 category: "factory",   tall: false },
+  { img: imageAssets.foldingDetail,        label: "Folding & Inspection",         category: "factory",   tall: true  },
+  { img: imageAssets.cleaningRollers,      label: "Cleaning Rollers",             category: "machinery", tall: false },
+  { img: imageAssets.printMonoScreen,      label: "Monochrome Run",               category: "printing",  tall: false },
+  { img: imageAssets.marketReady,          label: "Market-Ready Stock",           category: "factory",   tall: false }
 ];
 
+// One clip per process, each unique to the gallery — the clips used on the
+// home, process, printing and infrastructure pages are different segments or
+// different takes from the same folders.
 const videos = [
-  { src: videoAssets.printingMachine, poster: imageAssets.printingHall,   label: "Printing Machine in Action" },
-  { src: videoAssets.dyeingProcess,   poster: imageAssets.dyeingMachine,  label: "Dyeing Process" },
-  { src: videoAssets.printingTextile, poster: imageAssets.printingFabric, label: "Fabric on Printing Tables" }
+  { src: videoAssets.screenPrintingRun, poster: videoPosters.screenPrintingRun, label: "Screen Printing — Cloth on the Table" },
+  { src: videoAssets.dyeDrum,           poster: videoPosters.dyeDrum,           label: "Dye Drum Turning" },
+  { src: videoAssets.fabricCleaning,    poster: videoPosters.fabricCleaning,    label: "Fabric Cleaning & Washing" },
+  { src: videoAssets.rfd,               poster: videoPosters.rfd,               label: "RFD — Winding onto the Beam" },
+  { src: videoAssets.silicone,          poster: videoPosters.silicone,          label: "Silicone Softening Line" },
+  { src: videoAssets.pressing,          poster: videoPosters.pressing,          label: "Pressing & Calendering" },
+  { src: videoAssets.dryingRange,       poster: videoPosters.dryingRange,       label: "Drying Range" },
+  { src: videoAssets.qualityInspection, poster: videoPosters.qualityInspection, label: "Quality Inspection by Hand" },
+  { src: videoAssets.marketReady,       poster: videoPosters.marketReady,       label: "Market-Ready Stock" }
 ];
 
 const categories = ["all", "factory", "printing", "machinery"];
-
-function VideoPlayer({ src, poster, label }: { src: string; poster: string; label: string }) {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
-
-  const toggle = () => {
-    if (!ref.current) return;
-    if (playing) { ref.current.pause(); setPlaying(false); }
-    else { ref.current.play(); setPlaying(true); }
-  };
-
-  return (
-    <div
-      className="group relative cursor-pointer overflow-hidden rounded-2xl bg-navy shadow-premium"
-      onClick={toggle}
-    >
-      <video
-        ref={ref}
-        src={src}
-        poster={poster}
-        className="aspect-video w-full object-cover"
-        playsInline
-        onEnded={() => setPlaying(false)}
-      />
-      <div
-        className={`absolute inset-0 flex items-center justify-center transition duration-300 ${
-          playing ? "opacity-0 group-hover:opacity-100" : "bg-navy/40"
-        }`}
-      >
-        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur ring-2 ring-white/30 transition duration-300 hover:scale-110 hover:bg-magenta">
-          {playing
-            ? <Pause className="h-7 w-7 fill-white text-white" />
-            : <Play className="ml-1 h-7 w-7 fill-white text-white" />
-          }
-        </span>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/90 to-transparent p-5">
-        <p className="text-sm font-semibold text-white">{label}</p>
-      </div>
-    </div>
-  );
-}
 
 export function GalleryClient() {
   const [active, setActive] = useState("all");
@@ -126,13 +102,13 @@ export function GalleryClient() {
           <SectionHeading
             eyebrow="Video Gallery"
             title="Real factory — watch the process live."
-            body="Play the videos below to see dyeing, printing and machinery in action."
+            body="Click any clip to watch it full size — every stage from washing and dyeing to inspection and dispatch."
             align="center"
           />
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {videos.map((v) => (
               <Reveal key={v.label}>
-                <VideoPlayer src={v.src} poster={v.poster} label={v.label} />
+                <VideoCard src={v.src} poster={v.poster} label={v.label} />
               </Reveal>
             ))}
           </div>
@@ -142,8 +118,8 @@ export function GalleryClient() {
       {/* ── FULL-WIDTH PRINTING PANORAMIC ─────────────────────── */}
       <section className="relative h-[60vh] min-h-[380px] overflow-hidden">
         <Image
-          src={imageAssets.printingHall}
-          alt="Full printing hall panoramic at Surjay Design and Prints"
+          src={imageAssets.printGreenScreen}
+          alt="Screen printing table panoramic at Surjay Design and Prints"
           fill
           className="object-cover"
           sizes="100vw"

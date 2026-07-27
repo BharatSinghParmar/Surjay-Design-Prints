@@ -25,7 +25,7 @@ export default function GalleryPage() {
         eyebrow="Gallery"
         title="Factory, process and product visuals."
         body="A visual look at the manufacturing environment, printing tables, dyeing flow and finished fabric direction."
-        image={imageAssets.printingFabric}
+        image={imageAssets.printMono}
       />
       <Breadcrumbs items={[{ name: "Gallery", href: "/gallery" }]} />
       <GalleryClient />
