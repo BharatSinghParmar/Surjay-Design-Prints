@@ -1,7 +1,9 @@
 "use client";
 
+import { Maximize2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { PhotoLightbox } from "@/components/PhotoLightbox";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { VideoCard } from "@/components/VideoCard";
@@ -44,7 +46,16 @@ const categories = ["all", "factory", "printing", "machinery"];
 
 export function GalleryClient() {
   const [active, setActive] = useState("all");
+  // Index into `filtered`, so prev/next walks the set the visitor is looking at.
+  const [photoIndex, setPhotoIndex] = useState<number | null>(null);
   const filtered = active === "all" ? galleryItems : galleryItems.filter(i => i.category === active);
+
+  function selectCategory(cat: string) {
+    setActive(cat);
+    // The open photo's index belongs to the old filter — drop it rather than
+    // leave the lightbox pointing at a different picture.
+    setPhotoIndex(null);
+  }
 
   return (
     <>
@@ -62,7 +73,7 @@ export function GalleryClient() {
             {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActive(cat)}
+                onClick={() => selectCategory(cat)}
                 className={`rounded-full px-5 py-2 text-sm font-semibold capitalize transition ${
                   active === cat
                     ? "bg-navy text-white shadow-sm"
@@ -74,11 +85,18 @@ export function GalleryClient() {
             ))}
           </div>
 
-          {/* Masonry grid */}
+          {/* Masonry grid — each tile opens the photo lightbox. A real <button>
+              rather than a div with onClick, so it is reachable by keyboard. */}
           <div className="masonry-grid mt-10">
-            {filtered.map((item) => (
+            {filtered.map((item, index) => (
               <Reveal key={item.label} className="masonry-item">
-                <div className="group relative overflow-hidden rounded-2xl bg-navy shadow-sm">
+                <button
+                  type="button"
+                  onClick={() => setPhotoIndex(index)}
+                  aria-haspopup="dialog"
+                  aria-label={`View photo: ${item.label}`}
+                  className="group relative block w-full overflow-hidden rounded-2xl bg-navy text-left shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta"
+                >
                   <Image
                     src={item.img}
                     alt={`${item.label} at Surjay Design & Prints`}
@@ -86,13 +104,26 @@ export function GalleryClient() {
                     height={item.tall ? 640 : 400}
                     className={`w-full object-cover opacity-88 transition duration-700 group-hover:scale-105 group-hover:opacity-100 ${item.tall ? "aspect-[3/4]" : "aspect-[4/3]"}`}
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 to-transparent p-5 opacity-0 transition duration-300 group-hover:opacity-100">
-                    <h3 className="font-heading text-base font-semibold text-white">{item.label}</h3>
-                  </div>
-                </div>
+                  <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-navy/60 text-white opacity-0 backdrop-blur transition duration-300 group-hover:opacity-100">
+                    <Maximize2 className="h-4 w-4" />
+                  </span>
+                  <span className="absolute inset-x-0 bottom-0 block bg-gradient-to-t from-navy/80 to-transparent p-5 opacity-0 transition duration-300 group-hover:opacity-100">
+                    <span className="block font-heading text-base font-semibold text-white">
+                      {item.label}
+                    </span>
+                  </span>
+                </button>
               </Reveal>
             ))}
           </div>
+
+          <PhotoLightbox
+            open={photoIndex !== null}
+            onClose={() => setPhotoIndex(null)}
+            photos={filtered}
+            index={photoIndex ?? 0}
+            onIndexChange={setPhotoIndex}
+          />
         </div>
       </section>
 
