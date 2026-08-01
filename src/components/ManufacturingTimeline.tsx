@@ -14,6 +14,7 @@ import {
   PackageSearch,
   Paintbrush,
   PanelsTopLeft,
+  Play,
   SearchCheck,
   ShieldCheck,
   Sparkles,
@@ -23,8 +24,10 @@ import {
   Wind,
   type LucideIcon
 } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
-import { imageAssets } from "@/data/site";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { HeroBackgroundVideo } from "@/components/HeroBackgroundVideo";
+import { VideoLightbox } from "@/components/VideoLightbox";
+import { imageAssets, videoAssets, videoPosters } from "@/data/site";
 
 type TimelineStep = {
   title: string;
@@ -34,6 +37,13 @@ type TimelineStep = {
   duration: string;
   image: string;
   icon: LucideIcon;
+  /**
+   * Optional clip for the stage card. Only the stages with a spare take get one
+   * — the rest keep their still rather than replay footage used elsewhere on the
+   * site. A mixed timeline is the intended result, not an omission.
+   */
+  video?: string;
+  videoPoster?: string;
 };
 
 const manufacturingSteps: TimelineStep[] = [
@@ -53,6 +63,8 @@ const manufacturingSteps: TimelineStep[] = [
     purpose: "Creates a dependable foundation for shade matching, print clarity and repeat batch outcomes.",
     duration: "2-4 hrs",
     image: imageAssets.rfdWinding,
+    video: videoAssets.rfdTimeline,
+    videoPoster: videoPosters.rfdTimeline,
     icon: Sparkles
   },
   {
@@ -62,6 +74,8 @@ const manufacturingSteps: TimelineStep[] = [
     purpose: "Improves absorbency and reduces defects that can show up later during dyeing or printing.",
     duration: "3-5 hrs",
     image: imageAssets.cleaningTank,
+    video: videoAssets.fabricCleaningTimeline,
+    videoPoster: videoPosters.fabricCleaningTimeline,
     icon: Droplets
   },
   {
@@ -107,6 +121,8 @@ const manufacturingSteps: TimelineStep[] = [
     purpose: "Helps preserve shade and print performance through finishing, folding and commercial handling.",
     duration: "2-3 hrs",
     image: imageAssets.silicateTreatment,
+    video: videoAssets.silicateTimeline,
+    videoPoster: videoPosters.silicateTimeline,
     icon: ShieldCheck
   },
   {
@@ -134,6 +150,8 @@ const manufacturingSteps: TimelineStep[] = [
     purpose: "Makes the fabric easier to inspect, fold, present and dispatch.",
     duration: "2-4 hrs",
     image: imageAssets.pressingLine,
+    video: videoAssets.pressingTimeline,
+    videoPoster: videoPosters.pressingTimeline,
     icon: BadgeCheck
   },
   {
@@ -143,6 +161,9 @@ const manufacturingSteps: TimelineStep[] = [
     purpose: "Reduces surprises for garment manufacturers and repeat bulk buyers.",
     duration: "1-2 hrs",
     image: imageAssets.elongationFeed,
+    // The one already-encoded clip no page had used.
+    video: videoAssets.elongationRun,
+    videoPoster: videoPosters.elongationRun,
     icon: MoveHorizontal
   },
   {
@@ -192,15 +213,50 @@ const manufacturingSteps: TimelineStep[] = [
   }
 ];
 
+/** How long a pointer must rest on a step before it becomes the active one. */
+const HOVER_INTENT_MS = 180;
+
 export function ManufacturingTimeline() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [atScrollEnd, setAtScrollEnd] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hoverTimer = useRef<number | null>(null);
   const activeStep = manufacturingSteps[activeIndex];
   const ActiveIcon = activeStep.icon;
   const progress = useMemo(
     () => (activeIndex / (manufacturingSteps.length - 1)) * 100,
     [activeIndex]
   );
+
+  useEffect(() => () => {
+    if (hoverTimer.current !== null) window.clearTimeout(hoverTimer.current);
+  }, []);
+
+  // A step change behind an open dialog would silently swap which clip is
+  // playing; close instead.
+  useEffect(() => {
+    setLightboxOpen(false);
+  }, [activeIndex]);
+
+  function cancelHover() {
+    if (hoverTimer.current === null) return;
+    window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = null;
+  }
+
+  /**
+   * Sweeping a mouse across the rail crosses every step in a few hundred
+   * milliseconds. Committing on each one would start and abandon a video load
+   * per step, so a hover only takes effect once the pointer settles.
+   */
+  function hoverStep(index: number) {
+    cancelHover();
+    hoverTimer.current = window.setTimeout(() => {
+      hoverTimer.current = null;
+      setActiveIndex(index);
+    }, HOVER_INTENT_MS);
+  }
 
   function updateActiveFromScroll() {
     const element = scrollRef.current;
@@ -210,9 +266,13 @@ export function ManufacturingTimeline() {
     const scrollProgress = maxScroll > 0 ? element.scrollLeft / maxScroll : 0;
     const nextIndex = Math.round(scrollProgress * (manufacturingSteps.length - 1));
     setActiveIndex(Math.min(manufacturingSteps.length - 1, Math.max(0, nextIndex)));
+    // 2px of slack: sub-pixel scroll widths mean scrollLeft rarely lands exactly
+    // on maxScroll.
+    setAtScrollEnd(maxScroll <= 0 || element.scrollLeft >= maxScroll - 2);
   }
 
   function selectStep(index: number) {
+    cancelHover();
     setActiveIndex(index);
     const element = scrollRef.current;
     if (!element) return;
@@ -261,9 +321,18 @@ export function ManufacturingTimeline() {
         </div>
 
         <div className="mt-10 overflow-hidden rounded-lg border border-slate-200 bg-white/88 p-4 shadow-premium md:p-6">
+          {/* The rail is ~2,550px wide on a phone with the scrollbar hidden in
+              CSS, so it needs to say out loud that it scrolls. */}
+          <p className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-charcoal/45 lg:hidden">
+            <MoveHorizontal className="h-3.5 w-3.5 text-magenta" />
+            {manufacturingSteps.length} stages — swipe to explore
+          </p>
+
+          <div className="relative">
           <div
             ref={scrollRef}
             onScroll={updateActiveFromScroll}
+            onMouseLeave={cancelHover}
             className="manufacturing-timeline-scroll overflow-x-auto scroll-smooth pb-4"
           >
             <div className="relative min-w-max px-4 pt-3">
@@ -283,8 +352,12 @@ export function ManufacturingTimeline() {
                       key={step.title}
                       type="button"
                       onClick={() => selectStep(index)}
-                      onMouseEnter={() => setActiveIndex(index)}
-                      onFocus={() => setActiveIndex(index)}
+                      onMouseEnter={() => hoverStep(index)}
+                      onMouseLeave={cancelHover}
+                      onFocus={() => {
+                        cancelHover();
+                        setActiveIndex(index);
+                      }}
                       className="group relative flex w-36 snap-center flex-col items-center text-center outline-none sm:w-40"
                       initial={{ opacity: 0, y: 16 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -317,6 +390,16 @@ export function ManufacturingTimeline() {
             </div>
           </div>
 
+          {/* Fade off the right edge while steps remain, so the rail visibly
+              continues past the viewport. Clears once it is scrolled out. */}
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-y-0 right-0 w-14 bg-gradient-to-l from-white to-transparent transition-opacity duration-300 lg:hidden ${
+              atScrollEnd ? "opacity-0" : "opacity-100"
+            }`}
+          />
+          </div>
+
           <div className="mt-2 flex items-center justify-between px-2 text-[10px] font-bold uppercase tracking-[0.22em] text-charcoal/38">
             <span>Procurement</span>
             <span>Dispatch</span>
@@ -333,15 +416,42 @@ export function ManufacturingTimeline() {
             transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="relative min-h-[260px] overflow-hidden bg-navy md:min-h-[360px] lg:min-h-full">
-              <Image
-                src={activeStep.image}
-                alt={`${activeStep.title} manufacturing process`}
-                fill
-                sizes="(min-width: 1024px) 45vw, 100vw"
-                className="object-cover"
-              />
+              {activeStep.video ? (
+                // AnimatePresence mode="wait" keys this card on the step title,
+                // so exactly one card — and therefore one video — is ever
+                // mounted. HeroBackgroundVideo is used for its lazy src: the
+                // clip downloads only once the timeline is actually on screen.
+                <HeroBackgroundVideo
+                  src={activeStep.video}
+                  poster={activeStep.videoPoster ?? activeStep.image}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                <Image
+                  src={activeStep.image}
+                  alt={`${activeStep.title} manufacturing process`}
+                  fill
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                  className="object-cover"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-navy/76 via-navy/18 to-transparent" />
-              <div className="absolute bottom-5 left-5 flex items-center gap-3 text-white">
+
+              {activeStep.video ? (
+                <button
+                  type="button"
+                  onClick={() => setLightboxOpen(true)}
+                  aria-haspopup="dialog"
+                  aria-label={`Play video: ${activeStep.title}`}
+                  className="group absolute inset-0 grid place-items-center focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white"
+                >
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-white/92 text-magenta shadow-premium transition duration-300 group-hover:scale-105 group-hover:bg-white">
+                    <Play className="ml-0.5 h-5 w-5 fill-current" />
+                  </span>
+                </button>
+              ) : null}
+
+              <div className="pointer-events-none absolute bottom-5 left-5 flex items-center gap-3 text-white">
                 <span className="grid h-11 w-11 place-items-center rounded-md bg-white text-magenta shadow-sm">
                   <ActiveIcon className="h-5 w-5" />
                 </span>
@@ -394,6 +504,16 @@ export function ManufacturingTimeline() {
           </motion.article>
         </AnimatePresence>
       </div>
+
+      {/* Outside AnimatePresence: the card unmounts on every step change, and
+          the dialog must not go with it mid-interaction. */}
+      <VideoLightbox
+        open={lightboxOpen && Boolean(activeStep.video)}
+        onClose={() => setLightboxOpen(false)}
+        src={activeStep.video ?? ""}
+        poster={activeStep.videoPoster}
+        label={activeStep.title}
+      />
     </section>
   );
 }

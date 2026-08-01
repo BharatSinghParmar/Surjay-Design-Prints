@@ -2,7 +2,8 @@
 /**
  * Turn the raw factory media in media-inbox/ into web-ready assets in public/.
  *
- *   node scripts/process-media.mjs
+ *   node scripts/process-media.mjs                       # everything
+ *   node scripts/process-media.mjs --only=silicate.mp4   # just these outputs
  *
  * media-inbox/photos/<PROCESS>/ and media-inbox/videos/<PROCESS>/ are organised
  * by process name, so every entry below is addressed as "<FOLDER>/<file>" and
@@ -47,6 +48,13 @@ const VID_OUT = join(root, "public", "videos");
 
 const photo = (f) => join(INBOX, "photos", f);
 const video = (f) => join(INBOX, "videos", f);
+
+// `--only=a.mp4,b.jpg` limits the run to those output filenames. Encoding is
+// deterministic, so a full run is always safe — this just avoids re-encoding 60
+// unchanged assets when one clip is added.
+const onlyArg = process.argv.find((a) => a.startsWith("--only="));
+const only = onlyArg ? new Set(onlyArg.slice("--only=".length).split(",")) : null;
+const wanted = (out) => !only || only.has(out);
 
 // A photo slot may be sourced from a clip instead of a still: set
 // `fromVideo: true` and `at` (seconds) to grab a frame from videos/<src>.
@@ -190,7 +198,16 @@ const VIDEOS = [
   { src: "ELONGATION/Untitled design.mp4",           out: "elongation-wide.mp4",    poster: "elongation-wide-poster.jpg",    posterAt: 0.4, note: "Wide sweep down the elongation line — infrastructure machinery section" },
   { src: "DRYING RANGE/drying.mp4",                  out: "drying-range.mp4",       poster: "drying-range-poster.jpg",       note: "Drying range" },
   { src: "QUALITY INSPECTION/qualitycheck.mp4",      out: "quality-inspection.mp4", poster: "quality-inspection-poster.jpg", note: "Shade and print checked by hand" },
-  { src: "MARKET READY FABRIC/marketready.mp4",      out: "market-ready.mp4",       poster: "market-ready-poster.jpg",       note: "Finished stock in the dispatch store" }
+  { src: "MARKET READY FABRIC/marketready.mp4",      out: "market-ready.mp4",       poster: "market-ready-poster.jpg",       note: "Finished stock in the dispatch store" },
+
+  // ── Timeline clips ───────────────────────────────────────────────────────
+  // Cut from takes no other page uses, so the ManufacturingTimeline card never
+  // replays footage a visitor has already seen further up the site. Only these
+  // four folders had a genuinely spare take; the remaining steps keep a still.
+  { src: "RFD/rfd1.mp4",                             out: "rfd-beam.mp4",            poster: "rfd-beam-poster.jpg",            note: "Timeline — RFD, second angle on the beam" },
+  { src: "FABRIC CLEANING/Untitled design.mp4",      out: "fabric-cleaning-prep.mp4", poster: "fabric-cleaning-prep-poster.jpg", note: "Timeline — cleaning & preparation, spare take" },
+  { src: "SILICATE TREATMENT/Untitled design.mp4",   out: "silicate.mp4",            poster: "silicate-poster.jpg",            note: "Timeline — silicate fixation (SILICATE, not the SILICON folder)" },
+  { src: "PRESSING/Untitled design.mp4",             out: "pressing-roll.mp4",       poster: "pressing-roll-poster.jpg",       note: "Timeline — pressing, second angle" }
 ];
 
 function run(cmd, args) {
@@ -235,6 +252,7 @@ let missing = 0;
 
 console.log("── Photos ─────────────────────────────────────────────");
 for (const p of PHOTOS) {
+  if (!wanted(p.out)) continue;
   const src = p.fromVideo ? video(p.src) : photo(p.src);
   if (!existsSync(src)) {
     console.warn(`  ⚠ missing ${p.src} — skipped`);
@@ -267,6 +285,7 @@ for (const p of PHOTOS) {
 
 console.log("\n── Videos ─────────────────────────────────────────────");
 for (const v of VIDEOS) {
+  if (!wanted(v.out)) continue;
   const src = video(v.src);
   if (!existsSync(src)) {
     console.warn(`  ⚠ missing ${v.src} — skipped`);
