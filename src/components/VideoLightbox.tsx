@@ -82,8 +82,12 @@ export function VideoLightbox({
           className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/85 px-4 py-6 backdrop-blur-sm"
           onClick={onClose}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          animate={{ opacity: 1, pointerEvents: "auto" }}
+          // Stop intercepting clicks the instant it starts closing, rather than
+          // when the exit animation finishes. If that animation is ever delayed —
+          // a backgrounded tab freezes requestAnimationFrame, so it stalls
+          // mid-fade — an invisible overlay would otherwise still swallow clicks.
+          exit={{ opacity: 0, pointerEvents: "none" }}
           transition={{ duration: 0.22 }}
         >
           <motion.div
