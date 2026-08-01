@@ -31,7 +31,15 @@ export const PG_ENABLED = Boolean(CONNECTION);
 
 const sql = PG_ENABLED ? neon(CONNECTION) : null;
 
-function db() {
+/**
+ * Shared tagged-template query function.
+ *
+ * Exported because this file is the app's single Postgres module — it already
+ * owns the admin accounts, settings and rate-limit tables alongside the
+ * catalogue — and sibling stores (see src/lib/testimonials/pgStore.ts) query
+ * through it rather than opening a second connection.
+ */
+export function db() {
   if (!sql) throw new Error("Postgres is not configured");
   return sql;
 }
@@ -102,6 +110,34 @@ export function ensureSchema(): Promise<void> {
           show_on_card BOOLEAN NOT NULL DEFAULT false,
           sort_order   INTEGER NOT NULL DEFAULT 0
         )`;
+
+      // Buyer testimonials, managed from /admin/testimonials. Queried in
+      // src/lib/testimonials/pgStore.ts; the DDL lives here because this
+      // function is the app's only migration mechanism.
+      await q`
+        CREATE TABLE IF NOT EXISTS testimonials (
+          id               TEXT PRIMARY KEY,
+          quote            TEXT NOT NULL,
+          author_name      TEXT NOT NULL,
+          author_role      TEXT,
+          company          TEXT,
+          location         TEXT,
+          outcome          TEXT,
+          photo_url        TEXT,
+          logo_url         TEXT,
+          video_url        TEXT,
+          video_poster_url TEXT,
+          consent_given    BOOLEAN NOT NULL DEFAULT false,
+          consent_note     TEXT,
+          featured         BOOLEAN NOT NULL DEFAULT false,
+          sort_order       INTEGER NOT NULL DEFAULT 0,
+          published        BOOLEAN NOT NULL DEFAULT false,
+          created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
+          updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
+        )`;
+      await q`
+        CREATE INDEX IF NOT EXISTS testimonials_order_idx
+        ON testimonials (featured DESC, sort_order ASC, created_at DESC)`;
 
       // Seed the starter feature set once, on an empty install.
       const [{ count }] = (await q`SELECT count(*)::int AS count FROM design_attributes`) as {

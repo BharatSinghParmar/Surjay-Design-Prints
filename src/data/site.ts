@@ -187,10 +187,10 @@ export const imageAssets = {
  *   FOLDING, PACKAGING          — only ever photographed
  *   raw fabric (2s)             — too short to loop
  *   24 HOUR FABRIC PRESERVE     — 1.6s, too short to loop
- *   SILICATE TREATMENT          — has footage, but the silicone clip already
- *                                 covers the same padding line; the stage uses
- *                                 its own still (silicate-treatment.jpg)
  * Those stages use stills instead.
+ *
+ * The four `…Timeline` keys at the end are cut from takes no page uses, so the
+ * ManufacturingTimeline card never replays footage seen elsewhere on the site.
  */
 export const videoAssets = {
   screenPrinting: "/videos/screen-printing.mp4",
@@ -208,7 +208,13 @@ export const videoAssets = {
   elongationWide: "/videos/elongation-wide.mp4",
   dryingRange: "/videos/drying-range.mp4",
   qualityInspection: "/videos/quality-inspection.mp4",
-  marketReady: "/videos/market-ready.mp4"
+  marketReady: "/videos/market-ready.mp4",
+
+  // Timeline-only clips — see the note above.
+  rfdTimeline: "/videos/rfd-beam.mp4",
+  fabricCleaningTimeline: "/videos/fabric-cleaning-prep.mp4",
+  silicateTimeline: "/videos/silicate.mp4",
+  pressingTimeline: "/videos/pressing-roll.mp4"
 };
 
 /** Poster frame for each video, keyed the same way and cut from the encoded clip. */
@@ -228,7 +234,12 @@ export const videoPosters: Record<keyof typeof videoAssets, string> = {
   elongationWide: "/images/elongation-wide-poster.jpg",
   dryingRange: "/images/drying-range-poster.jpg",
   qualityInspection: "/images/quality-inspection-poster.jpg",
-  marketReady: "/images/market-ready-poster.jpg"
+  marketReady: "/images/market-ready-poster.jpg",
+
+  rfdTimeline: "/images/rfd-beam-poster.jpg",
+  fabricCleaningTimeline: "/images/fabric-cleaning-prep-poster.jpg",
+  silicateTimeline: "/images/silicate-poster.jpg",
+  pressingTimeline: "/images/pressing-roll-poster.jpg"
 };
 
 export const stats = [
@@ -378,18 +389,23 @@ export const whyChoose = [
   "Transparent Manufacturing"
 ];
 
-export const testimonials = [
+/**
+ * Shown only until the first real testimonial is added at /admin/testimonials.
+ *
+ * These are summaries of what buyers say, so they carry a segment rather than a
+ * name and face. Presenting them as named individuals — which is how they read
+ * before — is exactly the pattern trade buyers discount as invented.
+ */
+export const fallbackTestimonials = [
   {
     quote:
       "Surjay Design & Prints understands bulk fabric expectations and communicates clearly from processing to dispatch.",
-    name: "Wholesale Fabric Buyer",
-    role: "Jaipur textile market"
+    segment: "Wholesale buyers · Jaipur textile market"
   },
   {
     quote:
       "The finishing quality and print consistency make them a dependable partner for repeat garment production.",
-    name: "Garment Manufacturer",
-    role: "North India"
+    segment: "Garment manufacturers · North India"
   }
 ];
 

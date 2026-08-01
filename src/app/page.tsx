@@ -11,9 +11,19 @@ import { ProductCards } from "@/components/ProductCards";
 import { ResourceCard } from "@/components/ResourceCard";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
+import { Testimonials } from "@/components/Testimonials";
 import { companyResources } from "@/data/resources";
-import { imageAssets, videoAssets, videoPosters, processSteps, stats, testimonials, whyChoose } from "@/data/site";
+import { imageAssets, videoAssets, videoPosters, processSteps, stats, fallbackTestimonials, whyChoose } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { listPublishedTestimonials } from "@/lib/testimonials/store";
+
+/**
+ * Testimonials are admin-managed, so the page cannot stay static to the build.
+ * ISR rather than force-dynamic: the home page is the most-visited route and
+ * should still be served from cache, and a minute is a fine delay for a new
+ * testimonial to show up.
+ */
+export const revalidate = 60;
 
 export const metadata = pageMetadata({
   title: "Premium Textile Manufacturer in Rajasthan",
@@ -28,7 +38,7 @@ const highlights = [
   { icon: Users, title: "Buyer Focus", body: "Built for wholesalers, garment manufacturers, textile traders and repeat bulk programs." }
 ];
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Home", path: "/" }])} />
@@ -343,32 +353,10 @@ export default function Home() {
       </section>
 
       {/* ── TESTIMONIALS ─────────────────────────────────────────────── */}
-      <section className="bg-mist py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Testimonials"
-            title="Trusted by business buyers."
-            align="center"
-          />
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {testimonials.map((testimonial) => (
-              <Reveal key={testimonial.name} className="hover-lift rounded-xl bg-white p-8 shadow-sm">
-                <div className="mb-4 text-gold">{"★★★★★"}</div>
-                <p className="text-lg leading-8 text-charcoal/78">&quot;{testimonial.quote}&quot;</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-sm font-bold text-white">
-                    {testimonial.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-heading font-semibold text-navy">{testimonial.name}</p>
-                    <p className="text-sm text-charcoal/56">{testimonial.role}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Testimonials
+        testimonials={await listPublishedTestimonials()}
+        fallback={fallbackTestimonials}
+      />
 
       {/* ── CTA ──────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-navy py-24 text-white md:py-32">
