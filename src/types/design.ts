@@ -31,7 +31,7 @@ export interface AttributeDef {
 }
 
 // ── Designs ────────────────────────────────────────────────────────────────
-export type DesignFileType = "image" | "pdf";
+export type DesignFileType = "image" | "pdf" | "video";
 
 export interface DesignFile {
   url: string; // "/uploads/…" locally, blob URL in production
@@ -69,14 +69,54 @@ export interface AdminUser {
 // Public-safe admin shape (never leak the hash to the client)
 export type AdminPublic = Pick<AdminUser, "id" | "email" | "name">;
 
-// Accepted upload MIME types → our file type bucket
-export const ACCEPTED_UPLOAD_TYPES: Record<string, DesignFileType> = {
-  "image/jpeg": "image",
-  "image/png": "image",
-  "image/webp": "image",
-  "image/avif": "image",
-  "image/tiff": "image",
-  "application/pdf": "pdf"
+/**
+ * Accepted upload MIME types → our file type bucket, and the extension each is
+ * stored with. Single source of truth: the API route, the `accept=` attribute
+ * and the error message all derive from this map, so a new format is added in
+ * one place.
+ *
+ * Video is here for testimonial clips. It never goes through
+ * /api/admin/upload — Vercel caps a function request body at 4.5 MB at the
+ * infrastructure level, well under any real video — so the browser uploads
+ * straight to Blob via /api/admin/upload/token instead.
+ */
+export const UPLOAD_FORMATS: Record<string, { type: DesignFileType; ext: string }> = {
+  "image/jpeg": { type: "image", ext: "jpg" },
+  "image/png": { type: "image", ext: "png" },
+  "image/webp": { type: "image", ext: "webp" },
+  "image/avif": { type: "image", ext: "avif" },
+  "image/tiff": { type: "image", ext: "tif" },
+  "application/pdf": { type: "pdf", ext: "pdf" },
+  "video/mp4": { type: "video", ext: "mp4" },
+  "video/quicktime": { type: "video", ext: "mov" },
+  "video/webm": { type: "video", ext: "webm" }
 };
 
+export const ACCEPTED_UPLOAD_TYPES: Record<string, DesignFileType> = Object.fromEntries(
+  Object.entries(UPLOAD_FORMATS).map(([mime, f]) => [mime, f.type])
+);
+
+/** Value for an `<input type="file" accept="…">`. */
+export function acceptAttribute(types: DesignFileType[]): string {
+  return Object.entries(UPLOAD_FORMATS)
+    .filter(([, f]) => types.includes(f.type))
+    .map(([mime]) => mime)
+    .join(",");
+}
+
+/** Human list for labels and error messages, e.g. "JPG, PNG, PDF". */
+export function acceptLabel(types: DesignFileType[]): string {
+  const exts = Object.entries(UPLOAD_FORMATS)
+    .filter(([, f]) => types.includes(f.type))
+    .map(([, f]) => f.ext.toUpperCase());
+  return [...new Set(exts)].join(", ");
+}
+
 export const MAX_UPLOAD_BYTES = 25 * 1024 * 1024; // 25 MB per file
+
+/**
+ * Ceiling for a browser→Blob client upload. Higher than MAX_UPLOAD_BYTES
+ * because that path does not pass through a serverless function, so the 4.5 MB
+ * request-body cap does not apply.
+ */
+export const MAX_VIDEO_UPLOAD_BYTES = 200 * 1024 * 1024; // 200 MB

@@ -3,10 +3,12 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FileText, LogOut, Plus, Settings2, Star, Trash2, Upload, Users, X } from "lucide-react";
+import { FileText, LogOut, Plus, Quote, Settings2, Star, Trash2, Upload, Users, X } from "lucide-react";
 import { adminApi } from "@/lib/admin/client";
 import {
   DESIGN_CATEGORIES,
+  acceptAttribute,
+  acceptLabel,
   categoryLabel,
   type AdminPublic,
   type AttributeDef,
@@ -161,6 +163,12 @@ export function AdminDashboard({
             >
               <Settings2 className="h-4 w-4" /> Features
             </a>
+            <a
+              href="/admin/testimonials"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-navy hover:bg-mist"
+            >
+              <Quote className="h-4 w-4" /> Testimonials
+            </a>
             <button
               onClick={openNew}
               className="inline-flex items-center gap-1.5 rounded-lg bg-magenta px-3 py-2 text-sm font-semibold text-white hover:bg-wine"
@@ -227,7 +235,7 @@ export function AdminDashboard({
             {/* Files */}
             <div className="mt-5">
               <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-charcoal/60">
-                Design Files (JPG, PNG, WEBP, TIFF, PDF)
+                Design Files ({acceptLabel(["image", "pdf"])})
               </label>
               <div className="flex flex-wrap gap-3">
                 {form.files.map((f, i) => (
@@ -260,7 +268,7 @@ export function AdminDashboard({
                   ref={fileInput}
                   type="file"
                   multiple
-                  accept="image/jpeg,image/png,image/webp,image/avif,image/tiff,application/pdf"
+                  accept={acceptAttribute(["image", "pdf"])}
                   className="hidden"
                   onChange={(e) => onUpload(e.target.files)}
                 />

@@ -1,7 +1,8 @@
-import type { DesignCategory, DesignFile, DesignStatus } from "@/types/design";
+import type { DesignCategory, DesignFile, DesignFileType, DesignStatus } from "@/types/design";
 import { DESIGN_CATEGORIES } from "@/types/design";
 
 const CATEGORY_IDS = new Set<string>(DESIGN_CATEGORIES.map((c) => c.id));
+const FILE_TYPES = new Set<DesignFileType>(["image", "pdf", "video"]);
 
 export type DesignFields = {
   title: string;
@@ -38,9 +39,11 @@ export function parseDesign(
   if (b.description !== undefined) out.description = String(b.description ?? "");
   if (b.files !== undefined) {
     if (!Array.isArray(b.files)) return { error: "files must be an array.", value: {} };
+    // Check against the full set rather than coercing everything that is not a
+    // PDF to "image" — that would relabel a video and break how it renders.
     out.files = (b.files as Record<string, unknown>[]).map((f) => ({
       url: String(f.url ?? ""),
-      type: f.type === "pdf" ? "pdf" : "image",
+      type: FILE_TYPES.has(f.type as DesignFileType) ? (f.type as DesignFileType) : "image",
       name: String(f.name ?? ""),
       thumbnailUrl: f.thumbnailUrl ? String(f.thumbnailUrl) : undefined
     }));
