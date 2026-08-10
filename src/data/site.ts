@@ -6,17 +6,18 @@ export const site = {
   location: "Bagru, Jaipur, Rajasthan, India",
 
   // Canonical site URL — drives canonical tags, OG/social previews, sitemap,
-  // robots and structured data. Set NEXT_PUBLIC_SITE_URL to the custom domain
-  // once it is live; until then this stable Vercel URL is correct.
+  // robots and structured data. The custom domain went live on 2026-08-01 and is
+  // the default here, so it holds even if NEXT_PUBLIC_SITE_URL is never set; the
+  // env var still overrides for staging.
   //
   // Deliberately does NOT fall back to NEXT_PUBLIC_VERCEL_URL: that resolves to a
   // per-deployment hostname (…-2edvdb770-….vercel.app) which changes on every
   // push, so canonicals would churn and the mail relay would see a new origin
   // each deploy. This value must stay stable.
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://surjay-design-prints.vercel.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://surjaydesignandprint.com",
 
-  phone: "+91 76186 54887",
-  phoneHref: "+917618654887", // tel: links must not contain spaces
+  phone: "+91 92615 55162",
+  phoneHref: "+919261555162", // tel: links must not contain spaces
 
   // Address shown publicly to buyers (also the one on the Udyam registration).
   // NOTE: this file is imported by client components, so never put the private
