@@ -18,3 +18,7 @@ tsconfig.tsbuildinfo
 
 # Local editor/agent config (machine-specific paths)
 .claude
+
+# Generated video assets — regenerable from scripts/, large binaries
+video-banners
+videos
