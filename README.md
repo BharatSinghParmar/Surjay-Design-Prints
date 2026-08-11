@@ -8,8 +8,25 @@ The site is a marketing and enquiry front-end with a self-service admin area beh
 
 ---
 
+## Highlights
+
+**Custom CMS, no third-party platform.** A full admin area — design catalogue, buyer testimonials, team management — built directly on the app. The spec fields themselves are admin-configurable: the owner defines which attributes exist (Width, GSM, Colour…), their input type, and whether each is shown publicly.
+
+**Authentication built from primitives.** scrypt password hashing and HMAC-signed session cookies over Node's `crypto`, with no auth dependency. Sign-in attempts are rate-limited in Postgres so the limit survives across serverless instances.
+
+**Storage that adapts to its environment.** One interface, three interchangeable drivers — Postgres, Vercel Blob, or local JSON — selected at runtime. Development needs zero configuration; production uses the full stack without a code change.
+
+**A media pipeline, not a media folder.** 46 photographs and 20 video clips processed from raw factory footage by a reproducible script, each encoded for the exact slot it renders in, mapped by process folder rather than guessed from content.
+
+**Generated print and social assets.** A 17-page company profile PDF rendered from HTML through headless Chrome, plus 19 portrait social cards and their animated counterparts — produced by scripts, not by hand, so a brand change propagates everywhere at once.
+
+**SEO handled properly.** Generated sitemap and robots, LocalBusiness structured data, per-page metadata and a deliberately pinned canonical URL.
+
+---
+
 ## Table of contents
 
+- [Highlights](#highlights)
 - [Stack](#stack)
 - [Quick start](#quick-start)
 - [Environment variables](#environment-variables)
@@ -19,7 +36,7 @@ The site is a marketing and enquiry front-end with a self-service admin area beh
 - [How data is stored](#how-data-is-stored)
 - [Content pipelines](#content-pipelines)
 - [Deployment](#deployment)
-- [Things that will bite you](#things-that-will-bite-you)
+- [Engineering notes](#engineering-notes)
 - [Conventions](#conventions)
 
 ---
@@ -85,7 +102,7 @@ Enquiries from the contact form, quote modal and newsletter.
 | `RESEND_API_KEY` / `MAIL_FROM` | Transactional email via Resend — the recommended setup, delivers fully server-side |
 | `LEAD_WEBHOOK_URL` | Alternative: POST leads to a CRM, Zapier or Slack endpoint |
 
-With none set, the server still validates and rate-limits the submission, then returns a relay instruction the browser completes. See [Things that will bite you](#things-that-will-bite-you).
+With none set, the server still validates and rate-limits the submission, then returns a relay instruction the browser completes. See [Engineering notes](#engineering-notes).
 
 ### Admin area (production)
 
@@ -261,7 +278,7 @@ Reads from silent masters, so re-running never stacks audio on already-scored au
 
 Pushing to `main` triggers a production deploy on Vercel via the GitHub integration.
 
-**Always run `npm run build` before pushing.** A build error surfaces only in Vercel's logs, and the previous deployment keeps serving — so a broken push looks like nothing happened.
+Run `npm run build` before pushing. Vercel keeps the previous deployment serving if a build fails, so a failure is visible only in the deploy logs.
 
 ### Domains
 
@@ -275,23 +292,41 @@ The apex is primary so it matches the canonical URL, the sitemap, the QR code in
 
 ---
 
-## Things that will bite you
+## Engineering notes
 
-Hard-won, each one cost real debugging time.
+A few design decisions worth explaining, since the reasoning is not obvious from the code alone.
 
-**Vercel caps a function's request body at 4.5 MB.** Infrastructure-level; `vercel.json` cannot raise it. Any upload larger than that must go browser → Blob directly via `handleUpload` (`/api/admin/upload/token`). This is why testimonial video takes a different path from photos.
+### Large uploads bypass the serverless function
 
-**`display: none` does not stop a video downloading.** A `preload="auto"` clip inside a `hidden lg:block` wrapper still downloads in full and keeps a decoder running. `HeroBackgroundVideo` therefore defaults to lazy — no `src` until an IntersectionObserver fires. This once cost phone visitors 1.7 MB of video they could never see.
+Vercel caps a function's request body at 4.5 MB at the infrastructure level. Rather than accept that ceiling on testimonial video, uploads over it go **browser → Blob directly** using a short-lived signed token issued by `/api/admin/upload/token`. Photos and logos keep the simpler server route, so only the case that needs it pays the extra complexity.
 
-**Never run `next build` while the dev server is running.** It clobbers `.next` and the dev server starts serving garbage.
+The token route deliberately omits an `onUploadCompleted` handler: that callback arrives from Vercel's servers with no admin session, so the route's own auth guard would reject it. The browser attaches the returned URL through the normal authenticated API instead.
 
-**In-memory rate limiting does nothing on serverless.** Each invocation may land on a different instance, so an in-process counter always sees an empty bucket. Login attempts are counted in Postgres.
+### Video is lazy-loaded by intersection, not by CSS
 
-**Untyped SQL parameters fail silently.** `make_interval(secs => $1)` cannot be resolved by Postgres and throws; the error was being swallowed and the rate limiter fell back to memory. Cast parameters explicitly — `${seconds}::int`.
+CSS `display: none` does not prevent a video downloading — a `preload="auto"` clip inside a `hidden lg:block` wrapper still fetches in full and keeps a decoder alive. `HeroBackgroundVideo` therefore holds back its `src` entirely until an `IntersectionObserver` fires. Measured on a 375×812 viewport, this cut the home page's video payload from 3,257 KB to 1,476 KB.
 
-**The canonical URL must stay stable.** It deliberately does not fall back to `NEXT_PUBLIC_VERCEL_URL`, which resolves to a per-deployment hostname that changes on every push — canonicals would churn and the mail relay would see a new origin each deploy.
+### Rate limiting lives in Postgres
 
-**ffmpeg's webp encoder is disabled in this build.** Output JPEG; `next/image` re-encodes to AVIF/WebP on serve anyway, so a correctly sized JPEG is the right source format.
+Serverless invocations may each land on a different instance, so an in-process counter always sees an empty bucket and blocks nothing. Failed sign-in attempts are recorded in a `login_attempts` table so the limit holds across instances.
+
+SQL parameters in those queries carry explicit casts (`${seconds}::int`) — Postgres cannot resolve the type of a bare placeholder in some positions, and the resulting error is easy to swallow in a `catch`.
+
+### The canonical URL is pinned, not derived
+
+`site.url` deliberately does not fall back to `NEXT_PUBLIC_VERCEL_URL`. That variable resolves to a per-deployment hostname which changes on every push, so canonical tags would churn and the mail relay would see a new origin each deploy. A single stable value drives canonicals, the sitemap, OG previews and structured data together.
+
+### One source of truth for brand assets
+
+Colours come from `tailwind.config.ts`, business facts from `src/data/site.ts`, and both the still stage cards and their animated versions import their visuals from the same module — so a card and its clip can never drift apart. The same discipline applies to upload formats, defined once in `src/types/design.ts` and derived into `accept=` attributes and error messages.
+
+### Media is encoded for the slot it renders in
+
+Source photography runs to 8064 px and 12 MB per file. `process-media.mjs` sizes each output to the box it actually occupies on the page and cuts poster frames from the encoded clip rather than the source, so a poster always matches frame one of its loop. ffmpeg's webp encoder is disabled in this build and does not need to be — `next/image` re-encodes to AVIF/WebP on serve, so a correctly sized JPEG is the right source format.
+
+### Motion is rendered, not generated
+
+The animated stage cards are real renders through a paused, seekable GSAP timeline. Image-to-video models warp typography badly and these cards are almost entirely type, so rendering the motion keeps every letter sharp and every frame deterministic.
 
 ---
 
