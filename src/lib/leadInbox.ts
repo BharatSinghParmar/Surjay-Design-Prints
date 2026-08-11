@@ -8,5 +8,9 @@ import "server-only";
  * crawlers. This module is server-only and can never reach the client bundle.
  *
  * Override per-environment with LEAD_INBOX.
+ *
+ * The default is the company's own address on purpose: an enquiry is the whole
+ * point of the site, and a missing environment variable must never silently
+ * route one somewhere else.
  */
-export const LEAD_INBOX = process.env.LEAD_INBOX || "droptomindspark@gmail.com";
+export const LEAD_INBOX = process.env.LEAD_INBOX || "surjaydesign@gmail.com";
