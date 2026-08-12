@@ -1,6 +1,6 @@
-# Surjay Design & Prints
+# Surjay Design & Print
 
-The website for **Surjay Design & Prints**, a B2B textile dyeing, printing and finishing house in Bagru, Jaipur, Rajasthan.
+The website for **Surjay Design & Print**, a B2B textile dyeing, printing and finishing house in Bagru, Jaipur, Rajasthan.
 
 **Live:** [surjaydesignandprint.com](https://surjaydesignandprint.com)
 
@@ -347,4 +347,4 @@ The animated stage cards are real renders through a paused, seekable GSAP timeli
 
 ---
 
-© Surjay Design & Prints. Source available for reference; the brand, photography and content are not licensed for reuse.
+© Surjay Design & Print. Source available for reference; the brand, photography and content are not licensed for reuse.

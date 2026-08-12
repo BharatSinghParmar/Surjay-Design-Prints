@@ -11,7 +11,7 @@ export function ProductCards() {
           <div className="relative aspect-[16/10] overflow-hidden bg-mist">
             <Image
               src={product.image}
-              alt={`${product.title} by Surjay Design & Prints`}
+              alt={`${product.title} by Surjay Design & Print`}
               fill
               className="object-cover transition duration-700 group-hover:scale-105"
               sizes="(min-width: 768px) 50vw, 100vw"

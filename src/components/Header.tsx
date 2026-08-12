@@ -43,7 +43,7 @@ export function Header() {
             <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-white p-1">
               <Image
                 src="/logo.png"
-                alt="Surjay Design & Prints"
+                alt="Surjay Design & Print"
                 width={120}
                 height={120}
                 className="h-full w-full object-contain"
@@ -54,7 +54,7 @@ export function Header() {
               <span className="block font-heading text-sm font-semibold uppercase tracking-[0.16em]">
                 Surjay
               </span>
-              <span className="block text-[11px] text-white/70">Design & Prints</span>
+              <span className="block text-[11px] text-white/70">Design &amp; Print</span>
             </span>
           </Link>
 

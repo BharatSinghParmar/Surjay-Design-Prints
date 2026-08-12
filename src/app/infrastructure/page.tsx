@@ -13,7 +13,7 @@ import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Infrastructure",
   description:
-    "Explore Surjay Design & Prints factory infrastructure, machinery, drying range, printing tables, dyeing machines, folding machines and quality control capability.",
+    "Explore Surjay Design & Print factory infrastructure, machinery, drying range, printing tables, dyeing machines, folding machines and quality control capability.",
   path: "/infrastructure"
 });
 
@@ -66,7 +66,7 @@ export default function InfrastructurePage() {
               <Reveal key={item.label} className="hover-lift group relative overflow-hidden rounded-2xl bg-navy shadow-premium">
                 <Image
                   src={item.img}
-                  alt={`${item.label} at Surjay Design & Prints`}
+                  alt={`${item.label} at Surjay Design & Print`}
                   width={640}
                   height={480}
                   className="aspect-[4/3] w-full object-cover opacity-75 transition duration-700 group-hover:scale-105 group-hover:opacity-90"
@@ -159,7 +159,7 @@ export default function InfrastructurePage() {
               </h2>
               <div className="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-magenta to-gold" />
               <p className="mt-6 text-lg leading-8 text-charcoal/72">
-                Textile dyeing and finishing consume a great deal of water — but at Surjay Design &amp; Prints, none of it leaves as pollution. Our in-house{" "}
+                Textile dyeing and finishing consume a great deal of water — but at Surjay Design &amp; Print, none of it leaves as pollution. Our in-house{" "}
                 <strong className="font-semibold text-navy">Zero Liquid Discharge (ZLD)</strong> plant treats every drop of effluent and converts polluted process water back into clean, natural-grade water.
               </p>
               <p className="mt-4 leading-8 text-charcoal/72">

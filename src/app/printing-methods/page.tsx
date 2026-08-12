@@ -11,7 +11,7 @@ import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Printing Methods",
   description:
-    "Screen printing, hand printing and custom textile pattern development services for bulk fabric buyers from Surjay Design & Prints.",
+    "Screen printing, hand printing and custom textile pattern development services for bulk fabric buyers from Surjay Design & Print.",
   path: "/printing-methods"
 });
 
@@ -78,7 +78,7 @@ export default function PrintingMethodsPage() {
               Screen printing and hand printing for commercial textile programs.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-white/76">
-              Surjay Design & Prints combines process control and craft-led execution to create market-ready printed fabrics at B2B scale.
+              Surjay Design & Print combines process control and craft-led execution to create market-ready printed fabrics at B2B scale.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/contact" variant="light">Discuss Printing Requirement</ButtonLink>
@@ -126,7 +126,7 @@ export default function PrintingMethodsPage() {
       <section className="relative h-[60vh] min-h-[380px] overflow-hidden">
         <Image
           src={imageAssets.handPrintHall}
-          alt="Printing hall at Surjay Design and Prints — red bandana print down the tables"
+          alt="Printing hall at Surjay Design and Print — red bandana print down the tables"
           fill
           className="object-cover"
           sizes="100vw"

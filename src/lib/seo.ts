@@ -30,7 +30,7 @@ export function pageMetadata({ title, description, path = "/" }: PageSeo): Metad
           width: 1200,
           height: 630,
           type: "image/jpeg",
-          alt: "Surjay Design & Prints textile manufacturing floor"
+          alt: "Surjay Design & Print textile manufacturing floor"
         }
       ],
       locale: "en_IN",

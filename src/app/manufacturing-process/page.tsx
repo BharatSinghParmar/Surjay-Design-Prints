@@ -13,7 +13,7 @@ import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Manufacturing Process",
   description:
-    "Explore Surjay Design & Prints' textile manufacturing process from raw fabric procurement and RFD to dyeing, printing, finishing, inspection and packaging.",
+    "Explore Surjay Design & Print' textile manufacturing process from raw fabric procurement and RFD to dyeing, printing, finishing, inspection and packaging.",
   path: "/manufacturing-process"
 });
 
@@ -136,7 +136,7 @@ export default function ManufacturingProcessPage() {
             <div className="sticky top-28 hidden overflow-hidden rounded-2xl shadow-premium lg:block">
               <Image
                 src={imageAssets.handPrintDetail}
-                alt="Hand printed bandana fabric detail at Surjay Design & Prints"
+                alt="Hand printed bandana fabric detail at Surjay Design & Print"
                 width={720}
                 height={900}
                 className="aspect-[4/5] w-full object-cover"

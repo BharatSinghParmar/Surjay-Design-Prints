@@ -8,7 +8,7 @@ import { imageAssets } from "@/data/site";
 export const metadata = pageMetadata({
   title: "Gallery",
   description:
-    "View factory, products, workers, machinery and textile process visuals from Surjay Design & Prints.",
+    "View factory, products, workers, machinery and textile process visuals from Surjay Design & Print.",
   path: "/gallery"
 });
 

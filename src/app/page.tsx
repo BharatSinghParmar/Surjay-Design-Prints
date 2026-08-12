@@ -28,7 +28,7 @@ export const revalidate = 60;
 export const metadata = pageMetadata({
   title: "Premium Textile Manufacturer in Rajasthan",
   description:
-    "Surjay Design & Prints transforms raw fabric into market-ready dyed, printed and finished textiles for wholesalers, garment manufacturers and bulk buyers.",
+    "Surjay Design & Print transforms raw fabric into market-ready dyed, printed and finished textiles for wholesalers, garment manufacturers and bulk buyers.",
   path: "/"
 });
 
@@ -159,7 +159,7 @@ export default async function Home() {
             <SectionHeading
               eyebrow="Company Introduction"
               title="A Rajasthan-based fabric processing partner for serious textile buyers."
-              body="Surjay Design & Prints procures raw fabrics from South India and Bhiwandi, then converts them into market-ready dyed, printed and finished textiles through an organized manufacturing sequence."
+              body="Surjay Design & Print procures raw fabrics from South India and Bhiwandi, then converts them into market-ready dyed, printed and finished textiles through an organized manufacturing sequence."
             />
             <Stagger className="grid gap-4 md:grid-cols-3">
               {highlights.map((item) => (
@@ -178,7 +178,7 @@ export default async function Home() {
       <section className="relative h-[70vh] min-h-[420px] overflow-hidden">
         <Image
           src={imageAssets.printTableDark}
-          alt="Surjay Design & Prints printing table with a fresh print run"
+          alt="Surjay Design & Print printing table with a fresh print run"
           fill
           className="object-cover"
           sizes="100vw"
@@ -212,7 +212,7 @@ export default async function Home() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-mist shadow-premium">
                 <Image
                   src={imageAssets.rfdPile}
-                  alt="RFD fabric prepared for dyeing at Surjay Design & Prints"
+                  alt="RFD fabric prepared for dyeing at Surjay Design & Print"
                   fill
                   className="object-cover"
                   sizes="(min-width: 1024px) 50vw, 100vw"
@@ -302,7 +302,7 @@ export default async function Home() {
               <Reveal key={item.label} className="group relative overflow-hidden rounded-xl bg-navy">
                 <Image
                   src={item.img}
-                  alt={`${item.label} at Surjay Design & Prints`}
+                  alt={`${item.label} at Surjay Design & Print`}
                   width={640}
                   height={480}
                   className="aspect-[4/3] w-full object-cover opacity-90 transition duration-700 group-hover:scale-105 group-hover:opacity-100"
@@ -371,7 +371,7 @@ export default async function Home() {
         <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
           <Truck className="mx-auto h-8 w-8 text-gold" />
           <h2 className="mt-6 font-heading text-3xl font-semibold md:text-5xl">
-            Discuss your next fabric requirement with Surjay Design & Prints.
+            Discuss your next fabric requirement with Surjay Design & Print.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/72">
             Share your fabric type, quantity, finish and dispatch expectation. The team can help shape the right dyeing, printing and finishing route.

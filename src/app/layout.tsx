@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   ...pageMetadata({
     title: "Textile Manufacturer in Rajasthan",
     description:
-      "Surjay Design & Prints is a premium B2B textile manufacturing company in Rajasthan for fabric dyeing, screen printing, hand printing and fabric finishing.",
+      "Surjay Design & Print is a premium B2B textile manufacturing company in Rajasthan for fabric dyeing, screen printing, hand printing and fabric finishing.",
     path: "/"
   })
   // No `icons` block: src/app/icon.png (48px) and src/app/apple-icon.png (180px)

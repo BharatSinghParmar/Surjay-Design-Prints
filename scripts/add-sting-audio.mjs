@@ -60,6 +60,32 @@ const JOBS = [
       { file: "whoosh-short.mp3", at: 0.02, vol: 0.5 },
       { file: "chime.mp3", at: 0.5, vol: 0.42 }
     ]
+  },
+  // 16:9 versions of the same two bookends, for YouTube and LinkedIn. Identical
+  // choreography and identical audio — only the layout is re-cut for landscape,
+  // so the two aspect ratios sound the same when a viewer sees both.
+  {
+    name: "sting-landscape",
+    silent: join(root, "videos", "surjay-logo-sting-landscape", "renders", "video.mp4"),
+    out: join(OUT_DIR, "00-surjay-logo-sting-landscape.mp4"),
+    end: 4.5,
+    fadeAt: 4.05,
+    cues: [
+      { file: "riser.mp3", at: 0.15, vol: 0.3, from: 0.6 },
+      { file: "impact-bass-1.mp3", at: 2.45, vol: 0.45 },
+      { file: "chime.mp3", at: 2.9, vol: 0.2 }
+    ]
+  },
+  {
+    name: "sign-off-landscape",
+    silent: join(root, "videos", "surjay-outro-landscape", "renders", "video.mp4"),
+    out: join(OUT_DIR, "18-get-in-touch-landscape.mp4"),
+    end: 2.0,
+    fadeAt: 1.55,
+    cues: [
+      { file: "whoosh-short.mp3", at: 0.02, vol: 0.5 },
+      { file: "chime.mp3", at: 0.5, vol: 0.42 }
+    ]
   }
 ];
 

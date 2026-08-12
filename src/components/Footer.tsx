@@ -19,7 +19,7 @@ export function Footer() {
             <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-white p-1">
               <Image
                 src="/logo.png"
-                alt="Surjay Design & Prints"
+                alt="Surjay Design & Print"
                 width={120}
                 height={120}
                 className="h-full w-full object-contain"

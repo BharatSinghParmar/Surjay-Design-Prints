@@ -45,7 +45,7 @@ export function LoginForm({ showFirstRunLink = false }: { showFirstRunLink?: boo
             <Lock className="h-5 w-5 text-gold" />
           </span>
           <h1 className="mt-4 font-heading text-2xl font-semibold text-navy">Admin Access</h1>
-          <p className="mt-1 text-sm text-charcoal/60">Surjay Design &amp; Prints — Design Catalogue</p>
+          <p className="mt-1 text-sm text-charcoal/60">Surjay Design &amp; Print — Design Catalogue</p>
         </div>
 
         <form onSubmit={onSubmit} className="mt-7 space-y-4">

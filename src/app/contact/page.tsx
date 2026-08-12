@@ -15,7 +15,7 @@ import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Contact Surjay Design & Prints for fabric dyeing, screen printing, hand printing, textile finishing and bulk fabric manufacturing inquiries.",
+    "Contact Surjay Design & Print for fabric dyeing, screen printing, hand printing, textile finishing and bulk fabric manufacturing inquiries.",
   path: "/contact"
 });
 
@@ -50,7 +50,7 @@ export default function ContactPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Rajasthan, India"
-            title="Connect with Surjay Design & Prints."
+            title="Connect with Surjay Design & Print."
             body="The company supplies wholesalers, garment manufacturers, textile traders and bulk buyers with dyeing, printing and finishing support."
             align="center"
           />

@@ -8,7 +8,7 @@ import { JsonLd } from "@/components/JsonLd";
 export const metadata = pageMetadata({
   title: "Privacy Policy",
   description:
-    "How Surjay Design & Prints collects, uses and protects the personal information submitted through this website.",
+    "How Surjay Design & Print collects, uses and protects the personal information submitted through this website.",
   path: "/privacy"
 });
 

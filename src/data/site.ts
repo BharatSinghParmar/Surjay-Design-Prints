@@ -1,5 +1,5 @@
 export const site = {
-  name: "Surjay Design & Prints",
+  name: "Surjay Design & Print",
   legalName: "SURJAY DESIGN & PRINT", // as registered (GST / Udyam)
   proprietor: "Ajay Soni",
   tagline: "Premium textile dyeing, printing and finishing for B2B buyers.",
@@ -400,7 +400,7 @@ export const whyChoose = [
 export const fallbackTestimonials = [
   {
     quote:
-      "Surjay Design & Prints understands bulk fabric expectations and communicates clearly from processing to dispatch.",
+      "Surjay Design & Print understands bulk fabric expectations and communicates clearly from processing to dispatch.",
     segment: "Wholesale buyers · Jaipur textile market"
   },
   {
@@ -433,7 +433,7 @@ export const values = [
   },
   {
     title: "Partnership",
-    body: "Surjay Design & Prints works with wholesalers, traders, manufacturers and buyers who need responsive execution."
+    body: "Surjay Design & Print works with wholesalers, traders, manufacturers and buyers who need responsive execution."
   },
   {
     title: "Ambition",

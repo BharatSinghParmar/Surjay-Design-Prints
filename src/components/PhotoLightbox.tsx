@@ -46,7 +46,7 @@ export function PhotoLightbox({
         <Image
           key={photo.img}
           src={photo.img}
-          alt={`${photo.label} at Surjay Design & Prints`}
+          alt={`${photo.label} at Surjay Design & Print`}
           width={1600}
           height={1200}
           sizes="(min-width: 1024px) 60vw, 100vw"

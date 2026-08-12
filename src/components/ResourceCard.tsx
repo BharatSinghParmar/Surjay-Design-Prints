@@ -60,7 +60,7 @@ export function ResourceCard({ document }: ResourceCardProps) {
               {document.category}
             </span>
             <h3 className="mt-3 font-heading text-2xl font-semibold text-white">{document.title}</h3>
-            <p className="mt-1 text-sm font-medium text-white/70">Surjay Design & Prints</p>
+            <p className="mt-1 text-sm font-medium text-white/70">Surjay Design & Print</p>
           </div>
         </div>
 

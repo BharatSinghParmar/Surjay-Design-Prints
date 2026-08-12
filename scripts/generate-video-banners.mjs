@@ -111,7 +111,7 @@ export const OUTRO = {
   seconds: 2,
   file: "18-get-in-touch",
   eyebrow: "Get in touch",
-  name: "Surjay Design<br>&amp; Prints",
+  name: "Surjay Design<br>&amp; Print",
   tagline: "Textile dyeing, printing &amp; finishing",
   rows: [
     // Matches src/data/site.ts and the company profile PDF. The floating

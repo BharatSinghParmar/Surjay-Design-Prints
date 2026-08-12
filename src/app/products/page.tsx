@@ -86,7 +86,7 @@ export default async function ProductsPage() {
       <PageHero
         eyebrow="Products"
         title="Market-ready fabric categories for serious B2B textile buyers."
-        body="Surjay Design & Prints supports printed, dyed, custom and bulk manufacturing needs through organized fabric processing."
+        body="Surjay Design & Print supports printed, dyed, custom and bulk manufacturing needs through organized fabric processing."
         image={imageAssets.printMonoScreen}
       />
       <Breadcrumbs items={[{ name: "Products", href: "/products" }]} />
@@ -109,7 +109,7 @@ export default async function ProductsPage() {
                   <div className="relative overflow-hidden rounded-2xl shadow-premium">
                     <Image
                       src={cat.image}
-                      alt={`${cat.title} at Surjay Design & Prints`}
+                      alt={`${cat.title} at Surjay Design & Print`}
                       width={800}
                       height={600}
                       className="aspect-[4/3] w-full object-cover transition duration-700 hover:scale-105"

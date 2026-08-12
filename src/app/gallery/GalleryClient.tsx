@@ -99,7 +99,7 @@ export function GalleryClient() {
                 >
                   <Image
                     src={item.img}
-                    alt={`${item.label} at Surjay Design & Prints`}
+                    alt={`${item.label} at Surjay Design & Print`}
                     width={640}
                     height={item.tall ? 640 : 400}
                     className={`w-full object-cover opacity-88 transition duration-700 group-hover:scale-105 group-hover:opacity-100 ${item.tall ? "aspect-[3/4]" : "aspect-[4/3]"}`}
@@ -150,7 +150,7 @@ export function GalleryClient() {
       <section className="relative h-[60vh] min-h-[380px] overflow-hidden">
         <Image
           src={imageAssets.printGreenScreen}
-          alt="Screen printing table panoramic at Surjay Design and Prints"
+          alt="Screen printing table panoramic at Surjay Design and Print"
           fill
           className="object-cover"
           sizes="100vw"
@@ -159,7 +159,7 @@ export function GalleryClient() {
         <div className="absolute inset-0 flex items-end">
           <div className="mx-auto w-full max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
             <p className="font-heading text-xl font-semibold text-white md:text-3xl">
-              Surjay Design & Prints — Rajasthan, India
+              Surjay Design & Print — Rajasthan, India
             </p>
           </div>
         </div>

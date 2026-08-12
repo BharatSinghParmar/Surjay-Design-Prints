@@ -18,7 +18,7 @@ import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "About Us",
   description:
-    "Learn about Surjay Design & Prints, a Rajasthan textile manufacturing and fabric processing company serving wholesalers, garment manufacturers and bulk buyers.",
+    "Learn about Surjay Design & Print, a Rajasthan textile manufacturing and fabric processing company serving wholesalers, garment manufacturers and bulk buyers.",
   path: "/about"
 });
 
@@ -45,7 +45,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About Us"
         title="A premium textile manufacturing brand in motion."
-        body="Surjay Design & Prints brings together sourcing, dyeing, printing, finishing and quality inspection for B2B textile buyers."
+        body="Surjay Design & Print brings together sourcing, dyeing, printing, finishing and quality inspection for B2B textile buyers."
         image={imageAssets.handPrintTable}
       />
       <Breadcrumbs items={[{ name: "About Us", href: "/about" }]} />
@@ -81,7 +81,7 @@ export default function AboutPage() {
       <section className="relative h-[50vh] min-h-[320px] overflow-hidden">
         <Image
           src={imageAssets.rawBales}
-          alt="Raw grey fabric bales stacked at Surjay Design and Prints"
+          alt="Raw grey fabric bales stacked at Surjay Design and Print"
           fill
           className="object-cover"
           sizes="100vw"
@@ -108,7 +108,7 @@ export default function AboutPage() {
                 <div className="relative aspect-[3/4] overflow-hidden rounded-2xl shadow-premium">
                   <Image
                     src={imageAssets.ceo}
-                    alt="Founder of Surjay Design & Prints"
+                    alt="Founder of Surjay Design & Print"
                     fill
                     className="object-cover object-center"
                     sizes="(min-width: 1024px) 40vw, 90vw"
@@ -132,7 +132,7 @@ export default function AboutPage() {
               </h2>
               <div className="mt-6 space-y-5 text-lg leading-8 text-charcoal/72">
                 <p>
-                  At Surjay Design & Prints, we believe that the quality of a fabric is not just about its appearance — it is about the discipline, consistency and care embedded in every process stage.
+                  At Surjay Design & Print, we believe that the quality of a fabric is not just about its appearance — it is about the discipline, consistency and care embedded in every process stage.
                 </p>
                 <p>
                   From the moment raw grey fabric enters our factory to the moment finished textiles are dispatched, every decision is made with the buyer&apos;s commercial confidence in mind.
@@ -142,7 +142,7 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="mt-8">
-                <p className="font-heading text-lg font-semibold text-navy">Founder, Surjay Design & Prints</p>
+                <p className="font-heading text-lg font-semibold text-navy">Founder, Surjay Design & Print</p>
                 <p className="text-sm text-charcoal/56">Rajasthan, India</p>
               </div>
               <div className="mt-8">
