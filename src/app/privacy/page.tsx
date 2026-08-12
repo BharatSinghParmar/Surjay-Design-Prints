@@ -60,7 +60,10 @@ export default function PrivacyPage() {
         </Section>
 
         <Section title="What information we collect">
-          <p>We only collect information you choose to submit through this website:</p>
+          <p>
+            Most of what we hold is information you chose to send us. The exceptions are standard
+            server logs and website analytics, both described below:
+          </p>
           <ul className="list-disc space-y-2 pl-6">
             <li>
               <strong>Enquiry and quote forms</strong> — your name, company name, phone number,
@@ -72,6 +75,11 @@ export default function PrivacyPage() {
             <li>
               <strong>Technical data</strong> — our hosting provider records standard server logs
               (such as IP address and browser type) for security and to prevent form spam.
+            </li>
+            <li>
+              <strong>Usage data</strong> — Google Analytics records which pages you visit, how you
+              arrived, and which forms you complete. See &ldquo;Cookies and analytics&rdquo; below,
+              including how to opt out.
             </li>
           </ul>
           <p>
@@ -145,12 +153,22 @@ export default function PrivacyPage() {
           </p>
         </Section>
 
-        <Section title="Cookies">
+        <Section title="Cookies and analytics">
           <p>
-            This website does not use advertising or tracking cookies, and we do not run third-party
-            analytics or advertising pixels. The embedded Google Map on our contact page is provided
-            by Google and may set its own cookies when it loads — please see Google&apos;s privacy
-            policy for details.
+            We use Google Analytics 4 to understand how the website is used — which pages are
+            visited, roughly where visitors come from, and which enquiry forms are completed. It
+            sets its own cookies and receives your IP address, which Google shortens before storing.
+            We use it only in aggregate to improve the site; we do not use it to identify individual
+            visitors, and we do not run advertising pixels or sell any data.
+          </p>
+          <p>
+            You can opt out at any time using Google&apos;s official browser add-on, your browser&apos;s
+            cookie controls, or any content blocker — none of which affect your ability to use this
+            website or contact us.
+          </p>
+          <p>
+            The embedded Google Map on our contact page is provided by Google and may set its own
+            cookies when it loads — please see Google&apos;s privacy policy for details.
           </p>
         </Section>
 

@@ -2,6 +2,7 @@
 
 import { MotionConfig } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { Analytics } from "@/components/Analytics";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FloatingActions } from "@/components/FloatingActions";
@@ -23,6 +24,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     // hydrated. On a throttled phone that pushed the largest text on the page past
     // four seconds for no content benefit.
     <MotionConfig reducedMotion="user">
+      {/* Public surface only — the early return above keeps analytics off
+          /admin, where tracking staff activity would serve no purpose. */}
+      <Analytics />
       <Header />
       <main>{children}</main>
       <Footer />

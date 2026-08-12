@@ -1,6 +1,19 @@
 "use client";
 
+import { track } from "@/lib/analytics";
+
 type LeadType = "inquiry" | "quote" | "newsletter";
+
+/**
+ * GA4 event name per lead type. Conversions are reported from here rather than
+ * from each form component, so every caller is counted exactly once no matter
+ * which of the two delivery paths below actually succeeded.
+ */
+const CONVERSION_EVENT: Record<LeadType, string> = {
+  inquiry: "contact_form_submit",
+  quote: "quote_request",
+  newsletter: "newsletter_subscribe"
+};
 
 type RelayInstruction = { url: string; payload: Record<string, unknown> };
 
@@ -35,7 +48,10 @@ export async function submitLead(
     throw new Error(data?.error || "Unable to send. Please try again.");
   }
 
-  if (!data?.relay) return; // server delivered it
+  if (!data?.relay) {
+    track(CONVERSION_EVENT[type]); // server delivered it
+    return;
+  }
 
   const relayRes = await fetch(data.relay.url, {
     method: "POST",
@@ -56,4 +72,6 @@ export async function submitLead(
       relayData?.message || "We could not send that. Please call or WhatsApp us instead."
     );
   }
+
+  track(CONVERSION_EVENT[type]);
 }

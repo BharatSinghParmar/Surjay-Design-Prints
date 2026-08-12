@@ -23,7 +23,18 @@ export const metadata: Metadata = {
     description:
       "Surjay Design & Print is a premium B2B textile manufacturing company in Rajasthan for fabric dyeing, screen printing, hand printing and fabric finishing.",
     path: "/"
-  })
+  }),
+  // Google Search Console ownership, via the HTML-tag method. Omitted entirely
+  // when the env var is unset so no empty meta tag ships. DNS verification is an
+  // alternative that survives redeploys without any code — this is here for
+  // whichever method the owner ends up using.
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+        }
+      }
+    : {})
   // No `icons` block: src/app/icon.png (48px) and src/app/apple-icon.png (180px)
   // are picked up by Next's file convention and emitted with the right sizes.
   //

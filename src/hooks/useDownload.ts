@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@/lib/analytics";
 import { CompanyDocument } from "@/types/resource";
 
 export function useDownload() {
@@ -11,8 +12,7 @@ export function useDownload() {
     if (isDownloading) return;            // prevent double-clicks
     setIsDownloading(true);
 
-    // Simulate analytics logging
-    console.log(`[Analytics] Downloading Resource: ${document.title} (${document.id})`);
+    track("pdf_download", { document_id: document.id, document_title: document.title });
 
     try {
       // Let the browser stream the file straight to disk. Fetching into a Blob
