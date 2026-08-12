@@ -22,3 +22,4 @@ tsconfig.tsbuildinfo
 # Generated video assets — regenerable from scripts/, large binaries
 video-banners
 videos
+.vercel
