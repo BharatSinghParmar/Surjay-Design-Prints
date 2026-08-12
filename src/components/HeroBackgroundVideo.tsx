@@ -16,21 +16,45 @@ type HeroBackgroundVideoProps = {
    * can never see. A lazy video downloads nothing until it is actually on screen.
    */
   eager?: boolean;
+  /**
+   * Only load the clip at or above this viewport width, in px.
+   *
+   * The hero clip is decorative and sits behind a heavy gradient, but it is the
+   * heaviest file on the site. On a phone it saturated the connection, so the JS
+   * bundle arrived late and the largest text on the page painted late with it.
+   * Below this width the element shows its poster and downloads nothing.
+   *
+   * Note this necessarily defers the decision to the client: the server cannot
+   * know the viewport, so a gated clip is never `eager` in the server HTML and
+   * starts a beat after hydration. That is imperceptible next to the poster
+   * already being on screen.
+   */
+  minWidth?: number;
 };
 
 export function HeroBackgroundVideo({
   src,
   poster,
   className,
-  eager = false
+  eager = false,
+  minWidth
 }: HeroBackgroundVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   // Lazy clips only get a real `src` once they are on screen; until then the
   // element renders its poster and fetches nothing.
-  const [active, setActive] = useState(eager);
+  const [active, setActive] = useState(eager && minWidth === undefined);
+
+  // Viewport gate. Runs before the intersection observer below, and when the
+  // viewport is too narrow it simply never activates.
+  useEffect(() => {
+    if (minWidth === undefined || active) return;
+    if (typeof window.matchMedia !== "function") return;
+    const mq = window.matchMedia(`(min-width: ${minWidth}px)`);
+    if (mq.matches) setActive(true);
+  }, [minWidth, active]);
 
   useEffect(() => {
-    if (active) return;
+    if (active || minWidth !== undefined) return;
     const video = videoRef.current;
     if (!video) return;
 
@@ -52,7 +76,7 @@ export function HeroBackgroundVideo({
     );
     observer.observe(video);
     return () => observer.disconnect();
-  }, [active]);
+  }, [active, minWidth]);
 
   useEffect(() => {
     const video = videoRef.current;

@@ -46,8 +46,12 @@ export default async function Home() {
       {/* ── CINEMATIC VIDEO HERO ────────────────────────────────────── */}
       <section className="video-hero relative isolate min-h-[100vh] overflow-hidden text-white">
         {/* Background video */}
+        {/* Desktop only. This is the heaviest file on the site and it is pure
+            decoration behind a gradient — on a phone it cost more in delayed
+            text than it added in atmosphere. Phones get the poster frame. */}
         <HeroBackgroundVideo
           eager
+          minWidth={1024}
           src={videoAssets.screenPrinting}
           className="absolute inset-0 h-full w-full object-cover"
           poster={videoPosters.screenPrinting}
@@ -61,7 +65,10 @@ export default async function Home() {
 
         {/* Content */}
         <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-4 pb-20 pt-32 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <Reveal>
+          {/* immediate: this column holds the h1, which the browser measures as
+              the Largest Contentful Paint. It must paint from the server HTML
+              rather than wait on hydration. */}
+          <Reveal immediate>
             <p className="text-xs font-bold uppercase tracking-[0.28em] text-gold">
               B2B Textile Manufacturing · Rajasthan, India
             </p>

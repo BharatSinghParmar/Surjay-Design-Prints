@@ -31,12 +31,6 @@ img {
   max-width: 100%;
 }
 
-/* ── Loading animation ─────────────────────────────────── */
-@keyframes loading {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(220%); }
-}
-
 /* ── Reveal & stagger ──────────────────────────────────── */
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(28px); }

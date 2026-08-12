@@ -11,12 +11,27 @@ const variants: Variants = {
 export function Reveal({
   children,
   delay = 0,
-  className = ""
+  className = "",
+  immediate = false
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
+  /**
+   * Render without the reveal, as plain markup.
+   *
+   * Set this on anything inside the first viewport — above all on whatever the
+   * browser picks as the Largest Contentful Paint element. framer-motion
+   * serialises the `hidden` variant into the server HTML, so a revealed element
+   * ships as `opacity:0` and physically cannot paint until the bundle has
+   * downloaded, parsed, hydrated and run an IntersectionObserver. Below the fold
+   * that is invisible to the user and to Lighthouse; on the hero it *is* the
+   * Largest Contentful Paint, and it measured 4.2s on a throttled phone.
+   */
+  immediate?: boolean;
 }) {
+  if (immediate) return <div className={className}>{children}</div>;
+
   return (
     <motion.div
       className={className}
