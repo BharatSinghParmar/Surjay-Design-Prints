@@ -2,12 +2,14 @@ import { Clock, Mail, MessageCircle, Phone } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactForm } from "@/components/ContactForm";
 import { FactoryMap } from "@/components/FactoryMap";
+import { FaqSection } from "@/components/FaqSection";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { PrintBackdrop } from "@/components/PrintBackdrop";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ResourceCard } from "@/components/ResourceCard";
+import { faqs } from "@/data/faqs";
 import { companyResources } from "@/data/resources";
 import { imageAssets, site } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
@@ -16,7 +18,14 @@ export const metadata = pageMetadata({
   title: "Contact",
   description:
     "Contact Surjay Design & Print for fabric dyeing, screen printing, hand printing, textile finishing and bulk fabric manufacturing inquiries.",
-  path: "/contact"
+  path: "/contact",
+  keywords: [
+    "textile company in jaipur",
+    "textile manufacturers in jaipur",
+    "jaipur cloth manufacturer",
+    "textile companies in rajasthan",
+    "dyeing and printing"
+  ]
 });
 
 const contactItems = [
@@ -97,6 +106,14 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      <FaqSection
+        items={faqs.contact}
+        title="Before you get in touch"
+        body="Where we are, who we are registered as, and what to include in a quote request."
+        path="/contact"
+        surface="white"
+      />
     </>
   );
 }

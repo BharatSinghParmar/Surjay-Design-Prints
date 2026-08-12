@@ -247,3 +247,40 @@ img {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ── FAQ disclosure ────────────────────────────────────── */
+/* Nothing here is required for the accordion to work: native <details> opens
+   and closes on its own, with no JavaScript and no CSS help. Only the chevron
+   is styled.
+ *
+ * A slide-open animation via `::details-content` + `interpolate-size` was tried
+ * and removed. It is the modern way to animate a disclosure to its natural
+ * height, but setting `block-size: 0` there makes the panel's visibility depend
+ * on a chain of newer features (`::details-content`, `interpolate-size`,
+ * `transition-behavior: allow-discrete`, and animated `content-visibility`).
+ * If any link in that chain misbehaves, the answer text does not appear at all
+ * — the panel fails closed. Trading a guaranteed-readable answer for an
+ * open/close easing is a bad deal on a page whose entire purpose is that the
+ * answers get read.
+ *
+ * The chevron flip is a plain attribute-selector rule rather than Tailwind's
+ * `group-open:rotate-180`, which depends on the --tw-rotate variable chain
+ * resolving on an <svg>; a direct `transform` cannot be undone by that. */
+.faq-chevron {
+  /* An explicit rotate(0deg) rather than the initial `none`, so the transition
+     runs between two transforms of the same type instead of from the keyword.
+     Worst case if the animation never runs, the arrow simply does not flip —
+     the answer itself is plain layout and stays readable either way. */
+  transform: rotate(0deg);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-item[open] .faq-chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-chevron {
+    transition: none;
+  }
+}

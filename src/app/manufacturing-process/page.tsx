@@ -1,20 +1,30 @@
 import Image from "next/image";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ButtonLink } from "@/components/ButtonLink";
+import { FaqSection } from "@/components/FaqSection";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { VideoCard } from "@/components/VideoCard";
+import { faqs } from "@/data/faqs";
 import { imageAssets, videoAssets, videoPosters } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Manufacturing Process",
   description:
-    "Explore Surjay Design & Print' textile manufacturing process from raw fabric procurement and RFD to dyeing, printing, finishing, inspection and packaging.",
-  path: "/manufacturing-process"
+    "Explore the Surjay Design & Print textile manufacturing process from raw fabric procurement and RFD to dyeing, printing, finishing, inspection and packaging.",
+  path: "/manufacturing-process",
+  keywords: [
+    "dyeing process in textile",
+    "process of fabric dyeing",
+    "textile finishing",
+    "fabric finishing process",
+    "fabric manufacturing process",
+    "textile production process"
+  ]
 });
 
 const processHighlights = [
@@ -150,6 +160,14 @@ export default function ManufacturingProcessPage() {
           </div>
         </div>
       </section>
+
+      <FaqSection
+        items={faqs.manufacturingProcess}
+        title="How the process actually works"
+        body="Timings, stages and the reasons behind them — including why fixation takes a full day."
+        path="/manufacturing-process"
+        surface="mist"
+      />
 
       {/* ── PRINTING PROCESS VIDEO ────────────────────────────── */}
       <section className="relative overflow-hidden bg-navy py-20 text-white md:py-28">

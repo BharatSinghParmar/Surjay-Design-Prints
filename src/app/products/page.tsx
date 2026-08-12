@@ -2,12 +2,14 @@ import Image from "next/image";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ButtonLink } from "@/components/ButtonLink";
+import { FaqSection } from "@/components/FaqSection";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { PrintBackdrop } from "@/components/PrintBackdrop";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Newsletter } from "@/components/Newsletter";
+import { faqs } from "@/data/faqs";
 import { imageAssets } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import { listDesigns, listAttributes } from "@/lib/designs/store";
@@ -17,7 +19,14 @@ export const metadata = pageMetadata({
   title: "Products",
   description:
     "Printed fabrics, dyed fabrics, custom fabrics and bulk textile manufacturing services for wholesalers, garment manufacturers and textile traders.",
-  path: "/products"
+  path: "/products",
+  keywords: [
+    "bulk fabric supplier",
+    "textile wholesale",
+    "custom fabric printing",
+    "dyed textile",
+    "fabric product manufacturer"
+  ]
 });
 
 export const dynamic = "force-dynamic";
@@ -210,6 +219,14 @@ export default async function ProductsPage() {
           </div>
         </section>
       )}
+
+      <FaqSection
+        items={faqs.products}
+        title="Questions buyers ask before ordering"
+        body="Widths, quantities, shade matching and who we supply — answered up front."
+        path="/products"
+        surface="mist"
+      />
 
       <Newsletter />
     </>

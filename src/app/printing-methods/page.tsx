@@ -2,9 +2,11 @@ import Image from "next/image";
 import { CheckCircle2, DraftingCompass, Paintbrush, PanelsTopLeft, Shirt } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ButtonLink } from "@/components/ButtonLink";
+import { FaqSection } from "@/components/FaqSection";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
+import { faqs } from "@/data/faqs";
 import { imageAssets, videoAssets, videoPosters } from "@/data/site";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
@@ -12,7 +14,15 @@ export const metadata = pageMetadata({
   title: "Printing Methods",
   description:
     "Screen printing, hand printing and custom textile pattern development services for bulk fabric buyers from Surjay Design & Print.",
-  path: "/printing-methods"
+  path: "/printing-methods",
+  keywords: [
+    "screen print textiles",
+    "screen print cloth",
+    "hand printed fabric",
+    "hand printing textile",
+    "block print fabric",
+    "custom fabric printing"
+  ]
 });
 
 const methods = [
@@ -191,6 +201,14 @@ export default function PrintingMethodsPage() {
           </div>
         </div>
       </section>
+
+      <FaqSection
+        items={faqs.printingMethods}
+        title="Screen printing and hand block printing, explained"
+        body="What each method does, how long it takes, and which one suits your order."
+        path="/printing-methods"
+        surface="mist"
+      />
 
       {/* ── PRINTING GALLERY ────────────────────────────────────── */}
       <section className="bg-navy py-20 text-white md:py-28">

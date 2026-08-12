@@ -24,8 +24,10 @@ export const site = {
   // lead-delivery inbox here — it lives server-side in src/lib/leadInbox.ts.
   email: "surjaydesign@gmail.com",
   whatsapp: "917618654887",
-  hours: "Monday to Saturday, 10:00 AM - 6:00 PM",
-  hoursShort: "Mon–Sat, 10:00–18:00",
+  // Must match the Google Business Profile exactly — inconsistent hours between
+  // the site and GBP weaken local ranking and send buyers to a closed factory.
+  hours: "Monday to Saturday, 9:00 AM - 6:00 PM",
+  hoursShort: "Mon–Sat, 9:00–18:00",
 
   // Timeline. Experience dates from 2010; the firm was formally registered in
   // 2011 (per the Udyam certificate). Always present it as
@@ -76,8 +78,7 @@ export const site = {
     "Hand Printing",
     "Textile Processing",
     "Textile Manufacturer Rajasthan",
-    "Bulk Fabric Supplier",
-    "Textile Export"
+    "Bulk Fabric Supplier"
   ]
 };
 
