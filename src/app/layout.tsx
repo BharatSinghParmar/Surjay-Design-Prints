@@ -23,12 +23,13 @@ export const metadata: Metadata = {
     description:
       "Surjay Design & Prints is a premium B2B textile manufacturing company in Rajasthan for fabric dyeing, screen printing, hand printing and fabric finishing.",
     path: "/"
-  }),
-  icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png"
-  }
+  })
+  // No `icons` block: src/app/icon.png (48px) and src/app/apple-icon.png (180px)
+  // are picked up by Next's file convention and emitted with the right sizes.
+  //
+  // These used to point at /logo.png — the full 1024x1024, 144KB source. Browsers
+  // fetch a favicon at High priority, so it was the single largest request on the
+  // page and it was competing with the hero for bandwidth.
 };
 
 export const viewport: Viewport = {

@@ -112,7 +112,15 @@ export function HeroBackgroundVideo({
       preload={active ? "auto" : "none"}
       src={active ? src : undefined}
       className={className}
-      poster={poster}
+      /**
+       * A viewport-gated clip keeps its poster always: below `minWidth` the clip
+       * never loads, so the poster IS the visual.
+       *
+       * A lazy clip only gets one once active. Browsers fetch `poster` even for a
+       * video inside a `display:none` wrapper, so the desktop-only hero mosaic
+       * was pulling 129KB of stills onto phones that can never see them.
+       */
+      poster={minWidth !== undefined || active ? poster : undefined}
       aria-hidden="true"
     />
   );
